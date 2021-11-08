@@ -1,0 +1,34 @@
+name: update-elements
+
+on:
+  schedule:
+    - cron: "0 0 1 * *"
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Poetry
+        run: pipx install poetry
+      - name: Install script dependencies
+        working-directory: ./spec_parser
+        run: poetry install
+      - name: Run script
+        working-directory: ./spec_parser
+        run: poetry run parse
+      - name: Install dependencies
+        run: poetry install
+      - name: Format code using black
+        run: poetry run poe black
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.MACHINE_USER_PAT }}
+          push-to-fork: prnss/domify
+          committer: prns <77806190+prnss@users.noreply.github.com>
+          author: prns <77806190+prnss@users.noreply.github.com>
+          commit-message: "Update elements"
+          title: "Update elements"
+          branch: update-elements

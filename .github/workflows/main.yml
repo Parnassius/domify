@@ -1,0 +1,70 @@
+name: main
+
+on: [push, pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up python 3.7
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.7"
+      - name: Cache Poetry virtualenv
+        uses: actions/cache@v2
+        with:
+          path: .venv
+          key: lint-poetry-${{ runner.os }}-${{ hashFiles('pyproject.toml') }}
+          restore-keys: lint-poetry-${{ runner.os }}-
+      - name: Install Poetry
+        run: pip install poetry
+      - name: Setup the virtual environment
+        run: poetry config --local virtualenvs.in-project true
+      - name: Workaround for https://github.com/python-poetry/poetry/issues/4465
+        run: poetry lock
+      - name: Install or upgrade dependencies
+        run: poetry install --remove-untracked
+      - name: Check import order
+        run: poetry run poe isort_check
+      - name: Check formatting using black
+        run: poetry run poe black_check
+      - name: Check docstrings with darglint
+        run: poetry run poe darglint
+      - name: Test with mypy
+        run: poetry run poe mypy
+      - name: Test with pylint
+        run: poetry run poe pylint
+
+  test:
+    runs-on: ${{ matrix.os }}-latest
+    strategy:
+      matrix:
+        os: [ubuntu, macos, windows]
+        python-version: ["3.7", "3.8", "3.9", "3.10", "pypy-3.7", "pypy-3.8"]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up python ${{ matrix.python-version }}
+        id: setup-python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Cache Poetry virtualenv
+        uses: actions/cache@v2
+        with:
+          path: .venv
+          key: test-poetry-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('pyproject.toml') }}
+          restore-keys: test-poetry-${{ runner.os }}-${{ matrix.python-version }}-
+      - name: Install Poetry
+        run: pip install poetry
+      - name: Setup the virtual environment
+        run: poetry config --local virtualenvs.in-project true
+      - name: Workaround for https://github.com/python-poetry/poetry/issues/4465
+        run: poetry lock
+      - name: Install or upgrade dependencies
+        run: poetry install --remove-untracked
+      - name: Test with pytest
+        run: poetry run poe pytest_ci
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2

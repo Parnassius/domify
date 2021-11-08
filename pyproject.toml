@@ -81,7 +81,7 @@ _create_dev_commit = [
 
 [tool.poetry]
 name = "domify"
-version = "0.0.0-dev"
+version = "0.1.0"
 description = "HTML generator using pure Python"
 authors = ["Parnassius <Parnassius@users.noreply.github.com>"]
 license = "MIT"

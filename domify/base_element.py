@@ -61,8 +61,8 @@ class BaseElement:
         if self.is_empty and args:
             raise exc.EmptyElementChildrenError()
 
-        self.attributes: Dict[str, Union[str, Literal[True]]] = {}
-        self.children: List["BaseElement"] = []
+        self._attributes: Dict[str, Union[str, Literal[True]]] = {}
+        self._children: List["BaseElement"] = []
 
         self._add_to_stack(self)
 
@@ -102,7 +102,7 @@ class BaseElement:
         Returns:
             The current element's classes as a list of strings.
         """
-        classes = self.attributes.get("class", True)
+        classes = self._attributes.get("class", True)
         if classes is True:
             return []
         return [x for x in classes.split(" ") if x]
@@ -117,7 +117,7 @@ class BaseElement:
         for cls in args:
             if cls not in classes:
                 classes.append(cls)
-        self.attributes["class"] = " ".join(classes)
+        self._attributes["class"] = " ".join(classes)
 
     def remove_class(self, *args: str) -> None:
         """Remove one or more classes from the the current element
@@ -128,7 +128,7 @@ class BaseElement:
         classes = self.get_classes()
         for cls in args:
             classes.remove(cls)
-        self.attributes["class"] = " ".join(classes)
+        self._attributes["class"] = " ".join(classes)
 
     @property
     def all_attributes(self) -> _T_attributes_dict:
@@ -155,7 +155,7 @@ class BaseElement:
             return
         if val is not True and not isinstance(val, str):
             val = str(val)
-        self.attributes[key] = val
+        self._attributes[key] = val
 
     @staticmethod
     def _clean_attribute_key(key: str) -> str:
@@ -200,9 +200,9 @@ class BaseElement:
         if not isinstance(child, BaseElement):
             child = TextNode(child)
         if idx is None:
-            self.children.append(child)
+            self._children.append(child)
         else:
-            self.children[idx] = child
+            self._children[idx] = child
         if not exit_context_manager:
             self._remove_from_stack(child)
         return child
@@ -210,12 +210,12 @@ class BaseElement:
     # Render
     def _render(self) -> List[str]:
         if type(self) is BaseElement:  # pylint: disable=unidiomatic-typecheck
-            return [str(child) for child in self.children]
+            return [str(child) for child in self._children]
 
         data = []
         name = type(self).__name__.rstrip("_").lower()
         attrs = []
-        for key, val in self.attributes.items():
+        for key, val in self._attributes.items():
             if val is True:
                 attrs.append(f" {key}")
             else:
@@ -223,7 +223,7 @@ class BaseElement:
 
         data.append(f"<{name}{''.join(attrs)}>")
         if not self.is_empty:
-            for child in self.children:
+            for child in self._children:
                 data.append(str(child))
             data.append(f"</{name}>")
 
@@ -242,8 +242,8 @@ class BaseElement:
         self, key: Union[str, int]
     ) -> Union[Union[str, bool], "BaseElement"]:
         if isinstance(key, str):
-            return self.attributes.get(key, False)
-        return self.children[key]
+            return self._attributes.get(key, False)
+        return self._children[key]
 
     @overload
     def __setitem__(self, key: str, val: _T_attribute) -> None:
@@ -264,9 +264,9 @@ class BaseElement:
 
     def __delitem__(self, key: Union[str, int]) -> None:
         if isinstance(key, str):
-            del self.attributes[key]
+            del self._attributes[key]
         else:
-            del self.children[key]
+            del self._children[key]
 
     def __add__(self, other: _T_child) -> "BaseElement":
         return BaseElement(self, other)
@@ -289,10 +289,10 @@ class BaseElement:
         self._maybe_clear_stack()
 
     def __len__(self) -> int:
-        return len(self.children)  # pragma: no cover
+        return len(self._children)  # pragma: no cover
 
     def __iter__(self) -> Iterator["BaseElement"]:
-        return self.children.__iter__()  # pragma: no cover
+        return self._children.__iter__()  # pragma: no cover
 
     def __bool__(self) -> bool:
         return True  # pragma: no cover

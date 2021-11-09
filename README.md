@@ -138,7 +138,7 @@ print(str(div))
 <div class="some-other-class third-class"></div>
 ```
 
-Children can be added using the `add` or `insert` method, which return the newly added
+Children can be added using the `add` or `insert` methods, which return the newly added
 element:
 ```python
 div = e.Div()

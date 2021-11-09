@@ -209,6 +209,9 @@ class BaseElement:
 
     # Render
     def _render(self) -> List[str]:
+        if type(self) is BaseElement:  # pylint: disable=unidiomatic-typecheck
+            return [str(child) for child in self.children]
+
         data = []
         name = type(self).__name__.rstrip("_").lower()
         attrs = []
@@ -266,10 +269,10 @@ class BaseElement:
             del self.children[key]
 
     def __add__(self, other: _T_child) -> "BaseElement":
-        return _FakeContainerElement(self, other)
+        return BaseElement(self, other)
 
     def __radd__(self, other: _T_child) -> "BaseElement":
-        return _FakeContainerElement(other, self)
+        return BaseElement(other, self)
 
     def __enter__(self: _T_BaseElement) -> _T_BaseElement:
         self._stack.append([])
@@ -296,11 +299,6 @@ class BaseElement:
 
     def __str__(self) -> str:
         return "".join(self._render())
-
-
-class _FakeContainerElement(BaseElement):
-    def _render(self) -> List[str]:
-        return [str(child) for child in self.children]
 
 
 class TextNode(BaseElement):

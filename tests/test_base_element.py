@@ -14,6 +14,8 @@ def test_base():
     assert str(e.Div()) == "<div></div>"
     assert str(e.Br()) == "<br>"
 
+    assert str(BaseElement()) == ""
+
     assert str(e.Div(e.TextNode("<foobar>"))) == "<div>&lt;foobar&gt;</div>"
     assert str(e.Div(e.RawTextNode("<foobar>"))) == "<div><foobar></div>"
 

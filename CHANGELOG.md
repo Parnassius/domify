@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+
+## [0.1.1] - 2021-11-09
 ### Added
 - Treat `BaseElement` as a simple container, omitting the start and end tags when
 rendering.

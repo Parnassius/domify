@@ -190,19 +190,43 @@ class BaseElement:
         """
         return self._add_child(child)
 
+    @overload
+    def insert(self, idx: int, child: _T_BaseElement) -> _T_BaseElement:
+        ...
+
+    @overload
+    def insert(self, idx: int, child: _T_child) -> "BaseElement":
+        ...
+
+    def insert(self, idx: int, child: _T_child) -> "BaseElement":
+        """Insert a child before the index specified
+
+        Args:
+            idx: The index.
+            child: The child. A `TextNode` is automatically created when passing
+                anything other than a subclass of `BaseElement`.
+
+        Returns:
+            The child, already converted to a `TextNode` if required.
+        """
+        return self._add_child(child, idx=idx)
+
     def _add_child(
         self,
         child: _T_child,
         *,
         idx: Optional[int] = None,
+        idx_replace: bool = False,
         exit_context_manager: bool = False,
     ) -> "BaseElement":
         if not isinstance(child, BaseElement):
             child = TextNode(child)
         if idx is None:
             self._children.append(child)
-        else:
+        elif idx_replace:
             self._children[idx] = child
+        else:
+            self._children.insert(idx, child)
         if not exit_context_manager:
             self._remove_from_stack(child)
         return child
@@ -260,7 +284,7 @@ class BaseElement:
             val = cast(_T_attribute, val)
             self._set_attribute(key, val)
         else:
-            self._add_child(val, idx=key)
+            self._add_child(val, idx=key, idx_replace=True)
 
     def __delitem__(self, key: Union[str, int]) -> None:
         if isinstance(key, str):

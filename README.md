@@ -138,23 +138,26 @@ print(str(div))
 <div class="some-other-class third-class"></div>
 ```
 
-Children can be added using the `add` method, which return the newly added element:
+Children can be added using the `add` or `insert` method, which return the newly added
+element:
 ```python
-p = e.P()
-span = p.add(e.Span())
+div = e.Div()
+span = div.add(e.Span())
 span.add("First line")
 span.add(e.Br())
 span.add("Second line")
-print(str(p))
+div.insert(0, e.H1("Title"))
+print(str(div))
 ```
 ```html
-<p>
+<div>
+  <h1>Title</h1>
   <span>
     First line
     <br>
     Second line
   </span>
-</p>
+</div>
 ```
 
 Context managers can be used to add child elements too:

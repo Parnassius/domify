@@ -4,6 +4,7 @@
 ### Added
 - Treat `BaseElement` as a simple container, omitting the start and end tags when
 rendering.
+- Implement `BaseElement.insert()` to add children at a given position.
 ### Removed
 - `BaseElement.children` and `BaseElement.attributes` are no longer public.
 

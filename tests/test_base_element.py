@@ -123,6 +123,12 @@ def test_add_children():
     assert str(d) == "<div>foobar</div>"
 
 
+def test_insert_children():
+    d = e.Div("foo", e.Br(), "bar")
+    d.insert(2, "baz" + e.Br())
+    assert str(d) == "<div>foo<br>baz<br>bar</div>"
+
+
 def test_setitem():
     d: BaseElement = e.Div()
     d["class"] = "foo"

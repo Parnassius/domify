@@ -6,6 +6,7 @@ from types import TracebackType
 from typing import (
     Callable,
     Dict,
+    Iterable,
     Iterator,
     List,
     Optional,
@@ -87,7 +88,7 @@ class BaseElement:
             self._stack[-1].append(element)
 
     def _remove_from_stack(self, element: "BaseElement") -> None:
-        if self._stack:
+        if self._stack and element in self._stack[-1]:
             self._stack[-1].remove(element)
         self._maybe_clear_stack()
 
@@ -262,9 +263,13 @@ class BaseElement:
     def __getitem__(self, key: int) -> "BaseElement":
         ...
 
+    @overload
+    def __getitem__(self, key: slice) -> List["BaseElement"]:
+        ...
+
     def __getitem__(
-        self, key: Union[str, int]
-    ) -> Union[Union[str, bool], "BaseElement"]:
+        self, key: Union[str, int, slice]
+    ) -> Union[Union[str, bool], "BaseElement", List["BaseElement"]]:
         if isinstance(key, str):
             return self._attributes.get(key, False)
         return self._children[key]
@@ -277,16 +282,32 @@ class BaseElement:
     def __setitem__(self, key: int, val: _T_child) -> None:
         ...
 
+    @overload
+    def __setitem__(self, key: slice, val: Iterable[_T_child]) -> None:
+        ...
+
     def __setitem__(
-        self, key: Union[str, int], val: Union[_T_attribute, _T_child]
+        self,
+        key: Union[str, int, slice],
+        val: Union[_T_attribute, _T_child, Iterable[_T_child]],
     ) -> None:
         if isinstance(key, str):
             val = cast(_T_attribute, val)
             self._set_attribute(key, val)
-        else:
+        elif isinstance(key, int):
+            val = cast(_T_child, val)
             self._add_child(val, idx=key, idx_replace=True)
+        else:
+            val = cast(Iterable[_T_child], val)
+            children = [
+                TextNode(child) if not isinstance(child, BaseElement) else child
+                for child in val
+            ]
+            self._children[key] = children
+            for child in children:
+                self._remove_from_stack(child)
 
-    def __delitem__(self, key: Union[str, int]) -> None:
+    def __delitem__(self, key: Union[str, int, slice]) -> None:
         if isinstance(key, str):
             del self._attributes[key]
         else:

@@ -105,26 +105,29 @@ Children can be modified (but not added) by subscripting as well:
 ```python
 p = e.P("Text node 1", e.Br(), "Text node 2")
 p[0] = "Text node 3"
-p[1] = t.Hr()
+p[1:] = [e.Hr()]
 print(str(p))
 ```
 ```html
 <p>
   Text node 3
   <hr>
-  Text node 2
 </p>
 ```
 
 The `del` keyword can be used to delete both attributes and children:
 ```python
-div = e.Div("foo", e.Br(), "bar", id="someid", class_="someclass")
+div = e.Div("foo", e.Br(), "bar", e.Br(), "bar", id="someid", class_="someclass")
 del div["class"]
-del div[1]
+del div[3:]
 print(str(div))
 ```
 ```html
-<div id="someid">foobar</div>
+<div id="someid">
+  foo
+  <br>
+  bar
+</div>
 ```
 
 `add_class` and `remove_class` can be used to manage classes:

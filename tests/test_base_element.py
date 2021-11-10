@@ -144,6 +144,18 @@ def test_setitem():
     d[0] = e.Br()
     assert str(d) == "<div><br></div>"
 
+    d = e.Div(e.H1(), e.H2(), e.H3())
+    d[1:] = [e.Span()]
+    assert str(d) == "<div><h1></h1><span></span></div>"
+    d = e.Div(e.H1(), e.H2(), e.H3())
+    d[0:1] = [e.Span(), e.Div(), e.P()]
+    assert str(d) == "<div><span></span><div></div><p></p><h2></h2><h3></h3></div>"
+    with e.Div(e.H1(), e.H2(), e.H3(), e.H4(), e.H5()) as d:
+        d[::2] = [e.Span()] * 3
+    assert (
+        str(d) == "<div><span></span><h2></h2><span></span><h4></h4><span></span></div>"
+    )
+
 
 def test_getitem():
     d: BaseElement = e.Div(class_="foo")
@@ -155,6 +167,17 @@ def test_getitem():
     assert isinstance(d[0], e.Span)
     d = e.Div(e.Br())
     assert isinstance(d[0], e.Br)
+
+    d = e.Div(e.H1(), e.H2(), e.H3())
+    assert [str(x) for x in d[:2]] == [  # pylint: disable=not-an-iterable
+        "<h1></h1>",
+        "<h2></h2>",
+    ]
+    d = e.Div(e.H1(), e.H2(), e.H3())
+    assert [str(x) for x in d[::2]] == [  # pylint: disable=not-an-iterable
+        "<h1></h1>",
+        "<h3></h3>",
+    ]
 
 
 def test_delitem():
@@ -171,6 +194,13 @@ def test_delitem():
     d = e.Div(e.Br(), "foo", e.Br())
     del d[1]
     assert str(d) == "<div><br><br></div>"
+
+    d = e.Div(e.H1(), e.H2(), e.H3())
+    del d[:2]
+    assert [str(x) for x in d] == ["<h3></h3>"]
+    d = e.Div(e.H1(), e.H2(), e.H3())
+    del d[::2]
+    assert [str(x) for x in d] == ["<h2></h2>"]
 
 
 def test_add():

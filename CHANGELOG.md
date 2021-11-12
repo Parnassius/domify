@@ -3,7 +3,7 @@
 ## [Unreleased]
 ### Changed
 - Elements can be subscripted using slices, returning (or replacing/deleting) a slice of
-its children.
+their children.
 
 ## [0.1.1] - 2021-11-09
 ### Added

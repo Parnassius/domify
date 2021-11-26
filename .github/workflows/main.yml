@@ -51,6 +51,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Cache Poetry virtualenv
+        if: matrix.os != 'windows'  # https://github.com/python-poetry/poetry/issues/4615
         uses: actions/cache@v2
         with:
           path: .venv

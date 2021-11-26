@@ -1,6 +1,9 @@
 # Changelog
 
 ## [Unreleased]
+### Added
+- Automatically prepend a `DOCTYPE` declaration to `<html>` elements. This behaviour can
+be overridden using the `_prepend_doctype` keyword argument.
 ### Changed
 - Elements can be subscripted using slices, returning (or replacing/deleting) a slice of
 their children.

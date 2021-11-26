@@ -250,6 +250,9 @@ class Parser:
                     )
                 if element_data.any_attribute:
                     f.write("    any_attribute = True\n")
+                if element_name == "html":
+                    f.write("\n")
+                    f.write("    _default_prepend_doctype = True\n")
 
 
 def parse() -> None:

@@ -40,15 +40,25 @@ class BaseElement:
     element_attributes: _T_attributes_dict = {}
     any_attribute = False
 
+    _default_prepend_doctype = False
+
     _stack_var: ContextVar[Optional[List[List["BaseElement"]]]] = ContextVar(
         "stack", default=None
     )
 
-    def __init__(self, *args: _T_child, **kwargs: Optional[_T_attribute]) -> None:
+    def __init__(
+        self,
+        *args: _T_child,
+        _prepend_doctype: Optional[bool] = None,
+        **kwargs: Optional[_T_attribute],
+    ) -> None:
         """
         Args:
             *args: The element's children. A `TextNode` is automatically created when
                 passing anything other than a subclass of `BaseElement`.
+            _prepend_doctype: Whether a `DOCTYPE` declaration should be prepended.
+                Defaults to the value of the class attribute `_default_prepend_doctype`
+                (`True` for `html_elements.Html`, `False` for everything else).
             **kwargs: The element's attributes. Trailing underscores are automatically
                 stripped, to avoid clashing with reserved keywords when setting
                 attributes like `class` and `for`. Any other underscore is replaced by
@@ -62,6 +72,9 @@ class BaseElement:
         if self.is_empty and args:
             raise exc.EmptyElementChildrenError()
 
+        if _prepend_doctype is None:
+            _prepend_doctype = self._default_prepend_doctype
+        self._prepend_doctype = _prepend_doctype
         self._attributes: Dict[str, Union[str, Literal[True]]] = {}
         self._children: List["BaseElement"] = []
 
@@ -238,6 +251,8 @@ class BaseElement:
             return [str(child) for child in self._children]
 
         data = []
+        if self._prepend_doctype:
+            data.append("<!DOCTYPE html>")
         name = type(self).__name__.rstrip("_").lower()
         attrs = []
         for key, val in self._attributes.items():

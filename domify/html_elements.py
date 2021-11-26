@@ -539,6 +539,8 @@ class Html(HtmlElement):
     Root element
     """
 
+    _default_prepend_doctype = True
+
 
 class I(HtmlElement):
     """

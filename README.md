@@ -29,6 +29,7 @@ print(str(html))
 
 HTML output (formatted for legibility):
 ```html
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -98,6 +99,7 @@ html["lang"] = "en"
 print(str(html))
 ```
 ```html
+<!DOCTYPE html>
 <html lang="en"></html>
 ```
 

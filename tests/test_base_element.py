@@ -251,6 +251,16 @@ def test_context_manager():
     )
 
 
+def test_prepend_doctype():
+    assert str(e.Html()) == "<!DOCTYPE html><html></html>"
+    assert str(e.Html(_prepend_doctype=True)) == "<!DOCTYPE html><html></html>"
+    assert str(e.Html(_prepend_doctype=False)) == "<html></html>"
+
+    assert str(e.P()) == "<p></p>"
+    assert str(e.P(_prepend_doctype=True)) == "<!DOCTYPE html><p></p>"
+    assert str(e.P(_prepend_doctype=False)) == "<p></p>"
+
+
 def test_asyncio():
     async def main() -> None:
         async def task1() -> None:

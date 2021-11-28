@@ -109,6 +109,14 @@ class BaseElement:
         if not self._stack:
             self._stack_var.set(None)
 
+    @property
+    def name(self) -> str:
+        """
+        Returns:
+            The lowercase name of the element, with trailing underscores removed.
+        """
+        return type(self).__name__.rstrip("_").lower()
+
     # Attributes
     def get_classes(self) -> List[str]:
         """Get the current element's classes
@@ -253,7 +261,6 @@ class BaseElement:
         data = []
         if self._prepend_doctype:
             data.append("<!DOCTYPE html>")
-        name = type(self).__name__.rstrip("_").lower()
         attrs = []
         for key, val in self._attributes.items():
             if val is True:
@@ -261,11 +268,11 @@ class BaseElement:
             else:
                 attrs.append(f' {key}="{escape(val, True)}"')
 
-        data.append(f"<{name}{''.join(attrs)}>")
+        data.append(f"<{self.name}{''.join(attrs)}>")
         if not self.is_empty:
             for child in self._children:
                 data.append(str(child))
-            data.append(f"</{name}>")
+            data.append(f"</{self.name}>")
 
         return data
 

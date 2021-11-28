@@ -12,7 +12,7 @@ class InvalidAttributeWarning(UserWarning):
     """Invalid element attribute"""
 
     def __init__(self, element: "BaseElement", attribute: str) -> None:
-        self.element = type(element).__name__
+        self.element = element.name
         self.attribute = attribute
         super().__init__(
             f"Attribute `{self.attribute}` not allowed on element `{self.element}`"
@@ -23,7 +23,7 @@ class InvalidAttributeValueWarning(UserWarning):
     """Invalid attribute value"""
 
     def __init__(self, element: "BaseElement", attribute: str, value: str) -> None:
-        self.element = type(element).__name__
+        self.element = element.name
         self.attribute = attribute
         self.value = value
         super().__init__(

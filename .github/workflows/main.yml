@@ -11,12 +11,15 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: "3.7"
+      - name: Get full Python version
+        id: full-python-version
+        run: echo ::set-output name=version::$(python -c 'import sys; print(".".join(str(x) for x in sys.version_info))')
       - name: Cache Poetry virtualenv
         uses: actions/cache@v2
         with:
           path: .venv
-          key: lint-poetry-${{ runner.os }}-${{ hashFiles('pyproject.toml') }}
-          restore-keys: lint-poetry-${{ runner.os }}-
+          key: lint-poetry-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-${{ hashFiles('pyproject.toml') }}
+          restore-keys: lint-poetry-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-
       - name: Install Poetry
         run: pip install poetry
       - name: Setup the virtual environment
@@ -50,13 +53,15 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
+      - name: Get full Python version
+        id: full-python-version
+        run: echo ::set-output name=version::$(python -c 'import sys; print("-".join((sys.implementation.name, ".".join(str(x) for x in sys.implementation.version), ".".join(str(x) for x in sys.version_info))))')
       - name: Cache Poetry virtualenv
-        if: matrix.os != 'windows'  # https://github.com/python-poetry/poetry/issues/4615
         uses: actions/cache@v2
         with:
           path: .venv
-          key: test-poetry-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('pyproject.toml') }}
-          restore-keys: test-poetry-${{ runner.os }}-${{ matrix.python-version }}-
+          key: test-poetry-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-${{ hashFiles('pyproject.toml') }}
+          restore-keys: test-poetry-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-
       - name: Install Poetry
         run: pip install poetry
       - name: Setup the virtual environment

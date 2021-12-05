@@ -12,8 +12,10 @@ class ElementData:
     description: str = ""
     is_empty: bool = False
     global_attributes: bool = False
-    element_attributes: Dict[str, str] = field(default_factory=dict)
+    element_attributes: dict[str, str] = field(default_factory=dict)
     any_attribute: bool = False
+    element_categories: dict[str, str] = field(default_factory=dict)
+    allowed_contexts: dict[str, str] = field(default_factory=dict)
 
 
 class Parser:
@@ -23,6 +25,7 @@ class Parser:
 
         self._get_elements()
         self._get_attributes()
+        self._get_categories()
 
         self._write_data()
 
@@ -46,6 +49,28 @@ class Parser:
                     for x in row.contents[5].contents
                     if isinstance(x, str)
                 ]
+
+                for x in row.contents[3].find_all("a", recursive=False):
+                    value = "None"
+                    if x.next_sibling and x.next_sibling.string.strip()[0] == "*":
+                        page, el = row.contents[0].find("a")["href"].split("#")
+                        value_rules = rules.contexts.parse(element.string, x, page, el)
+                        if value_rules:
+                            value = "lambda x: (" + ") or (".join(value_rules) + ")"
+                    element_data.allowed_contexts[
+                        util.normalize_category(x.string)
+                    ] = value
+
+                for x in row.contents[3].find_all("code", recursive=False):
+                    value = "None"
+                    if x.next_sibling and x.next_sibling.string.strip()[0] == "*":
+                        page, el = row.contents[0].find("a")["href"].split("#")
+                        value_rules = rules.contexts.parse(
+                            element.string, x.find("a"), page, el
+                        )
+                        if value_rules:
+                            value = "lambda x: (" + ") or (".join(value_rules) + ")"
+                    element_data.allowed_contexts[f"_{x.find('a').string}"] = value
 
                 self._elements[element.string] = element_data
 
@@ -72,6 +97,32 @@ class Parser:
                             attribute
                         ] = value
 
+    def _get_categories(self) -> None:
+        soup = util.request_cache("indices")
+
+        title = soup.find("h3", id=re.compile(r"^element-content-categories"))
+        table = title.find_next_sibling("table")
+        for row in table.find("tbody").children:
+            category = util.normalize_category(row.contents[0].find("a").string)
+            for element in row.contents[1].find_all("code"):
+                if element.string in ("math", "svg"):
+                    continue
+                self._elements[element.string].element_categories[category] = "None"
+
+            for element in row.contents[2].find_all(
+                "code", id=re.compile(r"-element(?:-\d+)?$"), recursive=False
+            ):
+                if element.string in ("math", "svg"):
+                    continue
+                if element.previous_sibling.strip()[-2:] not in ("", ");"):
+                    continue
+                value = rules.categories.parse(element)
+                if value is None:
+                    value = "None"
+                else:
+                    value = f"lambda x: ({value})"
+                self._elements[element.string].element_categories[category] = value
+
     def _write_data(self) -> None:
         f = FileWriter(
             join(dirname(__file__), "..", "..", "domify", "html_elements.py")
@@ -94,6 +145,16 @@ class Parser:
                     False,
                 ),
                 any_attribute=(element_data.any_attribute, False),
+                element_categories=(
+                    element_data.element_categories,
+                    "_T_categories_dict",
+                    True,
+                ),
+                allowed_contexts=(
+                    element_data.allowed_contexts,
+                    "_T_contexts_dict",
+                    True,
+                ),
                 _default_prepend_doctype=(element_name == "html", False),
             )
         f.write()

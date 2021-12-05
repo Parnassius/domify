@@ -109,3 +109,10 @@ def attribute_unique_set_literal(
 attribute_unique_set_literal_ci = partial(
     attribute_unique_set_literal, case_insensitive=True
 )
+
+
+def attribute_encoding_declaration_state(x: "_T_attribute") -> bool:
+    if not isinstance(x, str):
+        return False
+    parts = str(x).lower().split(";")
+    return parts[0] == "text/html" and parts[1].lstrip() == "charset=utf-8"

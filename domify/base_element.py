@@ -29,7 +29,27 @@ else:
 _T_BaseElement = TypeVar("_T_BaseElement", bound="BaseElement")
 _T_attribute = Union[str, float, bool]
 _T_child = Union["BaseElement", str, float]
+_T_category = Literal[
+    "metadata",
+    "flow",
+    "sectioning",
+    "heading",
+    "phrasing",
+    "embedded",
+    "interactive",
+    "sectioning-root",
+    "form-associated",
+    "listed",
+    "submittable",
+    "resettable",
+    "autocapitalize-inheriting",
+    "labelable",
+    "palpable",
+    "script-supporting",
+]
 _T_attributes_dict = Dict[str, Union[Set[str], Callable[[_T_attribute], bool]]]
+_T_categories_dict = Dict[_T_category, Optional[Callable[["BaseElement"], bool]]]
+_T_contexts_dict = Dict[str, Optional[Callable[["BaseElement"], bool]]]
 
 
 class BaseElement:
@@ -39,6 +59,8 @@ class BaseElement:
     global_attributes: _T_attributes_dict = {}
     element_attributes: _T_attributes_dict = {}
     any_attribute = False
+    element_categories: _T_categories_dict = {}
+    allowed_contexts: _T_contexts_dict = {}
 
     _default_prepend_doctype = False
 

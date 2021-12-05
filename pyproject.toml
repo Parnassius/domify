@@ -32,6 +32,11 @@ show_error_codes = true
 warn_unreachable = true
 
 [[tool.mypy.overrides]]
+module = "domify.html_elements"
+# functools.partial support is currently incomplete
+disallow_any_expr = false
+
+[[tool.mypy.overrides]]
 module = "tests.*"
 # pytest decorators leave functions untyped after transformation
 disallow_any_decorated = false

@@ -30,3 +30,22 @@ def get_input_type_keywords() -> List[str]:
         row.contents[0].find("code").string for row in table.find("tbody").children
     ]
     return keywords
+
+
+def get_link_body_ok_keywords() -> list[str]:
+    soup = request_cache("links")
+
+    table = soup.find(id="linkTypes").find_next_sibling("table")
+    keywords = [
+        row.contents[0].find("code").string
+        for row in table.find("tbody").children
+        if row.contents[-2].string.strip() == "Yes"
+    ]
+    return keywords
+
+
+def normalize_category(category: str) -> str:
+    category = category.lower().removesuffix(" content").removesuffix(" elements")
+    if category == "sectioning roots":
+        category = "sectioning-root"
+    return category

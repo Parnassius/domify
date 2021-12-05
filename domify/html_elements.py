@@ -1,9 +1,12 @@
 # pylint: disable=too-many-lines
 
+import itertools
+
 from . import validators as v
 from .base_element import BaseElement
 from .base_element import RawTextNode as RawTextNode  # pylint: disable=unused-import
 from .base_element import TextNode as TextNode  # pylint: disable=unused-import
+from .base_element import _T_categories_dict, _T_contexts_dict
 
 # begin automatic
 
@@ -134,6 +137,13 @@ class A(HtmlElement):
         "target": v.attribute_str,
         "type": v.attribute_str,
     }
+    element_categories: _T_categories_dict = {
+        "flow": None,
+        "interactive": lambda x: (x["href"] is not False),
+        "palpable": None,
+        "phrasing": None,
+    }
+    allowed_contexts = {"phrasing": None}
 
 
 class Abbr(HtmlElement):
@@ -141,11 +151,17 @@ class Abbr(HtmlElement):
     Abbreviation
     """
 
+    element_categories = {"flow": None, "palpable": None, "phrasing": None}
+    allowed_contexts = {"phrasing": None}
+
 
 class Address(HtmlElement):
     """
     Contact information for a page or article element
     """
+
+    element_categories = {"flow": None, "palpable": None}
+    allowed_contexts = {"flow": None}
 
 
 class Area(HtmlElement):
@@ -165,6 +181,8 @@ class Area(HtmlElement):
         "shape": {"circle", "default", "poly", "rect"},
         "target": v.attribute_str,
     }
+    element_categories = {"flow": None, "phrasing": None}
+    allowed_contexts = {"phrasing": None}
 
 
 class Article(HtmlElement):
@@ -172,11 +190,17 @@ class Article(HtmlElement):
     Self-contained syndicatable or reusable composition
     """
 
+    element_categories = {"flow": None, "palpable": None, "sectioning": None}
+    allowed_contexts = {"flow": None}
+
 
 class Aside(HtmlElement):
     """
     Sidebar for tangentially related content
     """
+
+    element_categories = {"flow": None, "palpable": None, "sectioning": None}
+    allowed_contexts = {"flow": None}
 
 
 class Audio(HtmlElement):
@@ -193,12 +217,23 @@ class Audio(HtmlElement):
         "preload": {"none", "metadata", "auto"},
         "src": v.attribute_str,
     }
+    element_categories: _T_categories_dict = {
+        "embedded": None,
+        "flow": None,
+        "interactive": lambda x: (x["controls"] is not False),
+        "palpable": lambda x: (x["controls"] is not False),
+        "phrasing": None,
+    }
+    allowed_contexts = {"phrasing": None}
 
 
 class B(HtmlElement):
     """
     Keywords
     """
+
+    element_categories = {"flow": None, "palpable": None, "phrasing": None}
+    allowed_contexts = {"phrasing": None}
 
 
 class Base(HtmlElement):
@@ -208,6 +243,8 @@ class Base(HtmlElement):
 
     is_empty = True
     element_attributes = {"href": v.attribute_str, "target": v.attribute_str}
+    element_categories = {"metadata": None}
+    allowed_contexts = {"_head": None}
 
 
 class Bdi(HtmlElement):
@@ -215,11 +252,17 @@ class Bdi(HtmlElement):
     Text directionality isolation
     """
 
+    element_categories = {"flow": None, "palpable": None, "phrasing": None}
+    allowed_contexts = {"phrasing": None}
+
 
 class Bdo(HtmlElement):
     """
     Text directionality formatting
     """
+
+    element_categories = {"flow": None, "palpable": None, "phrasing": None}
+    allowed_contexts = {"phrasing": None}
 
 
 class Blockquote(HtmlElement):
@@ -228,6 +271,8 @@ class Blockquote(HtmlElement):
     """
 
     element_attributes = {"cite": v.attribute_str}
+    element_categories = {"flow": None, "palpable": None, "sectioning-root": None}
+    allowed_contexts = {"flow": None}
 
 
 class Body(HtmlElement):
@@ -253,6 +298,8 @@ class Body(HtmlElement):
         "onunhandledrejection": v.attribute_str,
         "onunload": v.attribute_str,
     }
+    element_categories = {"sectioning-root": None}
+    allowed_contexts = {"_html": None}
 
 
 class Br(HtmlElement):
@@ -261,6 +308,8 @@ class Br(HtmlElement):
     """
 
     is_empty = True
+    element_categories = {"flow": None, "phrasing": None}
+    allowed_contexts = {"phrasing": None}
 
 
 class Button(HtmlElement):
@@ -284,6 +333,18 @@ class Button(HtmlElement):
         "type": {"submit", "reset", "button"},
         "value": v.attribute_str,
     }
+    element_categories = {
+        "autocapitalize-inheriting": None,
+        "flow": None,
+        "form-associated": None,
+        "interactive": None,
+        "labelable": None,
+        "listed": None,
+        "palpable": None,
+        "phrasing": None,
+        "submittable": None,
+    }
+    allowed_contexts = {"phrasing": None}
 
 
 class Canvas(HtmlElement):
@@ -295,6 +356,13 @@ class Canvas(HtmlElement):
         "height": v.attribute_int_ge_zero,
         "width": v.attribute_int_ge_zero,
     }
+    element_categories = {
+        "embedded": None,
+        "flow": None,
+        "palpable": None,
+        "phrasing": None,
+    }
+    allowed_contexts = {"phrasing": None}
 
 
 class Caption(HtmlElement):
@@ -302,17 +370,25 @@ class Caption(HtmlElement):
     Table caption
     """
 
+    allowed_contexts = {"_table": None}
+
 
 class Cite(HtmlElement):
     """
     Title of a work
     """
 
+    element_categories = {"flow": None, "palpable": None, "phrasing": None}
+    allowed_contexts = {"phrasing": None}
+
 
 class Code(HtmlElement):
     """
     Computer code
     """
+
+    element_categories = {"flow": None, "palpable": None, "phrasing": None}
+    allowed_contexts = {"phrasing": None}
 
 
 class Col(HtmlElement):
@@ -322,6 +398,7 @@ class Col(HtmlElement):
 
     is_empty = True
     element_attributes = {"span": v.attribute_int_gt_zero}
+    allowed_contexts = {"_colgroup": None}
 
 
 class Colgroup(HtmlElement):
@@ -330,6 +407,7 @@ class Colgroup(HtmlElement):
     """
 
     element_attributes = {"span": v.attribute_int_gt_zero}
+    allowed_contexts = {"_table": None}
 
 
 class Data(HtmlElement):
@@ -338,6 +416,8 @@ class Data(HtmlElement):
     """
 
     element_attributes = {"value": v.attribute_str}
+    element_categories = {"flow": None, "palpable": None, "phrasing": None}
+    allowed_contexts = {"phrasing": None}
 
 
 class Datalist(HtmlElement):
@@ -345,11 +425,16 @@ class Datalist(HtmlElement):
     Container for options for combo box control
     """
 
+    element_categories = {"flow": None, "phrasing": None}
+    allowed_contexts = {"phrasing": None}
+
 
 class Dd(HtmlElement):
     """
     Content for corresponding dt element(s)
     """
+
+    allowed_contexts = {"_div": None, "_dl": None}
 
 
 class Del(HtmlElement):
@@ -358,6 +443,8 @@ class Del(HtmlElement):
     """
 
     element_attributes = {"cite": v.attribute_str, "datetime": v.attribute_str}
+    element_categories = {"flow": None, "phrasing": None}
+    allowed_contexts = {"phrasing": None}
 
 
 class Details(HtmlElement):
@@ -366,12 +453,22 @@ class Details(HtmlElement):
     """
 
     element_attributes = {"open": v.attribute_bool}
+    element_categories = {
+        "flow": None,
+        "interactive": None,
+        "palpable": None,
+        "sectioning-root": None,
+    }
+    allowed_contexts = {"flow": None}
 
 
 class Dfn(HtmlElement):
     """
     Defining instance
     """
+
+    element_categories = {"flow": None, "palpable": None, "phrasing": None}
+    allowed_contexts = {"phrasing": None}
 
 
 class Dialog(HtmlElement):
@@ -380,6 +477,8 @@ class Dialog(HtmlElement):
     """
 
     element_attributes = {"open": v.attribute_bool}
+    element_categories = {"flow": None, "sectioning-root": None}
+    allowed_contexts = {"flow": None}
 
 
 class Div(HtmlElement):
@@ -387,11 +486,41 @@ class Div(HtmlElement):
     Generic flow container, or container for name-value groups in dl elements
     """
 
+    element_categories = {"flow": None, "palpable": None}
+    allowed_contexts = {"_dl": None, "flow": None}
+
 
 class Dl(HtmlElement):
     """
     Association list consisting of zero or more name-value groups
     """
+
+    element_categories: _T_categories_dict = {
+        "flow": None,
+        "palpable": lambda x: (
+            (
+                "dt" in (child.name for child in x)
+                or "dt"
+                in (
+                    child.name
+                    for child in itertools.chain(
+                        *(div for div in x if div.name == "div")
+                    )
+                )
+            )
+            and (
+                "dd" in (child.name for child in x)
+                or "dd"
+                in (
+                    child.name
+                    for child in itertools.chain(
+                        *(div for div in x if div.name == "div")
+                    )
+                )
+            )
+        ),
+    }
+    allowed_contexts = {"flow": None}
 
 
 class Dt(HtmlElement):
@@ -399,11 +528,16 @@ class Dt(HtmlElement):
     Legend for corresponding dd element(s)
     """
 
+    allowed_contexts = {"_div": None, "_dl": None}
+
 
 class Em(HtmlElement):
     """
     Stress emphasis
     """
+
+    element_categories = {"flow": None, "palpable": None, "phrasing": None}
+    allowed_contexts = {"phrasing": None}
 
 
 class Embed(HtmlElement):
@@ -419,6 +553,14 @@ class Embed(HtmlElement):
         "width": v.attribute_int_ge_zero,
     }
     any_attribute = True
+    element_categories = {
+        "embedded": None,
+        "flow": None,
+        "interactive": None,
+        "palpable": None,
+        "phrasing": None,
+    }
+    allowed_contexts = {"phrasing": None}
 
 
 class Fieldset(HtmlElement):
@@ -431,6 +573,15 @@ class Fieldset(HtmlElement):
         "form": v.attribute_str,
         "name": v.attribute_str,
     }
+    element_categories = {
+        "autocapitalize-inheriting": None,
+        "flow": None,
+        "form-associated": None,
+        "listed": None,
+        "palpable": None,
+        "sectioning-root": None,
+    }
+    allowed_contexts = {"flow": None}
 
 
 class Figcaption(HtmlElement):
@@ -438,17 +589,25 @@ class Figcaption(HtmlElement):
     Caption for figure
     """
 
+    allowed_contexts = {"_figure": None}
+
 
 class Figure(HtmlElement):
     """
     Figure with optional caption
     """
 
+    element_categories = {"flow": None, "palpable": None, "sectioning-root": None}
+    allowed_contexts = {"flow": None}
+
 
 class Footer(HtmlElement):
     """
     Footer for a page or section
     """
+
+    element_categories = {"flow": None, "palpable": None}
+    allowed_contexts = {"flow": None}
 
 
 class Form(HtmlElement):
@@ -470,6 +629,8 @@ class Form(HtmlElement):
         "novalidate": v.attribute_bool,
         "target": v.attribute_str,
     }
+    element_categories = {"flow": None, "palpable": None}
+    allowed_contexts = {"flow": None}
 
 
 class H1(HtmlElement):
@@ -477,11 +638,17 @@ class H1(HtmlElement):
     Section heading
     """
 
+    element_categories = {"flow": None, "heading": None, "palpable": None}
+    allowed_contexts = {"_legend": None, "_summary": None, "flow": None}
+
 
 class H2(HtmlElement):
     """
     Section heading
     """
+
+    element_categories = {"flow": None, "heading": None, "palpable": None}
+    allowed_contexts = {"_legend": None, "_summary": None, "flow": None}
 
 
 class H3(HtmlElement):
@@ -489,11 +656,17 @@ class H3(HtmlElement):
     Section heading
     """
 
+    element_categories = {"flow": None, "heading": None, "palpable": None}
+    allowed_contexts = {"_legend": None, "_summary": None, "flow": None}
+
 
 class H4(HtmlElement):
     """
     Section heading
     """
+
+    element_categories = {"flow": None, "heading": None, "palpable": None}
+    allowed_contexts = {"_legend": None, "_summary": None, "flow": None}
 
 
 class H5(HtmlElement):
@@ -501,11 +674,17 @@ class H5(HtmlElement):
     Section heading
     """
 
+    element_categories = {"flow": None, "heading": None, "palpable": None}
+    allowed_contexts = {"_legend": None, "_summary": None, "flow": None}
+
 
 class H6(HtmlElement):
     """
     Section heading
     """
+
+    element_categories = {"flow": None, "heading": None, "palpable": None}
+    allowed_contexts = {"_legend": None, "_summary": None, "flow": None}
 
 
 class Head(HtmlElement):
@@ -513,17 +692,25 @@ class Head(HtmlElement):
     Container for document metadata
     """
 
+    allowed_contexts = {"_html": None}
+
 
 class Header(HtmlElement):
     """
     Introductory or navigational aids for a page or section
     """
 
+    element_categories = {"flow": None, "palpable": None}
+    allowed_contexts = {"flow": None}
+
 
 class Hgroup(HtmlElement):
     """
     heading group
     """
+
+    element_categories = {"flow": None, "heading": None, "palpable": None}
+    allowed_contexts = {"_legend": None, "_summary": None, "flow": None}
 
 
 class Hr(HtmlElement):
@@ -532,6 +719,8 @@ class Hr(HtmlElement):
     """
 
     is_empty = True
+    element_categories = {"flow": None}
+    allowed_contexts = {"flow": None}
 
 
 class Html(HtmlElement):
@@ -546,6 +735,9 @@ class I(HtmlElement):
     """
     Alternate voice
     """
+
+    element_categories = {"flow": None, "palpable": None, "phrasing": None}
+    allowed_contexts = {"phrasing": None}
 
 
 class Iframe(HtmlElement):
@@ -577,6 +769,14 @@ class Iframe(HtmlElement):
         "srcdoc": v.attribute_str,
         "width": v.attribute_int_ge_zero,
     }
+    element_categories = {
+        "embedded": None,
+        "flow": None,
+        "interactive": None,
+        "palpable": None,
+        "phrasing": None,
+    }
+    allowed_contexts = {"phrasing": None}
 
 
 class Img(HtmlElement):
@@ -599,6 +799,15 @@ class Img(HtmlElement):
         "usemap": v.attribute_str,
         "width": v.attribute_int_ge_zero,
     }
+    element_categories: _T_categories_dict = {
+        "embedded": None,
+        "flow": None,
+        "form-associated": None,
+        "interactive": lambda x: (x["usemap"] is not False),
+        "palpable": None,
+        "phrasing": None,
+    }
+    allowed_contexts = {"_picture": None, "phrasing": None}
 
 
 class Input(HtmlElement):
@@ -668,6 +877,19 @@ class Input(HtmlElement):
         "value": v.attribute_str,
         "width": v.attribute_int_ge_zero,
     }
+    element_categories: _T_categories_dict = {
+        "autocapitalize-inheriting": None,
+        "flow": None,
+        "form-associated": None,
+        "interactive": lambda x: (x["type"] != "hidden"),
+        "labelable": None,
+        "listed": None,
+        "palpable": lambda x: (x["type"] != "hidden"),
+        "phrasing": None,
+        "resettable": None,
+        "submittable": None,
+    }
+    allowed_contexts = {"phrasing": None}
 
 
 class Ins(HtmlElement):
@@ -676,12 +898,17 @@ class Ins(HtmlElement):
     """
 
     element_attributes = {"cite": v.attribute_str, "datetime": v.attribute_str}
+    element_categories = {"flow": None, "palpable": None, "phrasing": None}
+    allowed_contexts = {"phrasing": None}
 
 
 class Kbd(HtmlElement):
     """
     User input
     """
+
+    element_categories = {"flow": None, "palpable": None, "phrasing": None}
+    allowed_contexts = {"phrasing": None}
 
 
 class Label(HtmlElement):
@@ -690,12 +917,22 @@ class Label(HtmlElement):
     """
 
     element_attributes = {"for": v.attribute_str}
+    element_categories = {
+        "flow": None,
+        "form-associated": None,
+        "interactive": None,
+        "palpable": None,
+        "phrasing": None,
+    }
+    allowed_contexts = {"phrasing": None}
 
 
 class Legend(HtmlElement):
     """
     Caption for fieldset
     """
+
+    allowed_contexts = {"_fieldset": None}
 
 
 class Li(HtmlElement):
@@ -704,6 +941,7 @@ class Li(HtmlElement):
     """
 
     element_attributes = {"value": v.attribute_int}
+    allowed_contexts = {"_menu": None, "_ol": None, "_ul": None}
 
 
 class Link(HtmlElement):
@@ -728,12 +966,73 @@ class Link(HtmlElement):
         "sizes": v.attribute_str,
         "type": v.attribute_str,
     }
+    element_categories: _T_categories_dict = {
+        "flow": lambda x: (
+            x["itemprop"] is not False
+            or (
+                isinstance(x["rel"], str)
+                and set(x["rel"].lower().split())
+                <= {
+                    "dns-prefetch",
+                    "modulepreload",
+                    "pingback",
+                    "preconnect",
+                    "prefetch",
+                    "preload",
+                    "prerender",
+                    "stylesheet",
+                }
+            )
+        ),
+        "metadata": None,
+        "phrasing": lambda x: (
+            x["itemprop"] is not False
+            or (
+                isinstance(x["rel"], str)
+                and set(x["rel"].lower().split())
+                <= {
+                    "dns-prefetch",
+                    "modulepreload",
+                    "pingback",
+                    "preconnect",
+                    "prefetch",
+                    "preload",
+                    "prerender",
+                    "stylesheet",
+                }
+            )
+        ),
+    }
+    allowed_contexts: _T_contexts_dict = {
+        "_head": None,
+        "_noscript": None,
+        "phrasing": lambda x: (
+            x["itemprop"] is not False
+            or (
+                isinstance(x["rel"], str)
+                and set(x["rel"].lower().split())
+                <= {
+                    "dns-prefetch",
+                    "modulepreload",
+                    "pingback",
+                    "preconnect",
+                    "prefetch",
+                    "preload",
+                    "prerender",
+                    "stylesheet",
+                }
+            )
+        ),
+    }
 
 
 class Main(HtmlElement):
     """
     Container for the dominant contents of the document
     """
+
+    element_categories = {"flow": None, "palpable": None}
+    allowed_contexts = {"flow": None}
 
 
 class Map(HtmlElement):
@@ -742,6 +1041,8 @@ class Map(HtmlElement):
     """
 
     element_attributes = {"name": v.attribute_str}
+    element_categories = {"flow": None, "palpable": None, "phrasing": None}
+    allowed_contexts = {"phrasing": None}
 
 
 class Mark(HtmlElement):
@@ -749,11 +1050,20 @@ class Mark(HtmlElement):
     Highlight
     """
 
+    element_categories = {"flow": None, "palpable": None, "phrasing": None}
+    allowed_contexts = {"phrasing": None}
+
 
 class Menu(HtmlElement):
     """
     Menu of commands
     """
+
+    element_categories: _T_categories_dict = {
+        "flow": None,
+        "palpable": lambda x: ("li" in (child.name for child in x)),
+    }
+    allowed_contexts = {"flow": None}
 
 
 class Meta(HtmlElement):
@@ -775,6 +1085,19 @@ class Meta(HtmlElement):
         "media": v.attribute_str,
         "name": v.attribute_str,
     }
+    element_categories: _T_categories_dict = {
+        "flow": lambda x: (x["itemprop"] is not False),
+        "metadata": None,
+        "phrasing": lambda x: (x["itemprop"] is not False),
+    }
+    allowed_contexts: _T_contexts_dict = {
+        "_head": None,
+        "_noscript": lambda x: (
+            x["http-equiv"] is not False
+            and not v.attribute_encoding_declaration_state(x["content"])
+        ),
+        "phrasing": lambda x: (x["itemprop"] is not False),
+    }
 
 
 class Meter(HtmlElement):
@@ -790,6 +1113,13 @@ class Meter(HtmlElement):
         "optimum": v.attribute_float,
         "value": v.attribute_float,
     }
+    element_categories = {
+        "flow": None,
+        "labelable": None,
+        "palpable": None,
+        "phrasing": None,
+    }
+    allowed_contexts = {"phrasing": None}
 
 
 class Nav(HtmlElement):
@@ -797,11 +1127,17 @@ class Nav(HtmlElement):
     Section with navigational links
     """
 
+    element_categories = {"flow": None, "palpable": None, "sectioning": None}
+    allowed_contexts = {"flow": None}
+
 
 class Noscript(HtmlElement):
     """
     Fallback content for script
     """
+
+    element_categories = {"flow": None, "metadata": None, "phrasing": None}
+    allowed_contexts = {"_head": None, "phrasing": None}
 
 
 class Object(HtmlElement):
@@ -817,6 +1153,15 @@ class Object(HtmlElement):
         "type": v.attribute_str,
         "width": v.attribute_int_ge_zero,
     }
+    element_categories = {
+        "embedded": None,
+        "flow": None,
+        "form-associated": None,
+        "listed": None,
+        "palpable": None,
+        "phrasing": None,
+    }
+    allowed_contexts = {"phrasing": None}
 
 
 class Ol(HtmlElement):
@@ -829,6 +1174,11 @@ class Ol(HtmlElement):
         "start": v.attribute_int,
         "type": {"1", "a", "A", "i", "I"},
     }
+    element_categories: _T_categories_dict = {
+        "flow": None,
+        "palpable": lambda x: ("li" in (child.name for child in x)),
+    }
+    allowed_contexts = {"flow": None}
 
 
 class Optgroup(HtmlElement):
@@ -837,6 +1187,7 @@ class Optgroup(HtmlElement):
     """
 
     element_attributes = {"disabled": v.attribute_bool, "label": v.attribute_str}
+    allowed_contexts = {"_select": None}
 
 
 class Option(HtmlElement):
@@ -850,6 +1201,7 @@ class Option(HtmlElement):
         "selected": v.attribute_bool,
         "value": v.attribute_str,
     }
+    allowed_contexts = {"_datalist": None, "_optgroup": None, "_select": None}
 
 
 class Output(HtmlElement):
@@ -862,12 +1214,26 @@ class Output(HtmlElement):
         "form": v.attribute_str,
         "name": v.attribute_str,
     }
+    element_categories = {
+        "autocapitalize-inheriting": None,
+        "flow": None,
+        "form-associated": None,
+        "labelable": None,
+        "listed": None,
+        "palpable": None,
+        "phrasing": None,
+        "resettable": None,
+    }
+    allowed_contexts = {"phrasing": None}
 
 
 class P(HtmlElement):
     """
     Paragraph
     """
+
+    element_categories = {"flow": None, "palpable": None}
+    allowed_contexts = {"flow": None}
 
 
 class Param(HtmlElement):
@@ -877,6 +1243,7 @@ class Param(HtmlElement):
 
     is_empty = True
     element_attributes = {"name": v.attribute_str, "value": v.attribute_str}
+    allowed_contexts = {"_object": None}
 
 
 class Picture(HtmlElement):
@@ -885,12 +1252,17 @@ class Picture(HtmlElement):
     """
 
     element_attributes = {"media": v.attribute_str, "width": v.attribute_int_ge_zero}
+    element_categories = {"embedded": None, "flow": None, "phrasing": None}
+    allowed_contexts = {"phrasing": None}
 
 
 class Pre(HtmlElement):
     """
     Block of preformatted text
     """
+
+    element_categories = {"flow": None, "palpable": None}
+    allowed_contexts = {"flow": None}
 
 
 class Progress(HtmlElement):
@@ -899,6 +1271,13 @@ class Progress(HtmlElement):
     """
 
     element_attributes = {"max": v.attribute_float, "value": v.attribute_float}
+    element_categories = {
+        "flow": None,
+        "labelable": None,
+        "palpable": None,
+        "phrasing": None,
+    }
+    allowed_contexts = {"phrasing": None}
 
 
 class Q(HtmlElement):
@@ -907,6 +1286,8 @@ class Q(HtmlElement):
     """
 
     element_attributes = {"cite": v.attribute_str}
+    element_categories = {"flow": None, "palpable": None, "phrasing": None}
+    allowed_contexts = {"phrasing": None}
 
 
 class Rp(HtmlElement):
@@ -914,11 +1295,15 @@ class Rp(HtmlElement):
     Parenthesis for ruby annotation text
     """
 
+    allowed_contexts = {"_ruby": None}
+
 
 class Rt(HtmlElement):
     """
     Ruby annotation text
     """
+
+    allowed_contexts = {"_ruby": None}
 
 
 class Ruby(HtmlElement):
@@ -926,17 +1311,26 @@ class Ruby(HtmlElement):
     Ruby annotation(s)
     """
 
+    element_categories = {"flow": None, "palpable": None, "phrasing": None}
+    allowed_contexts = {"phrasing": None}
+
 
 class S(HtmlElement):
     """
     Inaccurate text
     """
 
+    element_categories = {"flow": None, "palpable": None, "phrasing": None}
+    allowed_contexts = {"phrasing": None}
+
 
 class Samp(HtmlElement):
     """
     Computer output
     """
+
+    element_categories = {"flow": None, "palpable": None, "phrasing": None}
+    allowed_contexts = {"phrasing": None}
 
 
 class Script(HtmlElement):
@@ -954,12 +1348,22 @@ class Script(HtmlElement):
         "src": v.attribute_str,
         "type": v.attribute_str,
     }
+    element_categories = {
+        "flow": None,
+        "metadata": None,
+        "phrasing": None,
+        "script-supporting": None,
+    }
+    allowed_contexts = {"_head": None, "phrasing": None, "script-supporting": None}
 
 
 class Section(HtmlElement):
     """
     Generic document or application section
     """
+
+    element_categories = {"flow": None, "palpable": None, "sectioning": None}
+    allowed_contexts = {"flow": None}
 
 
 class Select(HtmlElement):
@@ -976,6 +1380,19 @@ class Select(HtmlElement):
         "required": v.attribute_bool,
         "size": v.attribute_int_gt_zero,
     }
+    element_categories = {
+        "autocapitalize-inheriting": None,
+        "flow": None,
+        "form-associated": None,
+        "interactive": None,
+        "labelable": None,
+        "listed": None,
+        "palpable": None,
+        "phrasing": None,
+        "resettable": None,
+        "submittable": None,
+    }
+    allowed_contexts = {"phrasing": None}
 
 
 class Slot(HtmlElement):
@@ -984,12 +1401,17 @@ class Slot(HtmlElement):
     """
 
     element_attributes = {"name": v.attribute_str}
+    element_categories = {"flow": None, "phrasing": None}
+    allowed_contexts = {"phrasing": None}
 
 
 class Small(HtmlElement):
     """
     Side comment
     """
+
+    element_categories = {"flow": None, "palpable": None, "phrasing": None}
+    allowed_contexts = {"phrasing": None}
 
 
 class Source(HtmlElement):
@@ -1007,6 +1429,7 @@ class Source(HtmlElement):
         "type": v.attribute_str,
         "width": v.attribute_int_ge_zero,
     }
+    allowed_contexts = {"_audio": None, "_picture": None, "_video": None}
 
 
 class Span(HtmlElement):
@@ -1014,11 +1437,17 @@ class Span(HtmlElement):
     Generic phrasing container
     """
 
+    element_categories = {"flow": None, "palpable": None, "phrasing": None}
+    allowed_contexts = {"phrasing": None}
+
 
 class Strong(HtmlElement):
     """
     Importance
     """
+
+    element_categories = {"flow": None, "palpable": None, "phrasing": None}
+    allowed_contexts = {"phrasing": None}
 
 
 class Style(HtmlElement):
@@ -1027,6 +1456,8 @@ class Style(HtmlElement):
     """
 
     element_attributes = {"media": v.attribute_str}
+    element_categories = {"metadata": None}
+    allowed_contexts = {"_head": None, "_noscript": None}
 
 
 class Sub(HtmlElement):
@@ -1034,11 +1465,16 @@ class Sub(HtmlElement):
     Subscript
     """
 
+    element_categories = {"flow": None, "palpable": None, "phrasing": None}
+    allowed_contexts = {"phrasing": None}
+
 
 class Summary(HtmlElement):
     """
     Caption for details
     """
+
+    allowed_contexts = {"_details": None}
 
 
 class Sup(HtmlElement):
@@ -1046,17 +1482,25 @@ class Sup(HtmlElement):
     Superscript
     """
 
+    element_categories = {"flow": None, "palpable": None, "phrasing": None}
+    allowed_contexts = {"phrasing": None}
+
 
 class Table(HtmlElement):
     """
     Table
     """
 
+    element_categories = {"flow": None, "palpable": None}
+    allowed_contexts = {"flow": None}
+
 
 class Tbody(HtmlElement):
     """
     Group of rows in a table
     """
+
+    allowed_contexts = {"_table": None}
 
 
 class Td(HtmlElement):
@@ -1069,6 +1513,8 @@ class Td(HtmlElement):
         "headers": v.attribute_unique_set,
         "rowspan": v.attribute_int_ge_zero,
     }
+    element_categories = {"sectioning-root": None}
+    allowed_contexts = {"_tr": None}
 
 
 class Template(HtmlElement):
@@ -1077,6 +1523,18 @@ class Template(HtmlElement):
     """
 
     is_empty = True
+    element_categories = {
+        "flow": None,
+        "metadata": None,
+        "phrasing": None,
+        "script-supporting": None,
+    }
+    allowed_contexts = {
+        "_colgroup": None,
+        "metadata": None,
+        "phrasing": None,
+        "script-supporting": None,
+    }
 
 
 class Textarea(HtmlElement):
@@ -1099,12 +1557,27 @@ class Textarea(HtmlElement):
         "rows": v.attribute_int_gt_zero,
         "wrap": {"soft", "hard"},
     }
+    element_categories = {
+        "autocapitalize-inheriting": None,
+        "flow": None,
+        "form-associated": None,
+        "interactive": None,
+        "labelable": None,
+        "listed": None,
+        "palpable": None,
+        "phrasing": None,
+        "resettable": None,
+        "submittable": None,
+    }
+    allowed_contexts = {"phrasing": None}
 
 
 class Tfoot(HtmlElement):
     """
     Group of footer rows in a table
     """
+
+    allowed_contexts = {"_table": None}
 
 
 class Th(HtmlElement):
@@ -1119,12 +1592,15 @@ class Th(HtmlElement):
         "rowspan": v.attribute_int_ge_zero,
         "scope": {"row", "col", "rowgroup", "colgroup"},
     }
+    allowed_contexts = {"_tr": None}
 
 
 class Thead(HtmlElement):
     """
     Group of heading rows in a table
     """
+
+    allowed_contexts = {"_table": None}
 
 
 class Time(HtmlElement):
@@ -1133,6 +1609,8 @@ class Time(HtmlElement):
     """
 
     element_attributes = {"datetime": v.attribute_str}
+    element_categories = {"flow": None, "palpable": None, "phrasing": None}
+    allowed_contexts = {"phrasing": None}
 
 
 class Title(HtmlElement):
@@ -1140,11 +1618,16 @@ class Title(HtmlElement):
     Document title
     """
 
+    element_categories = {"metadata": None}
+    allowed_contexts = {"_head": None}
+
 
 class Tr(HtmlElement):
     """
     Table row
     """
+
+    allowed_contexts = {"_table": None, "_tbody": None, "_tfoot": None, "_thead": None}
 
 
 class Track(HtmlElement):
@@ -1160,6 +1643,7 @@ class Track(HtmlElement):
         "src": v.attribute_str,
         "srclang": v.attribute_str,
     }
+    allowed_contexts = {"_audio": None, "_video": None}
 
 
 class U(HtmlElement):
@@ -1167,17 +1651,29 @@ class U(HtmlElement):
     Unarticulated annotation
     """
 
+    element_categories = {"flow": None, "palpable": None, "phrasing": None}
+    allowed_contexts = {"phrasing": None}
+
 
 class Ul(HtmlElement):
     """
     List
     """
 
+    element_categories: _T_categories_dict = {
+        "flow": None,
+        "palpable": lambda x: ("li" in (child.name for child in x)),
+    }
+    allowed_contexts = {"flow": None}
+
 
 class Var(HtmlElement):
     """
     Variable
     """
+
+    element_categories = {"flow": None, "palpable": None, "phrasing": None}
+    allowed_contexts = {"phrasing": None}
 
 
 class Video(HtmlElement):
@@ -1198,6 +1694,14 @@ class Video(HtmlElement):
         "src": v.attribute_str,
         "width": v.attribute_int_ge_zero,
     }
+    element_categories: _T_categories_dict = {
+        "embedded": None,
+        "flow": None,
+        "interactive": lambda x: (x["controls"] is not False),
+        "palpable": None,
+        "phrasing": None,
+    }
+    allowed_contexts = {"phrasing": None}
 
 
 class Wbr(HtmlElement):
@@ -1206,3 +1710,5 @@ class Wbr(HtmlElement):
     """
 
     is_empty = True
+    element_categories = {"flow": None, "phrasing": None}
+    allowed_contexts = {"phrasing": None}

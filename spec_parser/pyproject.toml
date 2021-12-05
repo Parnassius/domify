@@ -3,6 +3,10 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 
+[tool.black]
+target-version = ["py310"]
+
+
 [tool.isort]
 profile = "black"
 
@@ -41,18 +45,18 @@ authors = ["Parnassius <Parnassius@users.noreply.github.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.10"
 beautifulsoup4 = "^4.10.0"
 html5lib = "^1.1"
 requests = "^2.26.0"
-types-requests = "^2.25.11"
 
 [tool.poetry.dev-dependencies]
-black = "^21.10b0"
+black = "^21.11b0"
 isort = "^5.9.3"
 mypy = "^0.910"
 poethepoet = "^0.10.0"
 pylint = "^2.11.1"
+types-requests = "^2.25.11"
 
 [tool.poetry.scripts]
 parse = "spec_parser.parser:parse"
@@ -74,7 +78,9 @@ disable = [
     "missing-module-docstring",
     "too-few-public-methods",
     "too-many-branches",
+    "too-many-instance-attributes",
     "too-many-nested-blocks",
+    "too-many-statements",
     "useless-import-alias",
 ]
 enable = ["useless-suppression"]

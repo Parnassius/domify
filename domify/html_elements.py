@@ -1,6 +1,6 @@
 # pylint: disable=too-many-lines
 
-from . import attribute_validators as v
+from . import validators as v
 from .base_element import BaseElement
 from .base_element import RawTextNode as RawTextNode  # pylint: disable=unused-import
 from .base_element import TextNode as TextNode  # pylint: disable=unused-import

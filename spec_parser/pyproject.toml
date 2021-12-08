@@ -73,9 +73,9 @@ disable = [
     "missing-function-docstring",
     "missing-module-docstring",
     "too-few-public-methods",
-    "too-many-nested-blocks",
     "too-many-branches",
-
+    "too-many-nested-blocks",
+    "useless-import-alias",
 ]
 enable = ["useless-suppression"]
 fail-on = ["useless-suppression"]

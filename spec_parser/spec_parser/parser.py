@@ -1,11 +1,12 @@
 import re
 from dataclasses import dataclass, field
 from os.path import dirname, join
-from textwrap import wrap
 from typing import Dict, List
 
 import requests
 from bs4 import BeautifulSoup  # type: ignore[import]
+
+from .file_writer import FileWriter
 
 
 @dataclass
@@ -177,82 +178,31 @@ class Parser:
                             attribute
                         ] = value
 
-    @staticmethod
-    def _format_attributes_dict(data: Dict[str, str]) -> str:
-        parts = [f"'{k}': {v}" for k, v in data.items()]
-        return "{" + ",".join(parts) + "}"
-
     def _write_data(self) -> None:
-        file_path = join(dirname(__file__), "..", "..", "domify", "html_elements.py")
-        marker_comment = "# begin automatic"
-        with open(file_path, "r", encoding="utf-8") as f:
-            lines = f.readlines()
-        with open(file_path, "w", encoding="utf-8") as f:
-            for line in lines:
-                f.write(line)
-                if line.strip() == marker_comment:
-                    break
-            f.write("\n")
-
-            description = "\n".join(
-                wrap(
-                    "Base class for html elements, contains global attributes.",
-                    width=88,
-                    initial_indent="    ",
-                    subsequent_indent="    ",
-                )
+        f = FileWriter(
+            join(dirname(__file__), "..", "..", "domify", "html_elements.py")
+        )
+        f.add_class(
+            "HtmlElement",
+            "Base class for html elements, contains global attributes.",
+            global_attributes=(self._global_attributes, "_T_attributes_dict", False),
+        )
+        for element_name, element_data in self._elements.items():
+            if not element_data.global_attributes:
+                raise Exception(f"Element without global attributes: {element_name}")
+            f.add_class(
+                element_name.capitalize(),
+                element_data.description,
+                is_empty=(element_data.is_empty, False),
+                element_attributes=(
+                    element_data.element_attributes,
+                    "_T_attributes_dict",
+                    False,
+                ),
+                any_attribute=(element_data.any_attribute, False),
+                _default_prepend_doctype=(element_name == "html", False),
             )
-            f.write("class HtmlElement(BaseElement):\n")
-            f.write('    """\n')
-            f.write(f"{description}\n")
-            f.write('    """\n')
-            annotation = ""
-            if any(
-                x for x in self._global_attributes.values() if x.startswith("lambda ")
-            ):
-                annotation = ": _T_attributes_dict"
-            f.write(
-                f"    global_attributes{annotation} = "
-                f"{self._format_attributes_dict(self._global_attributes)}\n"
-            )
-
-            for element_name, element_data in self._elements.items():
-                description = "\n".join(
-                    wrap(
-                        element_data.description,
-                        width=88,
-                        initial_indent="    ",
-                        subsequent_indent="    ",
-                    )
-                )
-                f.write(f"class {element_name.capitalize()}(HtmlElement):\n")
-                f.write('    """\n')
-                f.write(f"{description}\n")
-                f.write('    """\n')
-                if element_data.is_empty:
-                    f.write("    is_empty = True\n")
-                if not element_data.global_attributes:
-                    f.write("    global_attributes = False\n")
-                    raise Exception(
-                        f"Element without global attributes: {element_name}"
-                    )
-                if element_data.element_attributes:
-                    annotation = ""
-                    if any(
-                        x
-                        for x in element_data.element_attributes.values()
-                        if x.startswith("lambda ")
-                    ):
-                        annotation = ": _T_attributes_dict"
-                    f.write(
-                        f"    element_attributes{annotation} = "
-                        f"{self._format_attributes_dict(element_data.element_attributes)}\n"
-                    )
-                if element_data.any_attribute:
-                    f.write("    any_attribute = True\n")
-                if element_name == "html":
-                    f.write("\n")
-                    f.write("    _default_prepend_doctype = True\n")
+        f.write()
 
 
 def parse() -> None:

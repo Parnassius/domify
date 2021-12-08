@@ -3,9 +3,7 @@ from dataclasses import dataclass, field
 from os.path import dirname, join
 from typing import Dict, List
 
-import requests
-from bs4 import BeautifulSoup  # type: ignore[import]
-
+from . import util
 from .file_writer import FileWriter
 
 
@@ -19,12 +17,7 @@ class ElementData:
 
 
 class Parser:
-    SPEC_URL = "https://html.spec.whatwg.org/"
-
     def __init__(self) -> None:
-        html = requests.get(f"{self.SPEC_URL}multipage/indices.html").text
-        self.soup = BeautifulSoup(html, "html5lib")
-
         self._elements: Dict[str, ElementData] = {}
         self._global_attributes: Dict[str, str] = {}
 
@@ -34,7 +27,9 @@ class Parser:
         self._write_data()
 
     def _get_elements(self) -> None:
-        title = self.soup.find("h3", id=re.compile(r"^elements"))
+        soup = util.request_cache("indices")
+
+        title = soup.find("h3", id=re.compile(r"^elements"))
         table = title.find_next_sibling("table")
         for row in table.find("tbody").children:
             for element in row.contents[0].find_all("code"):
@@ -55,8 +50,7 @@ class Parser:
                 self._elements[element.string] = element_data
 
     def _get_input_type_keywords(self) -> List[str]:
-        html = requests.get(f"{self.SPEC_URL}multipage/input.html").text
-        soup = BeautifulSoup(html, "html5lib")
+        soup = util.request_cache("input")
 
         table = soup.find(id="attr-input-type-keywords")
         keywords = [
@@ -65,7 +59,9 @@ class Parser:
         return keywords
 
     def _get_attributes(self) -> None:
-        title = self.soup.find("h3", id=re.compile(r"^attributes"))
+        soup = util.request_cache("indices")
+
+        title = soup.find("h3", id=re.compile(r"^attributes"))
         tables = [title.find_next_sibling("table")]
         tables.append(tables[0].find_next_sibling("table"))  # event handlers
         for table in tables:

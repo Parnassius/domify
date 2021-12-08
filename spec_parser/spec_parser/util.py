@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, List
 
 import requests
 from bs4 import BeautifulSoup  # type: ignore[import]
@@ -20,3 +20,13 @@ class _RequestCache:
 
 
 request_cache = _RequestCache()
+
+
+def get_input_type_keywords() -> List[str]:
+    soup = request_cache("input")
+
+    table = soup.find(id="attr-input-type-keywords")
+    keywords = [
+        row.contents[0].find("code").string for row in table.find("tbody").children
+    ]
+    return keywords

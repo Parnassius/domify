@@ -1,7 +1,7 @@
 import re
 from dataclasses import dataclass, field
 from os.path import dirname, join
-from typing import Dict, List
+from typing import Dict
 
 from . import util
 from .file_writer import FileWriter
@@ -48,15 +48,6 @@ class Parser:
                 ]
 
                 self._elements[element.string] = element_data
-
-    def _get_input_type_keywords(self) -> List[str]:
-        soup = util.request_cache("input")
-
-        table = soup.find(id="attr-input-type-keywords")
-        keywords = [
-            row.contents[0].find("code").string for row in table.find("tbody").children
-        ]
-        return keywords
 
     def _get_attributes(self) -> None:
         soup = util.request_cache("indices")
@@ -152,7 +143,7 @@ class Parser:
                 elif value_.text.strip() == "input type keyword":
                     value = (
                         "{"
-                        + ",".join(f"'{x}'" for x in self._get_input_type_keywords())
+                        + ",".join(f"'{x}'" for x in util.get_input_type_keywords())
                         + "}"
                     )
                 elif not any(x for x in value_.children if x.name == "a") and (

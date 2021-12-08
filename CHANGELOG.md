@@ -7,6 +7,8 @@ be overridden using the `_prepend_doctype` keyword argument.
 ### Changed
 - Elements can be subscripted using slices, returning (or replacing/deleting) a slice of
 their children.
+- Attribute validators follow a different naming scheme (for example
+`attribute_validators.bool_validator` is now `validators.attribute_bool`).
 
 ## [0.1.1] - 2021-11-09
 ### Added

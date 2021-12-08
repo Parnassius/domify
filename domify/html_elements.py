@@ -15,17 +15,17 @@ class HtmlElement(BaseElement):
     """
 
     global_attributes: _T_attributes_dict = {
-        "accesskey": lambda x: v.unique_set_validator(x)
+        "accesskey": lambda x: v.attribute_unique_set(x)
         and max(len(t) for t in str(x).split()) <= 1,
         "autocapitalize": {"on", "off", "none", "sentences", "words", "characters"},
-        "autofocus": v.bool_validator,
-        "class": v.str_validator,
+        "autofocus": v.attribute_bool,
+        "class": v.attribute_str,
         "contenteditable": {"true", "false"},
         "dir": {"ltr", "rtl", "auto"},
         "draggable": {"true", "false"},
         "enterkeyhint": {"enter", "done", "go", "next", "previous", "search", "send"},
-        "hidden": v.bool_validator,
-        "id": v.str_validator,
+        "hidden": v.attribute_bool,
+        "id": v.attribute_str,
         "inputmode": {
             "none",
             "text",
@@ -36,86 +36,86 @@ class HtmlElement(BaseElement):
             "decimal",
             "search",
         },
-        "is": v.str_validator,
-        "itemid": v.str_validator,
-        "itemprop": v.unique_set_validator,
-        "itemref": v.unique_set_validator,
-        "itemscope": v.bool_validator,
-        "itemtype": v.unique_set_validator,
-        "lang": v.str_validator,
-        "nonce": v.str_validator,
-        "slot": v.str_validator,
+        "is": v.attribute_str,
+        "itemid": v.attribute_str,
+        "itemprop": v.attribute_unique_set,
+        "itemref": v.attribute_unique_set,
+        "itemscope": v.attribute_bool,
+        "itemtype": v.attribute_unique_set,
+        "lang": v.attribute_str,
+        "nonce": v.attribute_str,
+        "slot": v.attribute_str,
         "spellcheck": {"true", "false"},
-        "style": v.str_validator,
-        "tabindex": v.int_validator,
-        "title": v.str_validator,
+        "style": v.attribute_str,
+        "tabindex": v.attribute_int,
+        "title": v.attribute_str,
         "translate": {"yes", "no"},
-        "onauxclick": v.str_validator,
-        "onblur": v.str_validator,
-        "oncancel": v.str_validator,
-        "oncanplay": v.str_validator,
-        "oncanplaythrough": v.str_validator,
-        "onchange": v.str_validator,
-        "onclick": v.str_validator,
-        "onclose": v.str_validator,
-        "oncontextlost": v.str_validator,
-        "oncontextmenu": v.str_validator,
-        "oncontextrestored": v.str_validator,
-        "oncopy": v.str_validator,
-        "oncuechange": v.str_validator,
-        "oncut": v.str_validator,
-        "ondblclick": v.str_validator,
-        "ondrag": v.str_validator,
-        "ondragend": v.str_validator,
-        "ondragenter": v.str_validator,
-        "ondragleave": v.str_validator,
-        "ondragover": v.str_validator,
-        "ondragstart": v.str_validator,
-        "ondrop": v.str_validator,
-        "ondurationchange": v.str_validator,
-        "onemptied": v.str_validator,
-        "onended": v.str_validator,
-        "onerror": v.str_validator,
-        "onfocus": v.str_validator,
-        "onformdata": v.str_validator,
-        "oninput": v.str_validator,
-        "oninvalid": v.str_validator,
-        "onkeydown": v.str_validator,
-        "onkeypress": v.str_validator,
-        "onkeyup": v.str_validator,
-        "onload": v.str_validator,
-        "onloadeddata": v.str_validator,
-        "onloadedmetadata": v.str_validator,
-        "onloadstart": v.str_validator,
-        "onmousedown": v.str_validator,
-        "onmouseenter": v.str_validator,
-        "onmouseleave": v.str_validator,
-        "onmousemove": v.str_validator,
-        "onmouseout": v.str_validator,
-        "onmouseover": v.str_validator,
-        "onmouseup": v.str_validator,
-        "onpaste": v.str_validator,
-        "onpause": v.str_validator,
-        "onplay": v.str_validator,
-        "onplaying": v.str_validator,
-        "onprogress": v.str_validator,
-        "onratechange": v.str_validator,
-        "onreset": v.str_validator,
-        "onresize": v.str_validator,
-        "onscroll": v.str_validator,
-        "onsecuritypolicyviolation": v.str_validator,
-        "onseeked": v.str_validator,
-        "onseeking": v.str_validator,
-        "onselect": v.str_validator,
-        "onslotchange": v.str_validator,
-        "onstalled": v.str_validator,
-        "onsubmit": v.str_validator,
-        "onsuspend": v.str_validator,
-        "ontimeupdate": v.str_validator,
-        "ontoggle": v.str_validator,
-        "onvolumechange": v.str_validator,
-        "onwaiting": v.str_validator,
-        "onwheel": v.str_validator,
+        "onauxclick": v.attribute_str,
+        "onblur": v.attribute_str,
+        "oncancel": v.attribute_str,
+        "oncanplay": v.attribute_str,
+        "oncanplaythrough": v.attribute_str,
+        "onchange": v.attribute_str,
+        "onclick": v.attribute_str,
+        "onclose": v.attribute_str,
+        "oncontextlost": v.attribute_str,
+        "oncontextmenu": v.attribute_str,
+        "oncontextrestored": v.attribute_str,
+        "oncopy": v.attribute_str,
+        "oncuechange": v.attribute_str,
+        "oncut": v.attribute_str,
+        "ondblclick": v.attribute_str,
+        "ondrag": v.attribute_str,
+        "ondragend": v.attribute_str,
+        "ondragenter": v.attribute_str,
+        "ondragleave": v.attribute_str,
+        "ondragover": v.attribute_str,
+        "ondragstart": v.attribute_str,
+        "ondrop": v.attribute_str,
+        "ondurationchange": v.attribute_str,
+        "onemptied": v.attribute_str,
+        "onended": v.attribute_str,
+        "onerror": v.attribute_str,
+        "onfocus": v.attribute_str,
+        "onformdata": v.attribute_str,
+        "oninput": v.attribute_str,
+        "oninvalid": v.attribute_str,
+        "onkeydown": v.attribute_str,
+        "onkeypress": v.attribute_str,
+        "onkeyup": v.attribute_str,
+        "onload": v.attribute_str,
+        "onloadeddata": v.attribute_str,
+        "onloadedmetadata": v.attribute_str,
+        "onloadstart": v.attribute_str,
+        "onmousedown": v.attribute_str,
+        "onmouseenter": v.attribute_str,
+        "onmouseleave": v.attribute_str,
+        "onmousemove": v.attribute_str,
+        "onmouseout": v.attribute_str,
+        "onmouseover": v.attribute_str,
+        "onmouseup": v.attribute_str,
+        "onpaste": v.attribute_str,
+        "onpause": v.attribute_str,
+        "onplay": v.attribute_str,
+        "onplaying": v.attribute_str,
+        "onprogress": v.attribute_str,
+        "onratechange": v.attribute_str,
+        "onreset": v.attribute_str,
+        "onresize": v.attribute_str,
+        "onscroll": v.attribute_str,
+        "onsecuritypolicyviolation": v.attribute_str,
+        "onseeked": v.attribute_str,
+        "onseeking": v.attribute_str,
+        "onselect": v.attribute_str,
+        "onslotchange": v.attribute_str,
+        "onstalled": v.attribute_str,
+        "onsubmit": v.attribute_str,
+        "onsuspend": v.attribute_str,
+        "ontimeupdate": v.attribute_str,
+        "ontoggle": v.attribute_str,
+        "onvolumechange": v.attribute_str,
+        "onwaiting": v.attribute_str,
+        "onwheel": v.attribute_str,
     }
 
 
@@ -125,14 +125,14 @@ class A(HtmlElement):
     """
 
     element_attributes = {
-        "download": v.str_validator,
-        "href": v.str_validator,
-        "hreflang": v.str_validator,
-        "ping": v.str_validator,
-        "referrerpolicy": v.str_validator,
-        "rel": v.unique_set_validator,
-        "target": v.str_validator,
-        "type": v.str_validator,
+        "download": v.attribute_str,
+        "href": v.attribute_str,
+        "hreflang": v.attribute_str,
+        "ping": v.attribute_str,
+        "referrerpolicy": v.attribute_str,
+        "rel": v.attribute_unique_set,
+        "target": v.attribute_str,
+        "type": v.attribute_str,
     }
 
 
@@ -155,15 +155,15 @@ class Area(HtmlElement):
 
     is_empty = True
     element_attributes = {
-        "alt": v.str_validator,
-        "coords": v.str_validator,
-        "download": v.str_validator,
-        "href": v.str_validator,
-        "ping": v.str_validator,
-        "referrerpolicy": v.str_validator,
-        "rel": v.unique_set_validator,
+        "alt": v.attribute_str,
+        "coords": v.attribute_str,
+        "download": v.attribute_str,
+        "href": v.attribute_str,
+        "ping": v.attribute_str,
+        "referrerpolicy": v.attribute_str,
+        "rel": v.attribute_unique_set,
         "shape": {"circle", "default", "poly", "rect"},
-        "target": v.str_validator,
+        "target": v.attribute_str,
     }
 
 
@@ -185,13 +185,13 @@ class Audio(HtmlElement):
     """
 
     element_attributes = {
-        "autoplay": v.bool_validator,
-        "controls": v.bool_validator,
+        "autoplay": v.attribute_bool,
+        "controls": v.attribute_bool,
         "crossorigin": {"anonymous", "use-credentials"},
-        "loop": v.bool_validator,
-        "muted": v.bool_validator,
+        "loop": v.attribute_bool,
+        "muted": v.attribute_bool,
         "preload": {"none", "metadata", "auto"},
-        "src": v.str_validator,
+        "src": v.attribute_str,
     }
 
 
@@ -207,7 +207,7 @@ class Base(HtmlElement):
     """
 
     is_empty = True
-    element_attributes = {"href": v.str_validator, "target": v.str_validator}
+    element_attributes = {"href": v.attribute_str, "target": v.attribute_str}
 
 
 class Bdi(HtmlElement):
@@ -227,7 +227,7 @@ class Blockquote(HtmlElement):
     A section quoted from another source
     """
 
-    element_attributes = {"cite": v.str_validator}
+    element_attributes = {"cite": v.attribute_str}
 
 
 class Body(HtmlElement):
@@ -236,22 +236,22 @@ class Body(HtmlElement):
     """
 
     element_attributes = {
-        "onafterprint": v.str_validator,
-        "onbeforeprint": v.str_validator,
-        "onbeforeunload": v.str_validator,
-        "onhashchange": v.str_validator,
-        "onlanguagechange": v.str_validator,
-        "onmessage": v.str_validator,
-        "onmessageerror": v.str_validator,
-        "onoffline": v.str_validator,
-        "ononline": v.str_validator,
-        "onpagehide": v.str_validator,
-        "onpageshow": v.str_validator,
-        "onpopstate": v.str_validator,
-        "onrejectionhandled": v.str_validator,
-        "onstorage": v.str_validator,
-        "onunhandledrejection": v.str_validator,
-        "onunload": v.str_validator,
+        "onafterprint": v.attribute_str,
+        "onbeforeprint": v.attribute_str,
+        "onbeforeunload": v.attribute_str,
+        "onhashchange": v.attribute_str,
+        "onlanguagechange": v.attribute_str,
+        "onmessage": v.attribute_str,
+        "onmessageerror": v.attribute_str,
+        "onoffline": v.attribute_str,
+        "ononline": v.attribute_str,
+        "onpagehide": v.attribute_str,
+        "onpageshow": v.attribute_str,
+        "onpopstate": v.attribute_str,
+        "onrejectionhandled": v.attribute_str,
+        "onstorage": v.attribute_str,
+        "onunhandledrejection": v.attribute_str,
+        "onunload": v.attribute_str,
     }
 
 
@@ -269,20 +269,20 @@ class Button(HtmlElement):
     """
 
     element_attributes = {
-        "disabled": v.bool_validator,
-        "form": v.str_validator,
-        "formaction": v.str_validator,
+        "disabled": v.attribute_bool,
+        "form": v.attribute_str,
+        "formaction": v.attribute_str,
         "formenctype": {
             "application/x-www-form-urlencoded",
             "multipart/form-data",
             "text/plain",
         },
         "formmethod": {"GET", "POST", "dialog"},
-        "formnovalidate": v.bool_validator,
-        "formtarget": v.str_validator,
-        "name": v.str_validator,
+        "formnovalidate": v.attribute_bool,
+        "formtarget": v.attribute_str,
+        "name": v.attribute_str,
         "type": {"submit", "reset", "button"},
-        "value": v.str_validator,
+        "value": v.attribute_str,
     }
 
 
@@ -292,8 +292,8 @@ class Canvas(HtmlElement):
     """
 
     element_attributes = {
-        "height": v.int_ge_zero_validator,
-        "width": v.int_ge_zero_validator,
+        "height": v.attribute_int_ge_zero,
+        "width": v.attribute_int_ge_zero,
     }
 
 
@@ -321,7 +321,7 @@ class Col(HtmlElement):
     """
 
     is_empty = True
-    element_attributes = {"span": v.int_gt_zero_validator}
+    element_attributes = {"span": v.attribute_int_gt_zero}
 
 
 class Colgroup(HtmlElement):
@@ -329,7 +329,7 @@ class Colgroup(HtmlElement):
     Group of columns in a table
     """
 
-    element_attributes = {"span": v.int_gt_zero_validator}
+    element_attributes = {"span": v.attribute_int_gt_zero}
 
 
 class Data(HtmlElement):
@@ -337,7 +337,7 @@ class Data(HtmlElement):
     Machine-readable equivalent
     """
 
-    element_attributes = {"value": v.str_validator}
+    element_attributes = {"value": v.attribute_str}
 
 
 class Datalist(HtmlElement):
@@ -357,7 +357,7 @@ class Del(HtmlElement):
     A removal from the document
     """
 
-    element_attributes = {"cite": v.str_validator, "datetime": v.str_validator}
+    element_attributes = {"cite": v.attribute_str, "datetime": v.attribute_str}
 
 
 class Details(HtmlElement):
@@ -365,7 +365,7 @@ class Details(HtmlElement):
     Disclosure control for hiding details
     """
 
-    element_attributes = {"open": v.bool_validator}
+    element_attributes = {"open": v.attribute_bool}
 
 
 class Dfn(HtmlElement):
@@ -379,7 +379,7 @@ class Dialog(HtmlElement):
     Dialog box or window
     """
 
-    element_attributes = {"open": v.bool_validator}
+    element_attributes = {"open": v.attribute_bool}
 
 
 class Div(HtmlElement):
@@ -413,10 +413,10 @@ class Embed(HtmlElement):
 
     is_empty = True
     element_attributes = {
-        "height": v.int_ge_zero_validator,
-        "src": v.str_validator,
-        "type": v.str_validator,
-        "width": v.int_ge_zero_validator,
+        "height": v.attribute_int_ge_zero,
+        "src": v.attribute_str,
+        "type": v.attribute_str,
+        "width": v.attribute_int_ge_zero,
     }
     any_attribute = True
 
@@ -427,9 +427,9 @@ class Fieldset(HtmlElement):
     """
 
     element_attributes = {
-        "disabled": v.bool_validator,
-        "form": v.str_validator,
-        "name": v.str_validator,
+        "disabled": v.attribute_bool,
+        "form": v.attribute_str,
+        "name": v.attribute_str,
     }
 
 
@@ -458,7 +458,7 @@ class Form(HtmlElement):
 
     element_attributes: _T_attributes_dict = {
         "accept-charset": lambda x: str(x).upper() == "UTF-8",
-        "action": v.str_validator,
+        "action": v.attribute_str,
         "autocomplete": {"on", "off"},
         "enctype": {
             "application/x-www-form-urlencoded",
@@ -466,9 +466,9 @@ class Form(HtmlElement):
             "text/plain",
         },
         "method": {"GET", "POST", "dialog"},
-        "name": v.str_validator,
-        "novalidate": v.bool_validator,
-        "target": v.str_validator,
+        "name": v.attribute_str,
+        "novalidate": v.attribute_bool,
+        "target": v.attribute_str,
     }
 
 
@@ -555,13 +555,13 @@ class Iframe(HtmlElement):
 
     is_empty = True
     element_attributes: _T_attributes_dict = {
-        "allow": v.str_validator,
-        "allowfullscreen": v.bool_validator,
-        "height": v.int_ge_zero_validator,
+        "allow": v.attribute_str,
+        "allowfullscreen": v.attribute_bool,
+        "height": v.attribute_int_ge_zero,
         "loading": {"lazy", "eager"},
-        "name": v.str_validator,
-        "referrerpolicy": v.str_validator,
-        "sandbox": lambda x: v.unique_set_validator(str(x).lower())
+        "name": v.attribute_str,
+        "referrerpolicy": v.attribute_str,
+        "sandbox": lambda x: v.attribute_unique_set(str(x).lower())
         and set(str(x).lower().split())
         <= {
             "allow-forms",
@@ -575,9 +575,9 @@ class Iframe(HtmlElement):
             "allow-scripts",
             "allow-top-navigation",
         },
-        "src": v.str_validator,
-        "srcdoc": v.str_validator,
-        "width": v.int_ge_zero_validator,
+        "src": v.attribute_str,
+        "srcdoc": v.attribute_str,
+        "width": v.attribute_int_ge_zero,
     }
 
 
@@ -588,18 +588,18 @@ class Img(HtmlElement):
 
     is_empty = True
     element_attributes = {
-        "alt": v.str_validator,
+        "alt": v.attribute_str,
         "crossorigin": {"anonymous", "use-credentials"},
         "decoding": {"sync", "async", "auto"},
-        "height": v.int_ge_zero_validator,
-        "ismap": v.bool_validator,
+        "height": v.attribute_int_ge_zero,
+        "ismap": v.attribute_bool,
         "loading": {"lazy", "eager"},
-        "referrerpolicy": v.str_validator,
-        "sizes": v.str_validator,
-        "src": v.str_validator,
-        "srcset": v.str_validator,
-        "usemap": v.str_validator,
-        "width": v.int_ge_zero_validator,
+        "referrerpolicy": v.attribute_str,
+        "sizes": v.attribute_str,
+        "src": v.attribute_str,
+        "srcset": v.attribute_str,
+        "usemap": v.attribute_str,
+        "width": v.attribute_int_ge_zero,
     }
 
 
@@ -610,37 +610,37 @@ class Input(HtmlElement):
 
     is_empty = True
     element_attributes: _T_attributes_dict = {
-        "accept": v.str_validator,
-        "alt": v.str_validator,
-        "autocomplete": v.str_validator,
-        "checked": v.bool_validator,
-        "dirname": v.str_validator,
-        "disabled": v.bool_validator,
-        "form": v.str_validator,
-        "formaction": v.str_validator,
+        "accept": v.attribute_str,
+        "alt": v.attribute_str,
+        "autocomplete": v.attribute_str,
+        "checked": v.attribute_bool,
+        "dirname": v.attribute_str,
+        "disabled": v.attribute_bool,
+        "form": v.attribute_str,
+        "formaction": v.attribute_str,
         "formenctype": {
             "application/x-www-form-urlencoded",
             "multipart/form-data",
             "text/plain",
         },
         "formmethod": {"GET", "POST", "dialog"},
-        "formnovalidate": v.bool_validator,
-        "formtarget": v.str_validator,
-        "height": v.int_ge_zero_validator,
-        "list": v.str_validator,
-        "max": v.str_validator,
-        "maxlength": v.int_ge_zero_validator,
-        "min": v.str_validator,
-        "minlength": v.int_ge_zero_validator,
-        "multiple": v.bool_validator,
-        "name": v.str_validator,
-        "pattern": v.str_validator,
-        "placeholder": v.str_validator,
-        "readonly": v.bool_validator,
-        "required": v.bool_validator,
-        "size": v.int_gt_zero_validator,
-        "src": v.str_validator,
-        "step": lambda x: v.float_gt_zero_validator(x) or x in {"any"},
+        "formnovalidate": v.attribute_bool,
+        "formtarget": v.attribute_str,
+        "height": v.attribute_int_ge_zero,
+        "list": v.attribute_str,
+        "max": v.attribute_str,
+        "maxlength": v.attribute_int_ge_zero,
+        "min": v.attribute_str,
+        "minlength": v.attribute_int_ge_zero,
+        "multiple": v.attribute_bool,
+        "name": v.attribute_str,
+        "pattern": v.attribute_str,
+        "placeholder": v.attribute_str,
+        "readonly": v.attribute_bool,
+        "required": v.attribute_bool,
+        "size": v.attribute_int_gt_zero,
+        "src": v.attribute_str,
+        "step": lambda x: v.attribute_float_gt_zero(x) or x in {"any"},
         "type": {
             "hidden",
             "text",
@@ -665,8 +665,8 @@ class Input(HtmlElement):
             "reset",
             "button",
         },
-        "value": v.str_validator,
-        "width": v.int_ge_zero_validator,
+        "value": v.attribute_str,
+        "width": v.attribute_int_ge_zero,
     }
 
 
@@ -675,7 +675,7 @@ class Ins(HtmlElement):
     An addition to the document
     """
 
-    element_attributes = {"cite": v.str_validator, "datetime": v.str_validator}
+    element_attributes = {"cite": v.attribute_str, "datetime": v.attribute_str}
 
 
 class Kbd(HtmlElement):
@@ -689,7 +689,7 @@ class Label(HtmlElement):
     Caption for a form control
     """
 
-    element_attributes = {"for": v.str_validator}
+    element_attributes = {"for": v.attribute_str}
 
 
 class Legend(HtmlElement):
@@ -703,7 +703,7 @@ class Li(HtmlElement):
     List item
     """
 
-    element_attributes = {"value": v.int_validator}
+    element_attributes = {"value": v.attribute_int}
 
 
 class Link(HtmlElement):
@@ -713,20 +713,20 @@ class Link(HtmlElement):
 
     is_empty = True
     element_attributes = {
-        "as": v.str_validator,
-        "color": v.str_validator,
+        "as": v.attribute_str,
+        "color": v.attribute_str,
         "crossorigin": {"anonymous", "use-credentials"},
-        "disabled": v.bool_validator,
-        "href": v.str_validator,
-        "hreflang": v.str_validator,
-        "imagesizes": v.str_validator,
-        "imagesrcset": v.str_validator,
-        "integrity": v.str_validator,
-        "media": v.str_validator,
-        "referrerpolicy": v.str_validator,
-        "rel": v.unique_set_validator,
-        "sizes": v.str_validator,
-        "type": v.str_validator,
+        "disabled": v.attribute_bool,
+        "href": v.attribute_str,
+        "hreflang": v.attribute_str,
+        "imagesizes": v.attribute_str,
+        "imagesrcset": v.attribute_str,
+        "integrity": v.attribute_str,
+        "media": v.attribute_str,
+        "referrerpolicy": v.attribute_str,
+        "rel": v.attribute_unique_set,
+        "sizes": v.attribute_str,
+        "type": v.attribute_str,
     }
 
 
@@ -741,7 +741,7 @@ class Map(HtmlElement):
     Image map
     """
 
-    element_attributes = {"name": v.str_validator}
+    element_attributes = {"name": v.attribute_str}
 
 
 class Mark(HtmlElement):
@@ -764,7 +764,7 @@ class Meta(HtmlElement):
     is_empty = True
     element_attributes = {
         "charset": {"utf-8"},
-        "content": v.str_validator,
+        "content": v.attribute_str,
         "http-equiv": {
             "content-type",
             "default-style",
@@ -772,8 +772,8 @@ class Meta(HtmlElement):
             "x-ua-compatible",
             "content-security-policy",
         },
-        "media": v.str_validator,
-        "name": v.str_validator,
+        "media": v.attribute_str,
+        "name": v.attribute_str,
     }
 
 
@@ -783,12 +783,12 @@ class Meter(HtmlElement):
     """
 
     element_attributes = {
-        "high": v.float_validator,
-        "low": v.float_validator,
-        "max": v.float_validator,
-        "min": v.float_validator,
-        "optimum": v.float_validator,
-        "value": v.float_validator,
+        "high": v.attribute_float,
+        "low": v.attribute_float,
+        "max": v.attribute_float,
+        "min": v.attribute_float,
+        "optimum": v.attribute_float,
+        "value": v.attribute_float,
     }
 
 
@@ -810,12 +810,12 @@ class Object(HtmlElement):
     """
 
     element_attributes = {
-        "data": v.str_validator,
-        "form": v.str_validator,
-        "height": v.int_ge_zero_validator,
-        "name": v.str_validator,
-        "type": v.str_validator,
-        "width": v.int_ge_zero_validator,
+        "data": v.attribute_str,
+        "form": v.attribute_str,
+        "height": v.attribute_int_ge_zero,
+        "name": v.attribute_str,
+        "type": v.attribute_str,
+        "width": v.attribute_int_ge_zero,
     }
 
 
@@ -825,8 +825,8 @@ class Ol(HtmlElement):
     """
 
     element_attributes = {
-        "reversed": v.bool_validator,
-        "start": v.int_validator,
+        "reversed": v.attribute_bool,
+        "start": v.attribute_int,
         "type": {"1", "a", "A", "i", "I"},
     }
 
@@ -836,7 +836,7 @@ class Optgroup(HtmlElement):
     Group of options in a list box
     """
 
-    element_attributes = {"disabled": v.bool_validator, "label": v.str_validator}
+    element_attributes = {"disabled": v.attribute_bool, "label": v.attribute_str}
 
 
 class Option(HtmlElement):
@@ -845,10 +845,10 @@ class Option(HtmlElement):
     """
 
     element_attributes = {
-        "disabled": v.bool_validator,
-        "label": v.str_validator,
-        "selected": v.bool_validator,
-        "value": v.str_validator,
+        "disabled": v.attribute_bool,
+        "label": v.attribute_str,
+        "selected": v.attribute_bool,
+        "value": v.attribute_str,
     }
 
 
@@ -858,9 +858,9 @@ class Output(HtmlElement):
     """
 
     element_attributes = {
-        "for": v.unique_set_validator,
-        "form": v.str_validator,
-        "name": v.str_validator,
+        "for": v.attribute_unique_set,
+        "form": v.attribute_str,
+        "name": v.attribute_str,
     }
 
 
@@ -876,7 +876,7 @@ class Param(HtmlElement):
     """
 
     is_empty = True
-    element_attributes = {"name": v.str_validator, "value": v.str_validator}
+    element_attributes = {"name": v.attribute_str, "value": v.attribute_str}
 
 
 class Picture(HtmlElement):
@@ -884,7 +884,7 @@ class Picture(HtmlElement):
     Image
     """
 
-    element_attributes = {"media": v.str_validator, "width": v.int_ge_zero_validator}
+    element_attributes = {"media": v.attribute_str, "width": v.attribute_int_ge_zero}
 
 
 class Pre(HtmlElement):
@@ -898,7 +898,7 @@ class Progress(HtmlElement):
     Progress bar
     """
 
-    element_attributes = {"max": v.float_validator, "value": v.float_validator}
+    element_attributes = {"max": v.attribute_float, "value": v.attribute_float}
 
 
 class Q(HtmlElement):
@@ -906,7 +906,7 @@ class Q(HtmlElement):
     Quotation
     """
 
-    element_attributes = {"cite": v.str_validator}
+    element_attributes = {"cite": v.attribute_str}
 
 
 class Rp(HtmlElement):
@@ -945,14 +945,14 @@ class Script(HtmlElement):
     """
 
     element_attributes = {
-        "async": v.bool_validator,
+        "async": v.attribute_bool,
         "crossorigin": {"anonymous", "use-credentials"},
-        "defer": v.bool_validator,
-        "integrity": v.str_validator,
-        "nomodule": v.bool_validator,
-        "referrerpolicy": v.str_validator,
-        "src": v.str_validator,
-        "type": v.str_validator,
+        "defer": v.attribute_bool,
+        "integrity": v.attribute_str,
+        "nomodule": v.attribute_bool,
+        "referrerpolicy": v.attribute_str,
+        "src": v.attribute_str,
+        "type": v.attribute_str,
     }
 
 
@@ -968,13 +968,13 @@ class Select(HtmlElement):
     """
 
     element_attributes = {
-        "autocomplete": v.str_validator,
-        "disabled": v.bool_validator,
-        "form": v.str_validator,
-        "multiple": v.bool_validator,
-        "name": v.str_validator,
-        "required": v.bool_validator,
-        "size": v.int_gt_zero_validator,
+        "autocomplete": v.attribute_str,
+        "disabled": v.attribute_bool,
+        "form": v.attribute_str,
+        "multiple": v.attribute_bool,
+        "name": v.attribute_str,
+        "required": v.attribute_bool,
+        "size": v.attribute_int_gt_zero,
     }
 
 
@@ -983,7 +983,7 @@ class Slot(HtmlElement):
     Shadow tree slot
     """
 
-    element_attributes = {"name": v.str_validator}
+    element_attributes = {"name": v.attribute_str}
 
 
 class Small(HtmlElement):
@@ -999,13 +999,13 @@ class Source(HtmlElement):
 
     is_empty = True
     element_attributes = {
-        "height": v.int_ge_zero_validator,
-        "media": v.str_validator,
-        "sizes": v.str_validator,
-        "src": v.str_validator,
-        "srcset": v.str_validator,
-        "type": v.str_validator,
-        "width": v.int_ge_zero_validator,
+        "height": v.attribute_int_ge_zero,
+        "media": v.attribute_str,
+        "sizes": v.attribute_str,
+        "src": v.attribute_str,
+        "srcset": v.attribute_str,
+        "type": v.attribute_str,
+        "width": v.attribute_int_ge_zero,
     }
 
 
@@ -1026,7 +1026,7 @@ class Style(HtmlElement):
     Embedded styling information
     """
 
-    element_attributes = {"media": v.str_validator}
+    element_attributes = {"media": v.attribute_str}
 
 
 class Sub(HtmlElement):
@@ -1065,9 +1065,9 @@ class Td(HtmlElement):
     """
 
     element_attributes = {
-        "colspan": v.int_gt_zero_validator,
-        "headers": v.unique_set_validator,
-        "rowspan": v.int_ge_zero_validator,
+        "colspan": v.attribute_int_gt_zero,
+        "headers": v.attribute_unique_set,
+        "rowspan": v.attribute_int_ge_zero,
     }
 
 
@@ -1085,18 +1085,18 @@ class Textarea(HtmlElement):
     """
 
     element_attributes = {
-        "autocomplete": v.str_validator,
-        "cols": v.int_gt_zero_validator,
-        "dirname": v.str_validator,
-        "disabled": v.bool_validator,
-        "form": v.str_validator,
-        "maxlength": v.int_ge_zero_validator,
-        "minlength": v.int_ge_zero_validator,
-        "name": v.str_validator,
-        "placeholder": v.str_validator,
-        "readonly": v.bool_validator,
-        "required": v.bool_validator,
-        "rows": v.int_gt_zero_validator,
+        "autocomplete": v.attribute_str,
+        "cols": v.attribute_int_gt_zero,
+        "dirname": v.attribute_str,
+        "disabled": v.attribute_bool,
+        "form": v.attribute_str,
+        "maxlength": v.attribute_int_ge_zero,
+        "minlength": v.attribute_int_ge_zero,
+        "name": v.attribute_str,
+        "placeholder": v.attribute_str,
+        "readonly": v.attribute_bool,
+        "required": v.attribute_bool,
+        "rows": v.attribute_int_gt_zero,
         "wrap": {"soft", "hard"},
     }
 
@@ -1113,10 +1113,10 @@ class Th(HtmlElement):
     """
 
     element_attributes = {
-        "abbr": v.str_validator,
-        "colspan": v.int_gt_zero_validator,
-        "headers": v.unique_set_validator,
-        "rowspan": v.int_ge_zero_validator,
+        "abbr": v.attribute_str,
+        "colspan": v.attribute_int_gt_zero,
+        "headers": v.attribute_unique_set,
+        "rowspan": v.attribute_int_ge_zero,
         "scope": {"row", "col", "rowgroup", "colgroup"},
     }
 
@@ -1132,7 +1132,7 @@ class Time(HtmlElement):
     Machine-readable equivalent of date- or time-related data
     """
 
-    element_attributes = {"datetime": v.str_validator}
+    element_attributes = {"datetime": v.attribute_str}
 
 
 class Title(HtmlElement):
@@ -1154,11 +1154,11 @@ class Track(HtmlElement):
 
     is_empty = True
     element_attributes = {
-        "default": v.bool_validator,
+        "default": v.attribute_bool,
         "kind": {"subtitles", "captions", "descriptions", "chapters", "metadata"},
-        "label": v.str_validator,
-        "src": v.str_validator,
-        "srclang": v.str_validator,
+        "label": v.attribute_str,
+        "src": v.attribute_str,
+        "srclang": v.attribute_str,
     }
 
 
@@ -1186,17 +1186,17 @@ class Video(HtmlElement):
     """
 
     element_attributes = {
-        "autoplay": v.bool_validator,
-        "controls": v.bool_validator,
+        "autoplay": v.attribute_bool,
+        "controls": v.attribute_bool,
         "crossorigin": {"anonymous", "use-credentials"},
-        "height": v.int_ge_zero_validator,
-        "loop": v.bool_validator,
-        "muted": v.bool_validator,
-        "playsinline": v.bool_validator,
-        "poster": v.str_validator,
+        "height": v.attribute_int_ge_zero,
+        "loop": v.attribute_bool,
+        "muted": v.attribute_bool,
+        "playsinline": v.attribute_bool,
+        "poster": v.attribute_str,
         "preload": {"none", "metadata", "auto"},
-        "src": v.str_validator,
-        "width": v.int_ge_zero_validator,
+        "src": v.attribute_str,
+        "width": v.attribute_int_ge_zero,
     }
 
 

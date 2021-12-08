@@ -8,32 +8,32 @@ def parse(content: Tag) -> str:
     value: str
 
     if content_text == "Boolean attribute":
-        value = "v.bool_validator"
+        value = "v.attribute_bool"
     elif content_text == "Valid integer":
-        value = "v.int_validator"
+        value = "v.attribute_int"
     elif content_text == "Valid non-negative integer":
-        value = "v.int_ge_zero_validator"
+        value = "v.attribute_int_ge_zero"
     elif content_text == "Valid non-negative integer greater than zero":
-        value = "v.int_gt_zero_validator"
+        value = "v.attribute_int_gt_zero"
     elif content_text in (
         "Valid floating-point number",
         "Valid floating-point number*",
     ):
-        value = "v.float_validator"
+        value = "v.attribute_float"
     elif content_text in (
         "Unordered set of unique space-separated tokens*",
         "Unordered set of unique space-separated tokens consisting of IDs*",  # TODO
         "Unordered set of unique space-separated tokens consisting of valid absolute URLs*",  # TODO
         "Unordered set of unique space-separated tokens consisting of valid absolute URLs, defined property names, or text*",  # TODO
     ):
-        value = "v.unique_set_validator"
+        value = "v.attribute_unique_set"
     elif (
         content_text
         == "Ordered set of unique space-separated tokens, none of which are identical to another, each consisting of one code point in length"
     ):
-        value = "lambda x: v.unique_set_validator(x) and max(len(t) for t in str(x).split()) <= 1"
+        value = "lambda x: v.attribute_unique_set(x) and max(len(t) for t in str(x).split()) <= 1"
     elif content_text == 'Valid floating-point number greater than zero, or "any"':
-        value = "lambda x: v.float_gt_zero_validator(x) or x in {'any'}"
+        value = "lambda x: v.attribute_float_gt_zero(x) or x in {'any'}"
     elif content_text == 'ASCII case-insensitive match for "UTF-8"':
         value = "lambda x: str(x).upper() == 'UTF-8'"
     elif (
@@ -42,7 +42,7 @@ def parse(content: Tag) -> str:
     ):
         possible_values = content.find_all("code")
         value = (
-            "lambda x: v.unique_set_validator(str(x).lower()) and set(str(x).lower().split()) <= {"
+            "lambda x: v.attribute_unique_set(str(x).lower()) and set(str(x).lower().split()) <= {"
             + ",".join(f"'{x.text}'" for x in possible_values)
             + "}"
         )
@@ -80,7 +80,7 @@ def parse(content: Tag) -> str:
         "Valid URL potentially surrounded by spaces",
         "Varies*",
     ):
-        value = "v.str_validator"
+        value = "v.attribute_str"
     elif content_text == "input type keyword":
         value = "{" + ",".join(f"'{x}'" for x in util.get_input_type_keywords()) + "}"
     elif not any(x for x in content.children if x.name == "a") and (
@@ -88,7 +88,7 @@ def parse(content: Tag) -> str:
     ):
         value = "{" + ",".join(f"'{x.text}'" for x in possible_values) + "}"
     else:
-        value = "v.str_validator"
+        value = "v.attribute_str"
         print("Unhandled attribute value:", content_text)
 
     return value

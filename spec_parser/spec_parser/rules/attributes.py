@@ -31,20 +31,22 @@ def parse(content: Tag) -> str:
         content_text
         == "Ordered set of unique space-separated tokens, none of which are identical to another, each consisting of one code point in length"
     ):
-        value = "lambda x: v.attribute_unique_set(x) and max(len(t) for t in str(x).split()) <= 1"
+        value = "v.attribute_all(v.attribute_unique_set, lambda x: max(len(t) for t in str(x).split()) <= 1)"
     elif content_text == 'Valid floating-point number greater than zero, or "any"':
-        value = "lambda x: v.attribute_float_gt_zero(x) or x in {'any'}"
+        value = (
+            "v.attribute_any(v.attribute_float_gt_zero, v.attribute_str_literal('any'))"
+        )
     elif content_text == 'ASCII case-insensitive match for "UTF-8"':
-        value = "lambda x: str(x).upper() == 'UTF-8'"
+        value = "v.attribute_str_literal_ci('utf-8')"
     elif (
         content_text
         == 'Unordered set of unique space-separated tokens, ASCII case-insensitive, consisting of\n          "allow-forms",\n          "allow-modals",\n          "allow-orientation-lock",\n          "allow-pointer-lock",\n          "allow-popups",\n          "allow-popups-to-escape-sandbox",\n          "allow-presentation",\n          "allow-same-origin",\n          "allow-scripts" and\n          "allow-top-navigation"'
     ):
         possible_values = content.find_all("code")
         value = (
-            "lambda x: v.attribute_unique_set(str(x).lower()) and set(str(x).lower().split()) <= {"
-            + ",".join(f"'{x.text}'" for x in possible_values)
-            + "}"
+            "v.attribute_unique_set_literal_ci("
+            + ",".join(f"'{x.text.lower()}'" for x in possible_values)
+            + ")"
         )
     elif content_text in (
         '"module"; a valid MIME type string that is not a JavaScript MIME type essence match',

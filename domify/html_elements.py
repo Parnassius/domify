@@ -4,7 +4,6 @@ from . import validators as v
 from .base_element import BaseElement
 from .base_element import RawTextNode as RawTextNode  # pylint: disable=unused-import
 from .base_element import TextNode as TextNode  # pylint: disable=unused-import
-from .base_element import _T_attributes_dict
 
 # begin automatic
 
@@ -14,9 +13,10 @@ class HtmlElement(BaseElement):
     Base class for html elements, contains global attributes.
     """
 
-    global_attributes: _T_attributes_dict = {
-        "accesskey": lambda x: v.attribute_unique_set(x)
-        and max(len(t) for t in str(x).split()) <= 1,
+    global_attributes = {
+        "accesskey": v.attribute_all(
+            v.attribute_unique_set, lambda x: max(len(t) for t in str(x).split()) <= 1
+        ),
         "autocapitalize": {"on", "off", "none", "sentences", "words", "characters"},
         "autofocus": v.attribute_bool,
         "class": v.attribute_str,
@@ -456,8 +456,8 @@ class Form(HtmlElement):
     User-submittable form
     """
 
-    element_attributes: _T_attributes_dict = {
-        "accept-charset": lambda x: str(x).upper() == "UTF-8",
+    element_attributes = {
+        "accept-charset": v.attribute_str_literal_ci("utf-8"),
         "action": v.attribute_str,
         "autocomplete": {"on", "off"},
         "enctype": {
@@ -554,16 +554,14 @@ class Iframe(HtmlElement):
     """
 
     is_empty = True
-    element_attributes: _T_attributes_dict = {
+    element_attributes = {
         "allow": v.attribute_str,
         "allowfullscreen": v.attribute_bool,
         "height": v.attribute_int_ge_zero,
         "loading": {"lazy", "eager"},
         "name": v.attribute_str,
         "referrerpolicy": v.attribute_str,
-        "sandbox": lambda x: v.attribute_unique_set(str(x).lower())
-        and set(str(x).lower().split())
-        <= {
+        "sandbox": v.attribute_unique_set_literal_ci(
             "allow-forms",
             "allow-modals",
             "allow-orientation-lock",
@@ -574,7 +572,7 @@ class Iframe(HtmlElement):
             "allow-same-origin",
             "allow-scripts",
             "allow-top-navigation",
-        },
+        ),
         "src": v.attribute_str,
         "srcdoc": v.attribute_str,
         "width": v.attribute_int_ge_zero,
@@ -609,7 +607,7 @@ class Input(HtmlElement):
     """
 
     is_empty = True
-    element_attributes: _T_attributes_dict = {
+    element_attributes = {
         "accept": v.attribute_str,
         "alt": v.attribute_str,
         "autocomplete": v.attribute_str,
@@ -640,7 +638,9 @@ class Input(HtmlElement):
         "required": v.attribute_bool,
         "size": v.attribute_int_gt_zero,
         "src": v.attribute_str,
-        "step": lambda x: v.attribute_float_gt_zero(x) or x in {"any"},
+        "step": v.attribute_any(
+            v.attribute_float_gt_zero, v.attribute_str_literal("any")
+        ),
         "type": {
             "hidden",
             "text",

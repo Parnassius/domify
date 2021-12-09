@@ -1,9 +1,29 @@
 # pylint: disable=missing-function-docstring
 
-from typing import TYPE_CHECKING
+from functools import partial
+from typing import TYPE_CHECKING, Callable, Iterable, Optional
 
 if TYPE_CHECKING:
     from .base_element import _T_attribute
+
+
+def _attribute_to_string(x: "_T_attribute", case_insensitive: bool) -> str:
+    x = str(x)
+    if case_insensitive:
+        x = x.lower()
+    return x
+
+
+def attribute_all(
+    *funcs: Callable[["_T_attribute"], bool]
+) -> Callable[["_T_attribute"], bool]:
+    return lambda x: all(f(x) for f in funcs)
+
+
+def attribute_any(
+    *funcs: Callable[["_T_attribute"], bool]
+) -> Callable[["_T_attribute"], bool]:
+    return lambda x: any(f(x) for f in funcs)
 
 
 def attribute_bool(x: "_T_attribute") -> bool:
@@ -30,12 +50,62 @@ def attribute_float_gt_zero(x: "_T_attribute") -> bool:
     return isinstance(x, (float, int)) and x > 0
 
 
-def attribute_str(x: "_T_attribute") -> bool:
-    return not isinstance(x, bool)
-
-
-def attribute_unique_set(x: "_T_attribute", sep: str = " ") -> bool:
+def attribute_str(
+    x: "_T_attribute",
+    *,
+    values: Optional[Iterable[str]] = None,
+    case_insensitive: bool = False
+) -> bool:
     if isinstance(x, bool):
         return False
-    parts = str(x).split(sep)
-    return len(parts) == len(set(parts))
+    if values:
+        x = _attribute_to_string(x, case_insensitive)
+        if x not in values:
+            return False
+    return True
+
+
+attribute_str_ci = partial(attribute_str, case_insensitive=True)
+
+
+def attribute_str_literal(
+    *values: str, case_insensitive: bool = False
+) -> Callable[["_T_attribute"], bool]:
+    return partial(attribute_str, values=values, case_insensitive=case_insensitive)
+
+
+attribute_str_literal_ci = partial(attribute_str_literal, case_insensitive=True)
+
+
+def attribute_unique_set(
+    x: "_T_attribute",
+    *,
+    values: Optional[Iterable[str]] = None,
+    sep: str = " ",
+    case_insensitive: bool = False
+) -> bool:
+    if isinstance(x, bool):
+        return False
+    x = _attribute_to_string(x, case_insensitive)
+    parts = x.split(sep)
+    if len(parts) != len(set(parts)):
+        return False
+    if values is not None and not set(parts) <= set(values):
+        return False
+    return True
+
+
+attribute_unique_set_ci = partial(attribute_unique_set, case_insensitive=True)
+
+
+def attribute_unique_set_literal(
+    *values: str, sep: str = " ", case_insensitive: bool = False
+) -> Callable[["_T_attribute"], bool]:
+    return partial(
+        attribute_unique_set, values=values, sep=sep, case_insensitive=case_insensitive
+    )
+
+
+attribute_unique_set_literal_ci = partial(
+    attribute_unique_set_literal, case_insensitive=True
+)

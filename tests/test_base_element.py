@@ -47,6 +47,7 @@ def test_attributes():
         == '<progress max="50" value="2.5"></progress>'
     )
     assert str(e.Link(rel="prefetch preload")) == '<link rel="prefetch preload">'
+    assert str(e.Form(accept_charset="UTF-8")) == '<form accept-charset="UTF-8"></form>'
 
     # Invalid attributes
     with pytest.warns(exc.InvalidAttributeWarning):
@@ -70,9 +71,13 @@ def test_attributes():
     with pytest.warns(exc.InvalidAttributeValueWarning):
         e.Link(rel=True)
     with pytest.warns(exc.InvalidAttributeValueWarning):
+        e.Link(href=True)
+    with pytest.warns(exc.InvalidAttributeValueWarning):
         e.Link(rel="prefetch preload prefetch")
     with pytest.warns(exc.InvalidAttributeValueWarning):
         e.A(accesskey="Ff g")
+    with pytest.warns(exc.InvalidAttributeValueWarning):
+        e.Iframe(sandbox="allow-forms allow-foobar")
 
 
 def test_add_remove_class():

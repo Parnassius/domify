@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+
+## [0.2.0] - 2021-12-09
 ### Added
 - Automatically prepend a `DOCTYPE` declaration to `<html>` elements. This behaviour can
 be overridden using the `_prepend_doctype` keyword argument.

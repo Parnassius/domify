@@ -714,6 +714,7 @@ class Link(HtmlElement):
     is_empty = True
     element_attributes = {
         "as": v.attribute_str,
+        "blocking": v.attribute_unique_set,
         "color": v.attribute_str,
         "crossorigin": {"anonymous", "use-credentials"},
         "disabled": v.attribute_bool,
@@ -946,6 +947,7 @@ class Script(HtmlElement):
 
     element_attributes = {
         "async": v.attribute_bool,
+        "blocking": v.attribute_unique_set,
         "crossorigin": {"anonymous", "use-credentials"},
         "defer": v.attribute_bool,
         "integrity": v.attribute_str,
@@ -1026,7 +1028,7 @@ class Style(HtmlElement):
     Embedded styling information
     """
 
-    element_attributes = {"media": v.attribute_str}
+    element_attributes = {"blocking": v.attribute_unique_set, "media": v.attribute_str}
 
 
 class Sub(HtmlElement):

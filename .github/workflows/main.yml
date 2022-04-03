@@ -24,8 +24,6 @@ jobs:
         run: pip install poetry
       - name: Setup the virtual environment
         run: poetry config --local virtualenvs.in-project true
-      - name: Workaround for https://github.com/python-poetry/poetry/issues/4465
-        run: poetry lock
       - name: Install or upgrade dependencies
         run: poetry install --remove-untracked
       - name: Check import order
@@ -66,8 +64,6 @@ jobs:
         run: pip install poetry
       - name: Setup the virtual environment
         run: poetry config --local virtualenvs.in-project true
-      - name: Workaround for https://github.com/python-poetry/poetry/issues/4465
-        run: poetry lock
       - name: Install or upgrade dependencies
         run: poetry install --remove-untracked
       - name: Test with pytest

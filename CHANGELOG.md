@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+### Changed
+- Remove upper bound on `typing-extensions`.
 
 ## [0.2.0] - 2021-12-09
 ### Added

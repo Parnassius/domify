@@ -1,3 +1,5 @@
+import sys
+
 from bs4.element import Tag  # type: ignore[import]
 
 from spec_parser import util
@@ -38,9 +40,8 @@ def parse(content: Tag) -> str:
         )
     elif content_text == 'ASCII case-insensitive match for "UTF-8"':
         value = "v.attribute_str_literal_ci('utf-8')"
-    elif (
-        content_text
-        == 'Unordered set of unique space-separated tokens, ASCII case-insensitive, consisting of\n          "allow-forms",\n          "allow-modals",\n          "allow-orientation-lock",\n          "allow-pointer-lock",\n          "allow-popups",\n          "allow-popups-to-escape-sandbox",\n          "allow-presentation",\n          "allow-same-origin",\n          "allow-scripts" and\n          "allow-top-navigation"'
+    elif content_text.startswith(
+        "Unordered set of unique space-separated tokens, ASCII case-insensitive, consisting of\n"
     ):
         possible_values = content.find_all("code")
         value = (
@@ -92,5 +93,6 @@ def parse(content: Tag) -> str:
     else:
         value = "v.attribute_str"
         print("Unhandled attribute value:", content_text)
+        sys.exit(1)
 
     return value

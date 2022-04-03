@@ -26,6 +26,7 @@ class HtmlElement(BaseElement):
         "enterkeyhint": {"enter", "done", "go", "next", "previous", "search", "send"},
         "hidden": v.attribute_bool,
         "id": v.attribute_str,
+        "inert": v.attribute_bool,
         "inputmode": {
             "none",
             "text",
@@ -51,6 +52,7 @@ class HtmlElement(BaseElement):
         "title": v.attribute_str,
         "translate": {"yes", "no"},
         "onauxclick": v.attribute_str,
+        "onbeforematch": v.attribute_str,
         "onblur": v.attribute_str,
         "oncancel": v.attribute_str,
         "oncanplay": v.attribute_str,
@@ -562,6 +564,7 @@ class Iframe(HtmlElement):
         "name": v.attribute_str,
         "referrerpolicy": v.attribute_str,
         "sandbox": v.attribute_unique_set_literal_ci(
+            "allow-downloads",
             "allow-forms",
             "allow-modals",
             "allow-orientation-lock",
@@ -572,6 +575,8 @@ class Iframe(HtmlElement):
             "allow-same-origin",
             "allow-scripts",
             "allow-top-navigation",
+            "allow-top-navigation-by-user-activation",
+            "allow-top-navigation-to-custom-protocols",
         ),
         "src": v.attribute_str,
         "srcdoc": v.attribute_str,

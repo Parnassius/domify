@@ -46,9 +46,9 @@ isort = "isort domify tests"
 black = "black domify tests"
 
 tests = ["test"]
-test = ["isort_check", "black_check", "darglint", "mypy", "pylint", "pytest"]
-isort_check = "isort domify tests --check"
-black_check = "black domify tests --check"
+test = ["isort-check", "black-check", "darglint", "mypy", "pylint", "pytest"]
+isort-check = "isort domify tests --check"
+black-check = "black domify tests --check"
 darglint = "darglint domify tests -v 2"
 mypy = "mypy domify tests"
 pylint = "pylint domify tests --disable=fixme"

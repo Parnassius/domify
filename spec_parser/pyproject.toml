@@ -26,9 +26,9 @@ isort = "isort spec_parser"
 black = "black spec_parser"
 
 tests = ["test"]
-test = ["isort_check", "black_check", "mypy", "pylint"]
-isort_check = "isort spec_parser --check"
-black_check = "black spec_parser --check"
+test = ["isort-check", "black-check", "mypy", "pylint"]
+isort-check = "isort spec_parser --check"
+black-check = "black spec_parser --check"
 mypy = "mypy spec_parser"
 pylint = "pylint spec_parser --disable=fixme"
 

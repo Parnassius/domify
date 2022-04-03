@@ -27,9 +27,9 @@ jobs:
       - name: Install or upgrade dependencies
         run: poetry install --remove-untracked
       - name: Check import order
-        run: poetry run poe isort_check
+        run: poetry run poe isort-check
       - name: Check formatting using black
-        run: poetry run poe black_check
+        run: poetry run poe black-check
       - name: Check docstrings with darglint
         run: poetry run poe darglint
       - name: Test with mypy

@@ -43,10 +43,6 @@ jobs:
       matrix:
         os: [ubuntu, macos, windows]
         python-version: ["3.7", "3.8", "3.9", "3.10", "pypy-3.7", "pypy-3.8", "pypy-3.9"]
-        exclude:
-          # Poetry is currently not installable on pypy 3.9 on linux
-          - os: ubuntu
-            python-version: "pypy-3.9"
       fail-fast: false
     steps:
       - uses: actions/checkout@v3

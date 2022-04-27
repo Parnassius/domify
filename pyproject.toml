@@ -57,7 +57,7 @@ pytest = [
     {cmd="tox"},
     {cmd="coverage report --skip-covered --fail-under=100"},
 ]
-pytest_ci = "pytest --cov --cov-report=xml"
+pytest-ci = "pytest --cov --cov-report=xml"
 
 release = [
     "_check_uncommited_changes",

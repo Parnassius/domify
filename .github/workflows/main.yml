@@ -71,6 +71,6 @@ jobs:
       - name: Install or upgrade dependencies
         run: poetry install --remove-untracked
       - name: Test with pytest
-        run: poetry run poe pytest_ci
+        run: poetry run poe pytest-ci
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2

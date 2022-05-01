@@ -876,15 +876,6 @@ class P(HtmlElement):
     """
 
 
-class Param(HtmlElement):
-    """
-    Parameter for object
-    """
-
-    is_empty = True
-    element_attributes = {"name": v.attribute_str, "value": v.attribute_str}
-
-
 class Picture(HtmlElement):
     """
     Image

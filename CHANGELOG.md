@@ -1,8 +1,15 @@
 # Changelog
 
 ## [Unreleased]
+
+## [0.3.0] - 2022-05-05
 ### Changed
 - Remove upper bound on `typing-extensions`.
+### HTML spec
+- Add the `blocking` attribute to `link`, `script` and `style` elements.
+- Add the `inert` and `onbeforematch` global attributes.
+- Update the allowed values of the `sandbox` attributes of `iframe` elements.
+- Remove the deprecated `param` element.
 
 ## [0.2.0] - 2021-12-09
 ### Added

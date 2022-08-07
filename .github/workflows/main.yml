@@ -8,7 +8,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install Poetry
-        run: pip install poetry
+        run: pipx install poetry
       - name: Set up python 3.7
         id: setup-python
         uses: actions/setup-python@v4
@@ -39,7 +39,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install Poetry
-        run: pip install poetry
+        run: pipx install poetry
       - name: Set up python ${{ matrix.python-version }}
         id: setup-python
         uses: actions/setup-python@v4

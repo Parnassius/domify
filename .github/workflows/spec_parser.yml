@@ -10,24 +10,16 @@ jobs:
         working-directory: spec_parser
     steps:
       - uses: actions/checkout@v3
+      - name: Install Poetry
+        run: pip install poetry
       - name: Set up python 3.8
+        id: setup-python
         uses: actions/setup-python@v4
         with:
           python-version: "3.8"
-      - name: Get full Python version
-        id: full-python-version
-        run: echo ::set-output name=version::$(python -c "import sys; print('.'.join(str(x) for x in sys.version_info))")
-      - name: Cache Poetry virtualenv
-        uses: actions/cache@v3
-        with:
-          path: .venv
-          key: lint-poetry-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-${{ hashFiles('pyproject.toml') }}
-          restore-keys: lint-poetry-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-
-      - name: Install Poetry
-        run: pip install poetry
-      - name: Setup the virtual environment
-        run: poetry config --local virtualenvs.in-project true
-      - name: Install or upgrade dependencies
+          cache: "poetry"
+      - name: Install dependencies on a cache miss
+        if: steps.setup-python.outputs.cache-hit != 'true'
         run: poetry install --remove-untracked
       - name: Check import order
         run: poetry run poe isort-check

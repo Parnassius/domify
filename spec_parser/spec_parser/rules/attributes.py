@@ -78,6 +78,7 @@ def parse(content: Tag) -> str:
         "Valid media query list",
         "Valid MIME type string",
         "Valid month string,\n          valid date string,\n          valid yearless date string,\n          valid time string,\n          valid local date and time string,\n          valid time-zone offset string,\n          valid global date and time string,\n          valid week string,\n          valid non-negative integer, or\n          valid duration string",
+        "Valid navigable target name or keyword",
         "Valid non-empty URL potentially surrounded by spaces",
         "Valid source size list",
         "Valid URL potentially surrounded by spaces",

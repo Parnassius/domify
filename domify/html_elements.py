@@ -24,7 +24,7 @@ class HtmlElement(BaseElement):
         "dir": {"ltr", "rtl", "auto"},
         "draggable": {"true", "false"},
         "enterkeyhint": {"enter", "done", "go", "next", "previous", "search", "send"},
-        "hidden": v.attribute_bool,
+        "hidden": {"until-found", "hidden"},
         "id": v.attribute_str,
         "inert": v.attribute_bool,
         "inputmode": {
@@ -105,6 +105,7 @@ class HtmlElement(BaseElement):
         "onreset": v.attribute_str,
         "onresize": v.attribute_str,
         "onscroll": v.attribute_str,
+        "onscrollend": v.attribute_str,
         "onsecuritypolicyviolation": v.attribute_str,
         "onseeked": v.attribute_str,
         "onseeking": v.attribute_str,
@@ -205,7 +206,7 @@ class B(HtmlElement):
 
 class Base(HtmlElement):
     """
-    Base URL and default target browsing context for hyperlinks and forms
+    Base URL and default target navigable for hyperlinks and forms
     """
 
     is_empty = True
@@ -476,37 +477,37 @@ class Form(HtmlElement):
 
 class H1(HtmlElement):
     """
-    Section heading
+    Heading
     """
 
 
 class H2(HtmlElement):
     """
-    Section heading
+    Heading
     """
 
 
 class H3(HtmlElement):
     """
-    Section heading
+    Heading
     """
 
 
 class H4(HtmlElement):
     """
-    Section heading
+    Heading
     """
 
 
 class H5(HtmlElement):
     """
-    Section heading
+    Heading
     """
 
 
 class H6(HtmlElement):
     """
-    Section heading
+    Heading
     """
 
 
@@ -524,7 +525,7 @@ class Header(HtmlElement):
 
 class Hgroup(HtmlElement):
     """
-    heading group
+    Heading container
     """
 
 
@@ -552,7 +553,7 @@ class I(HtmlElement):
 
 class Iframe(HtmlElement):
     """
-    Nested browsing context
+    Nested navigable
     """
 
     is_empty = True
@@ -812,7 +813,7 @@ class Noscript(HtmlElement):
 
 class Object(HtmlElement):
     """
-    Image, nested browsing context, or plugin
+    Image, nested navigable, or plugin
     """
 
     element_attributes = {

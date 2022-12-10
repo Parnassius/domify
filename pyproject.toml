@@ -54,7 +54,7 @@ mypy = "mypy domify tests"
 pylint = "pylint domify tests --disable=fixme"
 pytest = [
     {cmd="coverage erase"},
-    {cmd="tox"},
+    {cmd="tox run"},
     {cmd="coverage report --skip-covered --fail-under=100"},
 ]
 pytest-ci = "pytest --cov --cov-report=xml"
@@ -97,19 +97,19 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.7.2"
 typing-extensions = {version=">=3.7", python="<3.8"}
 
 [tool.poetry.group.dev.dependencies]
-black = "^22.3.0"
-darglint = "^1.8.1"
-isort = "^5.10.1"
-mypy = {version="^0.950", markers="python_version > '3.7' or implementation_name == 'cpython'"}
-poethepoet = "^0.13.1"
-pylint = "^2.13.8"
-pytest = "^7.1.2"
-pytest-cov = "^3.0.0"
-tox = "^3.25.0"
+black = "22.12.0"
+darglint = "1.8.1"
+isort = "5.10.1"
+mypy = {version="0.991", markers="python_version > '3.7' or implementation_name == 'cpython'"}
+poethepoet = "0.16.5"
+pylint = "2.15.8"
+pytest = "7.2.0"
+pytest-cov = "4.0.0"
+tox = "4.0.5"
 
 
 [tool.pylint.master]
@@ -137,8 +137,7 @@ max-line-length = "88"
 [tool.tox]
 legacy_tox_ini = """
 [tox]
-envlist = py{37,38,39,310,311}, pypy{37,38,39}
-isolated_build = true
+env_list = py{37,38,39,310,311}, pypy{37,38,39}
 skip_missing_interpreters = true
 
 [testenv]

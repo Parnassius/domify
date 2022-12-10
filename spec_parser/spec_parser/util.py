@@ -12,7 +12,7 @@ class _RequestCache:
         if page.endswith(".html"):
             page = page[:-5]
         if page not in self._cache:
-            html = requests.get(
+            html = requests.get(  # pylint: disable=missing-timeout
                 f"https://html.spec.whatwg.org/multipage/{page}.html"
             ).text
             self._cache[page] = BeautifulSoup(html, "html5lib")

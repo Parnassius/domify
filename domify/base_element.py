@@ -19,6 +19,7 @@ from typing import (
 )
 
 from . import exc
+from . import validators as v
 
 if sys.version_info >= (3, 8):
     from typing import Literal
@@ -188,7 +189,11 @@ class BaseElement:
         if expected_value is None:
             return True
         if isinstance(expected_value, set):
-            return val in expected_value
+            if val in expected_value:
+                return True
+            if {"", key} < expected_value:
+                return v.attribute_bool(val)
+            return False
         return expected_value(val)
 
     # Children

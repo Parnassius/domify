@@ -1,6 +1,6 @@
 import sys
 
-from bs4.element import Tag  # type: ignore[import]
+from bs4.element import NavigableString, Tag  # type: ignore[import]
 
 from spec_parser import util
 
@@ -88,9 +88,15 @@ def parse(content: Tag) -> str:
     elif content_text == "input type keyword":
         value = "{" + ",".join(f"'{x}'" for x in util.get_input_type_keywords()) + "}"
     elif not any(x for x in content.children if x.name == "a") and (
-        possible_values := content.find_all("code")
+        possible_code_values := content.find_all("code")
     ):
-        value = "{" + ",".join(f"'{x.text}'" for x in possible_values) + "}"
+        possible_values = [x.text for x in possible_code_values]
+        possible_string_values = (
+            x.strip('";\n ') for x in content.children if isinstance(x, NavigableString)
+        )
+        if "the empty string" in possible_string_values:
+            possible_values.append("")
+        value = "{" + ",".join(f"'{x}'" for x in possible_values) + "}"
     else:
         value = "v.attribute_str"
         print("Unhandled attribute value:", content_text)

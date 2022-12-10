@@ -48,6 +48,8 @@ def test_attributes():
     )
     assert str(e.Link(rel="prefetch preload")) == '<link rel="prefetch preload">'
     assert str(e.Form(accept_charset="UTF-8")) == '<form accept-charset="UTF-8"></form>'
+    assert str(e.Div(hidden=True)) == "<div hidden></div>"
+    assert str(e.Div(hidden="hidden")) == '<div hidden="hidden"></div>'
 
     # Invalid attributes
     with pytest.warns(exc.InvalidAttributeWarning):

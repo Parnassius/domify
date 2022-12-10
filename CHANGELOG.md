@@ -2,6 +2,15 @@
 
 ## [Unreleased]
 
+## [0.4.0] - 2022-12-10
+### Added
+- Explicitly support Python 3.11.
+### Changed
+- Bump the minimum Python version from 3.7.0 to 3.7.2.
+### HTML spec
+- Add the `onscrollend` global attribute.
+- Update the allowed values of the `hidden` global attribute.
+
 ## [0.3.0] - 2022-05-05
 ### Changed
 - Remove upper bound on `typing-extensions`.

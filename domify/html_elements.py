@@ -24,7 +24,7 @@ class HtmlElement(BaseElement):
         "dir": {"ltr", "rtl", "auto"},
         "draggable": {"true", "false"},
         "enterkeyhint": {"enter", "done", "go", "next", "previous", "search", "send"},
-        "hidden": {"until-found", "hidden"},
+        "hidden": {"until-found", "hidden", ""},
         "id": v.attribute_str,
         "inert": v.attribute_bool,
         "inputmode": {

@@ -6,7 +6,7 @@ HTML generator using pure Python.
 [![PyPI - Status](https://img.shields.io/pypi/status/domify)](https://pypi.org/project/domify/)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/domify)](https://pypi.org/project/domify/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Tests status](https://img.shields.io/github/workflow/status/Parnassius/domify/main/main?event=push&label=tests)](https://github.com/Parnassius/domify/actions?query=workflow%3Amain)
+[![Tests status](https://img.shields.io/github/actions/workflow/status/Parnassius/domify/main.yml?branch=main&label=tests)](https://github.com/Parnassius/domify/actions/workflows/main.yml)
 [![Codecov](https://img.shields.io/codecov/c/gh/Parnassius/domify/main?token=8HPKPH5U3K)](https://codecov.io/gh/Parnassius/domify)
 [![PyPI - License](https://img.shields.io/pypi/l/domify)](https://github.com/Parnassius/domify/blob/main/LICENSE)
 

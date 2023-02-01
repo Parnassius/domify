@@ -59,3 +59,38 @@ jobs:
         run: poetry run poe pytest-ci
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
+
+  lint-spec-parser:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: spec_parser
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Poetry
+        run: pipx install poetry
+      - name: Set up python 3.8
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.8"
+          cache: "poetry"
+          cache-dependency-path: "spec_parser/poetry.lock"
+      - name: Install dependencies
+        run: poetry install --sync
+      - name: Check import order
+        run: poetry run poe isort-check
+      - name: Check formatting using black
+        run: poetry run poe black-check
+      - name: Test with mypy
+        run: poetry run poe mypy
+      - name: Test with pylint
+        run: poetry run poe pylint
+
+  dummy-required-job:
+    runs-on: ubuntu-latest
+    needs:
+      - lint
+      - test
+      - lint-spec-parser
+    steps:
+      - run: exit 0

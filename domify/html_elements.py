@@ -45,6 +45,7 @@ class HtmlElement(BaseElement):
         "itemtype": v.attribute_unique_set,
         "lang": v.attribute_str,
         "nonce": v.attribute_str,
+        "popover": {"auto", "manual"},
         "slot": v.attribute_str,
         "spellcheck": {"true", "false"},
         "style": v.attribute_str,
@@ -53,6 +54,7 @@ class HtmlElement(BaseElement):
         "translate": {"yes", "no"},
         "onauxclick": v.attribute_str,
         "onbeforematch": v.attribute_str,
+        "onbeforetoggle": v.attribute_str,
         "onblur": v.attribute_str,
         "oncancel": v.attribute_str,
         "oncanplay": v.attribute_str,
@@ -284,6 +286,8 @@ class Button(HtmlElement):
         "formnovalidate": v.attribute_bool,
         "formtarget": v.attribute_str,
         "name": v.attribute_str,
+        "popovershowtarget": v.attribute_str,
+        "popovertoggletarget": v.attribute_str,
         "type": {"submit", "reset", "button"},
         "value": v.attribute_str,
     }
@@ -553,7 +557,7 @@ class I(HtmlElement):
 
 class Iframe(HtmlElement):
     """
-    Nested navigable
+    Child navigable
     """
 
     is_empty = True
@@ -640,6 +644,8 @@ class Input(HtmlElement):
         "name": v.attribute_str,
         "pattern": v.attribute_str,
         "placeholder": v.attribute_str,
+        "popovershowtarget": v.attribute_str,
+        "popovertoggletarget": v.attribute_str,
         "readonly": v.attribute_bool,
         "required": v.attribute_bool,
         "size": v.attribute_int_gt_zero,
@@ -813,7 +819,7 @@ class Noscript(HtmlElement):
 
 class Object(HtmlElement):
     """
-    Image, nested navigable, or plugin
+    Image, child navigable, or plugin
     """
 
     element_attributes = {

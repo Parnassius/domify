@@ -17,6 +17,7 @@ jobs:
         with:
           python-version: "3.8"
           cache: "poetry"
+          cache-dependency-path: "spec_parser/poetry.lock"
       - name: Install dependencies
         run: poetry install --sync
       - name: Check import order

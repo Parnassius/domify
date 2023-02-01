@@ -14,6 +14,7 @@ jobs:
         with:
           python-version: "3.7"
           cache: "poetry"
+          cache-dependency-path: "poetry.lock"
       - name: Install dependencies
         run: poetry install --sync
       - name: Check import order
@@ -51,6 +52,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: "poetry"
+          cache-dependency-path: "poetry.lock"
       - name: Install dependencies
         run: poetry install --sync
       - name: Test with pytest

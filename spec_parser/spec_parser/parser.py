@@ -64,8 +64,6 @@ class Parser:
                     self._global_attributes[attribute] = value
                 else:
                     for element in row.contents[1].find_all("code"):
-                        if element["id"].endswith("-element"):
-                            continue
                         if self._global_attributes.get(attribute) == value:
                             continue
                         self._elements[element.string].element_attributes[

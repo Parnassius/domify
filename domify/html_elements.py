@@ -226,6 +226,8 @@ class Bdo(HtmlElement):
     Text directionality formatting
     """
 
+    element_attributes = {"dir": {"ltr", "rtl"}}
+
 
 class Blockquote(HtmlElement):
     """
@@ -286,6 +288,7 @@ class Button(HtmlElement):
         "formnovalidate": v.attribute_bool,
         "formtarget": v.attribute_str,
         "name": v.attribute_str,
+        "popoverhidetarget": v.attribute_str,
         "popovershowtarget": v.attribute_str,
         "popovertoggletarget": v.attribute_str,
         "type": {"submit", "reset", "button"},
@@ -644,6 +647,7 @@ class Input(HtmlElement):
         "name": v.attribute_str,
         "pattern": v.attribute_str,
         "placeholder": v.attribute_str,
+        "popoverhidetarget": v.attribute_str,
         "popovershowtarget": v.attribute_str,
         "popovertoggletarget": v.attribute_str,
         "readonly": v.attribute_bool,
@@ -888,7 +892,11 @@ class Picture(HtmlElement):
     Image
     """
 
-    element_attributes = {"media": v.attribute_str, "width": v.attribute_int_ge_zero}
+    element_attributes = {
+        "height": v.attribute_int_ge_zero,
+        "media": v.attribute_str,
+        "width": v.attribute_int_ge_zero,
+    }
 
 
 class Pre(HtmlElement):

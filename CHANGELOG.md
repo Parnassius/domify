@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+## [0.4.1] - 2023-02-03
+### HTML spec
+- Add the `popover` and `onbeforetoggle` global attributes.
+- Add the `popoverhidetarget`, `popovershowtarget` and `popovertoggletarget` attributes
+to `button` and `input` elements.
+- Add the `dir` attribute to `bdo` elements.
+- Add the `height` attribute to `picture` elements.
+
 ## [0.4.0] - 2022-12-10
 ### Added
 - Explicitly support Python 3.11.

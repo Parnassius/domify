@@ -1,6 +1,4 @@
 __pycache__/
 /.coverage
-/.tox
 /.venv
 /dist
-/poetry.toml

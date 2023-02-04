@@ -7,26 +7,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Install Poetry
-        run: pipx install poetry
+      - name: Install Hatch
+        run: pipx install hatch
       - name: Set up python 3.7
         uses: actions/setup-python@v4
         with:
           python-version: "3.7"
-          cache: "poetry"
-          cache-dependency-path: "poetry.lock"
-      - name: Install dependencies
-        run: poetry install --sync
+          cache: "pip"
+          cache-dependency-path: "pyproject.toml"
       - name: Check import order
-        run: poetry run poe isort-check
+        run: hatch run isort --check
       - name: Check formatting using black
-        run: poetry run poe black-check
+        run: hatch run black --check
       - name: Check docstrings with darglint
-        run: poetry run poe darglint
+        run: hatch run darglint
       - name: Test with mypy
-        run: poetry run poe mypy
+        run: hatch run mypy
       - name: Test with pylint
-        run: poetry run poe pylint
+        run: hatch run pylint
 
   test:
     runs-on: ${{ matrix.os }}-latest
@@ -39,24 +37,22 @@ jobs:
           - "3.9"
           - "3.10"
           - "3.11"
-          - "pypy-3.7"
-          - "pypy-3.8"
-          - "pypy-3.9"
+          - "pypy3.7"
+          - "pypy3.8"
+          - "pypy3.9"
       fail-fast: false
     steps:
       - uses: actions/checkout@v3
-      - name: Install Poetry
-        run: pipx install poetry
+      - name: Install Hatch
+        run: pipx install hatch
       - name: Set up python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-          cache: "poetry"
-          cache-dependency-path: "poetry.lock"
-      - name: Install dependencies
-        run: poetry install --sync
+          cache: "pip"
+          cache-dependency-path: "pyproject.toml"
       - name: Test with pytest
-        run: poetry run poe pytest-ci
+        run: hatch run pytest-ci ${{ matrix.python-version }}
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
 

@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Install Hatch
+        run: pipx install hatch
       - name: Install Poetry
         run: pipx install poetry
       - name: Install script dependencies
@@ -18,10 +20,8 @@ jobs:
       - name: Run script
         working-directory: ./spec_parser
         run: poetry run parse
-      - name: Install dependencies
-        run: poetry install
       - name: Format code using black
-        run: poetry run poe black
+        run: hatch run black
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:

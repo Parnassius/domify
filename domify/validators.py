@@ -54,7 +54,7 @@ def attribute_str(
     x: "_T_attribute",
     *,
     values: Optional[Iterable[str]] = None,
-    case_insensitive: bool = False
+    case_insensitive: bool = False,
 ) -> bool:
     if isinstance(x, bool):
         return False
@@ -82,7 +82,7 @@ def attribute_unique_set(
     *,
     values: Optional[Iterable[str]] = None,
     sep: str = " ",
-    case_insensitive: bool = False
+    case_insensitive: bool = False,
 ) -> bool:
     if isinstance(x, bool):
         return False

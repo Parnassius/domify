@@ -1,5 +1,3 @@
-# pylint: disable=missing-function-docstring
-
 from functools import partial
 from typing import TYPE_CHECKING, Callable, Iterable, Optional
 

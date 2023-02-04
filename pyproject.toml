@@ -131,18 +131,23 @@ disallow_untyped_defs = false
 disallow_incomplete_defs = false
 
 
-[tool.pylint.master]
+[tool.pylint.main]
 py-version = "3.7"
 load-plugins = [
     "pylint.extensions.bad_builtin",
     "pylint.extensions.check_elif",
+    "pylint.extensions.for_any_all",
     "pylint.extensions.typing",
 ]
 
 [tool.pylint.messages_control]
 disable = [
+    # basic
     "invalid-name",
+    "missing-function-docstring",
     "missing-module-docstring",
+
+    # imports
     "useless-import-alias",
 ]
 enable = ["useless-suppression"]

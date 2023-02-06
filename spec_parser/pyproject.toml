@@ -42,39 +42,43 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-beautifulsoup4 = "4.11.1"
+beautifulsoup4 = "4.11.2"
 html5lib = "1.1"
-requests = "2.28.1"
+requests = "2.28.2"
 
 [tool.poetry.dev-dependencies]
-black = "22.12.0"
-isort = "5.10.1"
+black = "23.1.0"
+isort = "5.12.0"
 mypy = "0.991"
-poethepoet = "0.16.5"
-pylint = "2.15.8"
-types-requests = "2.28.11.5"
+poethepoet = "0.18.1"
+pylint = "2.16.1"
+types-requests = "2.28.11.8"
 
 [tool.poetry.scripts]
 parse = "spec_parser.parser:parse"
 
 
 [tool.pylint.master]
+py-version = "3.8"
 load-plugins = [
     "pylint.extensions.bad_builtin",
     "pylint.extensions.check_elif",
+    "pylint.extensions.for_any_all",
     "pylint.extensions.typing",
 ]
 
 [tool.pylint.messages_control]
 disable = [
+    # basic
     "invalid-name",
-    "line-too-long",
     "missing-class-docstring",
     "missing-function-docstring",
     "missing-module-docstring",
-    "too-few-public-methods",
-    "too-many-branches",
-    "too-many-nested-blocks",
+
+    # design
+    "design",
+
+    # imports
     "useless-import-alias",
 ]
 enable = ["useless-suppression"]

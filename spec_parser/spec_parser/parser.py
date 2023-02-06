@@ -1,4 +1,5 @@
 import re
+import sys
 from dataclasses import dataclass, field
 from os.path import dirname, join
 from typing import Dict
@@ -81,7 +82,8 @@ class Parser:
         )
         for element_name, element_data in self._elements.items():
             if not element_data.global_attributes:
-                raise Exception(f"Element without global attributes: {element_name}")
+                print(f"Element without global attributes: {element_name}")
+                sys.exit(1)
             f.add_class(
                 element_name.capitalize(),
                 element_data.description,

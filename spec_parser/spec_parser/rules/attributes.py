@@ -6,6 +6,8 @@ from spec_parser import util
 
 
 def parse(content: Tag) -> str:
+    # pylint: disable=line-too-long
+
     content_text = content.text.strip()
     value: str
 
@@ -102,7 +104,7 @@ def parse(content: Tag) -> str:
         value = "{" + ",".join(f"'{x}'" for x in possible_values) + "}"
     else:
         value = "v.attribute_str"
-        print("Unhandled attribute value:", content_text)
+        print(f"Unhandled attribute value: {content_text}")
         sys.exit(1)
 
     return value

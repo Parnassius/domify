@@ -42,7 +42,7 @@ format = ["isort", "black"]
 
 darglint = "hatch run lint:darglint domify tests -v 2 {args}"
 mypy = "hatch run lint:mypy domify tests {args}"
-pylint = "hatch run lint:pylint domify tests --disable=fixme {args}"
+pylint = "hatch run lint:pylint domify tests {args}"
 pytest = "hatch run test:pytest {args}"
 pytest-ci = "hatch run +py={args} test:pytest --cov --cov-report=xml"
 all = ["format", "darglint", "mypy", "pylint", "pytest"]
@@ -149,6 +149,9 @@ disable = [
 
     # imports
     "useless-import-alias",
+
+    # miscellaneous
+    "fixme",
 ]
 enable = ["useless-suppression"]
 fail-on = ["useless-suppression"]

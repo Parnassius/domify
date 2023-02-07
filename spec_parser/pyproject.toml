@@ -30,7 +30,7 @@ test = ["isort-check", "black-check", "mypy", "pylint"]
 isort-check = "isort spec_parser --check"
 black-check = "black spec_parser --check"
 mypy = "mypy spec_parser"
-pylint = "pylint spec_parser --disable=fixme"
+pylint = "pylint spec_parser"
 
 
 [tool.poetry]
@@ -80,6 +80,9 @@ disable = [
 
     # imports
     "useless-import-alias",
+
+    # miscellaneous
+    "fixme",
 ]
 enable = ["useless-suppression"]
 fail-on = ["useless-suppression"]

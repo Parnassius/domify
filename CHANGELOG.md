@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+### HTML spec
+- Add the `fetchpriority` attribute to the `img`, `link` and `script` elements.
 
 ## [0.4.1] - 2023-02-03
 ### HTML spec

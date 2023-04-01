@@ -20,7 +20,7 @@ class HtmlElement(BaseElement):
         "autocapitalize": {"on", "off", "none", "sentences", "words", "characters"},
         "autofocus": v.attribute_bool,
         "class": v.attribute_str,
-        "contenteditable": {"true", "false"},
+        "contenteditable": {"true", "plaintext-only", "false"},
         "dir": {"ltr", "rtl", "auto"},
         "draggable": {"true", "false"},
         "enterkeyhint": {"enter", "done", "go", "next", "previous", "search", "send"},
@@ -288,9 +288,8 @@ class Button(HtmlElement):
         "formnovalidate": v.attribute_bool,
         "formtarget": v.attribute_str,
         "name": v.attribute_str,
-        "popoverhidetarget": v.attribute_str,
-        "popovershowtarget": v.attribute_str,
-        "popovertoggletarget": v.attribute_str,
+        "popovertarget": v.attribute_str,
+        "popovertargetaction": {"toggle", "show", "hide"},
         "type": {"submit", "reset", "button"},
         "value": v.attribute_str,
     }
@@ -648,9 +647,8 @@ class Input(HtmlElement):
         "name": v.attribute_str,
         "pattern": v.attribute_str,
         "placeholder": v.attribute_str,
-        "popoverhidetarget": v.attribute_str,
-        "popovershowtarget": v.attribute_str,
-        "popovertoggletarget": v.attribute_str,
+        "popovertarget": v.attribute_str,
+        "popovertargetaction": {"toggle", "show", "hide"},
         "readonly": v.attribute_bool,
         "required": v.attribute_bool,
         "size": v.attribute_int_gt_zero,
@@ -970,6 +968,12 @@ class Script(HtmlElement):
         "src": v.attribute_str,
         "type": v.attribute_str,
     }
+
+
+class Search(HtmlElement):
+    """
+    Container for search controls
+    """
 
 
 class Section(HtmlElement):

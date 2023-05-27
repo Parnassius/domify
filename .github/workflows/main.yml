@@ -87,7 +87,7 @@ jobs:
         with:
           name: artifacts
           path: dist
-      - name: Publish to TestPyPI
+      - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
 
   lint-spec-parser:

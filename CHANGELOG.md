@@ -1,8 +1,15 @@
 # Changelog
 
 ## [Unreleased]
+
+## [0.4.2] - 2023-05-27
 ### HTML spec
 - Add the `fetchpriority` attribute to the `img`, `link` and `script` elements.
+- Add the `plaintext-only` value to the `contenteditable` global attribute.
+- Add the `search` element.
+- Replace the `popoverhidetarget`, `popovershowtarget` and `popovertoggletarget`
+attributes of the `button` and `input` elements with `popovertarget` and
+`popovertargetaction`.
 
 ## [0.4.1] - 2023-02-03
 ### HTML spec

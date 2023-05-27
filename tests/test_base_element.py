@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import asyncio
 
 import pytest
@@ -173,15 +175,9 @@ def test_getitem():
     assert isinstance(d[0], e.Br)
 
     d = e.Div(e.H1(), e.H2(), e.H3())
-    assert [str(x) for x in d[:2]] == [  # pylint: disable=not-an-iterable
-        "<h1></h1>",
-        "<h2></h2>",
-    ]
+    assert [str(x) for x in d[:2]] == ["<h1></h1>", "<h2></h2>"]
     d = e.Div(e.H1(), e.H2(), e.H3())
-    assert [str(x) for x in d[::2]] == [  # pylint: disable=not-an-iterable
-        "<h1></h1>",
-        "<h3></h3>",
-    ]
+    assert [str(x) for x in d[::2]] == ["<h1></h1>", "<h3></h3>"]
 
 
 def test_delitem():

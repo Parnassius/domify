@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from .base_element import BaseElement
+    from domify.base_element import BaseElement
 
 
 class EmptyElementChildrenError(Exception):
@@ -11,7 +13,7 @@ class EmptyElementChildrenError(Exception):
 class InvalidAttributeWarning(UserWarning):
     """Invalid element attribute"""
 
-    def __init__(self, element: "BaseElement", attribute: str) -> None:
+    def __init__(self, element: BaseElement, attribute: str) -> None:
         self.element = element.name
         self.attribute = attribute
         super().__init__(
@@ -22,7 +24,7 @@ class InvalidAttributeWarning(UserWarning):
 class InvalidAttributeValueWarning(UserWarning):
     """Invalid attribute value"""
 
-    def __init__(self, element: "BaseElement", attribute: str, value: str) -> None:
+    def __init__(self, element: BaseElement, attribute: str, value: str) -> None:
         self.element = element.name
         self.attribute = attribute
         self.value = value

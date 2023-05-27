@@ -1,4 +1,4 @@
-from typing import Dict, List
+from __future__ import annotations
 
 import requests
 from bs4 import BeautifulSoup  # type: ignore[import]
@@ -6,13 +6,13 @@ from bs4 import BeautifulSoup  # type: ignore[import]
 
 class _RequestCache:
     def __init__(self) -> None:
-        self._cache: Dict[str, BeautifulSoup] = {}
+        self._cache: dict[str, BeautifulSoup] = {}
 
     def __call__(self, page: str) -> BeautifulSoup:
         if page.endswith(".html"):
             page = page[:-5]
         if page not in self._cache:
-            html = requests.get(  # pylint: disable=missing-timeout
+            html = requests.get(
                 f"https://html.spec.whatwg.org/multipage/{page}.html"
             ).text
             self._cache[page] = BeautifulSoup(html, "html5lib")
@@ -22,11 +22,8 @@ class _RequestCache:
 request_cache = _RequestCache()
 
 
-def get_input_type_keywords() -> List[str]:
+def get_input_type_keywords() -> list[str]:
     soup = request_cache("input")
 
     table = soup.find(id="attr-input-type-keywords")
-    keywords = [
-        row.contents[0].find("code").string for row in table.find("tbody").children
-    ]
-    return keywords
+    return [row.contents[0].find("code").string for row in table.find("tbody").children]

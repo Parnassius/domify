@@ -1,11 +1,12 @@
+from __future__ import annotations
+
 import re
 import sys
 from dataclasses import dataclass, field
-from os.path import dirname, join
-from typing import Dict
+from pathlib import Path
 
-from . import rules, util
-from .file_writer import FileWriter
+from spec_parser import rules, util
+from spec_parser.file_writer import FileWriter
 
 
 @dataclass
@@ -13,14 +14,14 @@ class ElementData:
     description: str = ""
     is_empty: bool = False
     global_attributes: bool = False
-    element_attributes: Dict[str, str] = field(default_factory=dict)
+    element_attributes: dict[str, str] = field(default_factory=dict)
     any_attribute: bool = False
 
 
 class Parser:
     def __init__(self) -> None:
-        self._elements: Dict[str, ElementData] = {}
-        self._global_attributes: Dict[str, str] = {}
+        self._elements: dict[str, ElementData] = {}
+        self._global_attributes: dict[str, str] = {}
 
         self._get_elements()
         self._get_attributes()
@@ -73,7 +74,7 @@ class Parser:
 
     def _write_data(self) -> None:
         f = FileWriter(
-            join(dirname(__file__), "..", "..", "domify", "html_elements.py")
+            Path(__file__).parent.parent.parent / "domify" / "html_elements.py"
         )
         f.add_class(
             "HtmlElement",

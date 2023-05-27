@@ -1,9 +1,11 @@
-# pylint: disable=too-many-lines
+# ruff: noqa: E742
 
-from . import validators as v
-from .base_element import BaseElement
-from .base_element import RawTextNode as RawTextNode  # pylint: disable=unused-import
-from .base_element import TextNode as TextNode  # pylint: disable=unused-import
+from __future__ import annotations
+
+from domify import validators as v
+from domify.base_element import BaseElement
+from domify.base_element import RawTextNode as RawTextNode
+from domify.base_element import TextNode as TextNode
 
 # begin automatic
 

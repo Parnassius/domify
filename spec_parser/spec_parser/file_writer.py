@@ -1,15 +1,17 @@
+from __future__ import annotations
+
+from pathlib import Path
 from textwrap import wrap
-from typing import Dict, List, Tuple, Union
 
 
 class FileWriter:
-    def __init__(self, file_path: str) -> None:
+    def __init__(self, file_path: Path) -> None:
         self._file_path = file_path
         self._marker_comment = "# begin automatic"
-        self._classes: List[str] = []
+        self._classes: list[str] = []
 
     @staticmethod
-    def _format_data_dict(data: Dict[str, str], *, sort: bool) -> str:
+    def _format_data_dict(data: dict[str, str], *, sort: bool) -> str:
         items = list(data.items())
         if sort:
             items.sort()
@@ -20,7 +22,7 @@ class FileWriter:
         self,
         class_name: str,
         docstring: str,
-        **kwargs: Union[Tuple[bool, bool], Tuple[Dict[str, str], str, bool]],
+        **kwargs: tuple[bool, bool] | tuple[dict[str, str], str, bool],
     ) -> None:
         super_class = "BaseElement" if class_name == "HtmlElement" else "HtmlElement"
         docstring = "\n".join(
@@ -52,9 +54,9 @@ class FileWriter:
         self._classes.append("\n".join(data))
 
     def write(self) -> None:
-        with open(self._file_path, "r", encoding="utf-8") as f:
+        with self._file_path.open(encoding="utf-8") as f:
             lines = f.readlines()
-        with open(self._file_path, "w", encoding="utf-8") as f:
+        with self._file_path.open("w", encoding="utf-8") as f:
             for line in lines:
                 f.write(line)
                 if line.strip() == self._marker_comment:

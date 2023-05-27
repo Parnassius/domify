@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import sys
 import warnings
 from contextvars import ContextVar
@@ -8,18 +10,15 @@ from typing import (
     Dict,
     Iterable,
     Iterator,
-    List,
-    Optional,
     Set,
-    Type,
     TypeVar,
     Union,
     cast,
     overload,
 )
 
-from . import exc
-from . import validators as v
+from domify import exc
+from domify import validators as v
 
 if sys.version_info >= (3, 8):
     from typing import Literal
@@ -43,15 +42,15 @@ class BaseElement:
 
     _default_prepend_doctype = False
 
-    _stack_var: ContextVar[Optional[List[List["BaseElement"]]]] = ContextVar(
+    _stack_var: ContextVar[list[list[BaseElement]] | None] = ContextVar(
         "stack", default=None
     )
 
     def __init__(
         self,
         *args: _T_child,
-        _prepend_doctype: Optional[bool] = None,
-        **kwargs: Optional[_T_attribute],
+        _prepend_doctype: bool | None = None,
+        **kwargs: _T_attribute | None,
     ) -> None:
         """
         Args:
@@ -76,8 +75,8 @@ class BaseElement:
         if _prepend_doctype is None:
             _prepend_doctype = self._default_prepend_doctype
         self._prepend_doctype = _prepend_doctype
-        self._attributes: Dict[str, Union[str, Literal[True]]] = {}
-        self._children: List["BaseElement"] = []
+        self._attributes: dict[str, str | Literal[True]] = {}
+        self._children: list[BaseElement] = []
 
         self._add_to_stack(self)
 
@@ -90,18 +89,18 @@ class BaseElement:
             self._set_attribute(key, val)
 
     @property
-    def _stack(self) -> List[List["BaseElement"]]:
+    def _stack(self) -> list[list[BaseElement]]:
         stack = self._stack_var.get()
         if stack is None:
             stack = []
             self._stack_var.set(stack)
         return stack
 
-    def _add_to_stack(self, element: "BaseElement") -> None:
+    def _add_to_stack(self, element: BaseElement) -> None:
         if self._stack:
             self._stack[-1].append(element)
 
-    def _remove_from_stack(self, element: "BaseElement") -> None:
+    def _remove_from_stack(self, element: BaseElement) -> None:
         if self._stack and element in self._stack[-1]:
             self._stack[-1].remove(element)
         self._maybe_clear_stack()
@@ -119,7 +118,7 @@ class BaseElement:
         return type(self).__name__.rstrip("_").lower()
 
     # Attributes
-    def get_classes(self) -> List[str]:
+    def get_classes(self) -> list[str]:
         """Get the current element's classes
 
         Returns:
@@ -202,10 +201,10 @@ class BaseElement:
         ...
 
     @overload
-    def add(self, child: _T_child) -> "BaseElement":
+    def add(self, child: _T_child) -> BaseElement:
         ...
 
-    def add(self, child: _T_child) -> "BaseElement":
+    def add(self, child: _T_child) -> BaseElement:
         """Add a child to the current element
 
         Args:
@@ -222,10 +221,10 @@ class BaseElement:
         ...
 
     @overload
-    def insert(self, idx: int, child: _T_child) -> "BaseElement":
+    def insert(self, idx: int, child: _T_child) -> BaseElement:
         ...
 
-    def insert(self, idx: int, child: _T_child) -> "BaseElement":
+    def insert(self, idx: int, child: _T_child) -> BaseElement:
         """Insert a child before the index specified
 
         Args:
@@ -242,10 +241,10 @@ class BaseElement:
         self,
         child: _T_child,
         *,
-        idx: Optional[int] = None,
+        idx: int | None = None,
         idx_replace: bool = False,
         exit_context_manager: bool = False,
-    ) -> "BaseElement":
+    ) -> BaseElement:
         if not isinstance(child, BaseElement):
             child = TextNode(child)
         if idx is None:
@@ -259,8 +258,8 @@ class BaseElement:
         return child
 
     # Render
-    def _render(self) -> List[str]:
-        if type(self) is BaseElement:  # pylint: disable=unidiomatic-typecheck
+    def _render(self) -> list[str]:
+        if type(self) is BaseElement:
             return [str(child) for child in self._children]
 
         data = []
@@ -283,20 +282,20 @@ class BaseElement:
 
     # Dunder methods
     @overload
-    def __getitem__(self, key: str) -> Union[str, bool]:
+    def __getitem__(self, key: str) -> str | bool:
         ...
 
     @overload
-    def __getitem__(self, key: int) -> "BaseElement":
+    def __getitem__(self, key: int) -> BaseElement:
         ...
 
     @overload
-    def __getitem__(self, key: slice) -> List["BaseElement"]:
+    def __getitem__(self, key: slice) -> list[BaseElement]:
         ...
 
     def __getitem__(
-        self, key: Union[str, int, slice]
-    ) -> Union[Union[str, bool], "BaseElement", List["BaseElement"]]:
+        self, key: str | int | slice
+    ) -> str | bool | BaseElement | list[BaseElement]:
         if isinstance(key, str):
             return self._attributes.get(key, False)
         return self._children[key]
@@ -315,8 +314,8 @@ class BaseElement:
 
     def __setitem__(
         self,
-        key: Union[str, int, slice],
-        val: Union[_T_attribute, _T_child, Iterable[_T_child]],
+        key: str | int | slice,
+        val: _T_attribute | _T_child | Iterable[_T_child],
     ) -> None:
         if isinstance(key, str):
             val = cast(_T_attribute, val)
@@ -334,16 +333,16 @@ class BaseElement:
             for child in children:
                 self._remove_from_stack(child)
 
-    def __delitem__(self, key: Union[str, int, slice]) -> None:
+    def __delitem__(self, key: str | int | slice) -> None:
         if isinstance(key, str):
             del self._attributes[key]
         else:
             del self._children[key]
 
-    def __add__(self, other: _T_child) -> "BaseElement":
+    def __add__(self, other: _T_child) -> BaseElement:
         return BaseElement(self, other)
 
-    def __radd__(self, other: _T_child) -> "BaseElement":
+    def __radd__(self, other: _T_child) -> BaseElement:
         return BaseElement(other, self)
 
     def __enter__(self: _T_BaseElement) -> _T_BaseElement:
@@ -352,9 +351,9 @@ class BaseElement:
 
     def __exit__(
         self,
-        exc_type: Optional[Type[BaseException]],
-        exc_value: Optional[BaseException],
-        traceback: Optional[TracebackType],
+        exc_type: type[BaseException] | None,
+        exc_value: BaseException | None,
+        traceback: TracebackType | None,
     ) -> None:
         for child in self._stack.pop():
             self._add_child(child, exit_context_manager=True)
@@ -363,7 +362,7 @@ class BaseElement:
     def __len__(self) -> int:
         return len(self._children)  # pragma: no cover
 
-    def __iter__(self) -> Iterator["BaseElement"]:
+    def __iter__(self) -> Iterator[BaseElement]:
         return self._children.__iter__()  # pragma: no cover
 
     def __bool__(self) -> bool:
@@ -376,7 +375,7 @@ class BaseElement:
 class TextNode(BaseElement):
     """Class representing a text node"""
 
-    def __init__(self, text: Union[str, float]) -> None:
+    def __init__(self, text: str | float) -> None:
         """
         Args:
             text: The content of the text node.
@@ -387,12 +386,12 @@ class TextNode(BaseElement):
 
         super().__init__()
 
-    def _render(self) -> List[str]:
+    def _render(self) -> list[str]:
         return [escape(self.text)]
 
 
 class RawTextNode(TextNode):
     """Class representing a text node, without escaping the content"""
 
-    def _render(self) -> List[str]:
+    def _render(self) -> list[str]:
         return [self.text]

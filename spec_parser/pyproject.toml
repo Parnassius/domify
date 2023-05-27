@@ -3,10 +3,6 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 
-[tool.isort]
-profile = "black"
-
-
 [tool.mypy]
 strict = true
 
@@ -21,16 +17,13 @@ warn_unreachable = true
 
 
 [tool.poe.tasks]
-format = ["isort", "black"]
-isort = "isort spec_parser"
+ruff-fix = "ruff spec_parser --fix-only --exit-zero"
 black = "black spec_parser"
+format = ["ruff-fix", "black"]
 
-tests = ["test"]
-test = ["isort-check", "black-check", "mypy", "pylint"]
-isort-check = "isort spec_parser --check"
-black-check = "black spec_parser --check"
 mypy = "mypy spec_parser"
-pylint = "pylint spec_parser"
+ruff = "ruff spec_parser"
+all = ["format", "mypy", "ruff"]
 
 
 [tool.poetry]
@@ -48,45 +41,56 @@ requests = "2.28.2"
 
 [tool.poetry.dev-dependencies]
 black = "23.1.0"
-isort = "5.12.0"
 mypy = "0.991"
 poethepoet = "0.18.1"
-pylint = "2.16.1"
+ruff = "0.0.270"
 types-requests = "2.28.11.8"
 
 [tool.poetry.scripts]
 parse = "spec_parser.parser:parse"
 
 
-[tool.pylint.master]
-py-version = "3.8"
-load-plugins = [
-    "pylint.extensions.bad_builtin",
-    "pylint.extensions.check_elif",
-    "pylint.extensions.for_any_all",
-    "pylint.extensions.typing",
+[tool.ruff]
+target-version = "py38"
+select = [
+    "A",     # flake8-builtins
+    "ARG",   # flake8-unused-arguments
+    "B",     # flake8-bugbear
+    "C4",    # flake8-comprehensions
+    "DTZ",   # flake8-datetimez
+    "E",     # pycodestyle
+    "EM",    # flake8-errmsg
+    "F",     # pyflakes
+    "I",     # isort
+    "ICN",   # flake8-import-conventions
+    "ISC",   # flake8-implicit-str-concat
+    "N",     # pep8-naming
+    "PGH",   # pygrep-hooks
+    "PTH",   # flake8-use-pathlib
+    "RET",   # flake8-return
+    "RUF",   # Ruff-specific rules
+    "T10",   # flake8-debugger
+    "TID",   # flake8-tidy-imports
+    "TRY",   # tryceratops
+    "UP",    # pyupgrade
+    "W",     # pycodestyle
+    "YTT",   # flake8-2020
 ]
-
-[tool.pylint.messages_control]
-disable = [
-    # basic
-    "invalid-name",
-    "missing-class-docstring",
-    "missing-function-docstring",
-    "missing-module-docstring",
-
-    # design
-    "design",
-
-    # imports
-    "useless-import-alias",
-
-    # miscellaneous
-    "fixme",
+ignore = [
+    "A003",  # builtin-attribute-shadowing
 ]
-enable = ["useless-suppression"]
-fail-on = ["useless-suppression"]
+fixable = [
+    "I",     # isort
+    "F401",  # unused-import
+    "TID",   # flake8-tidy-imports
+    "UP",    # pyupgrade
+]
+dummy-variable-rgx = "^_$"
+ignore-init-module-imports = true
 
-[tool.pylint.format]
-expected-line-ending-format = "LF"
-max-line-length = "88"
+[tool.ruff.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.ruff.isort]
+required-imports = ["from __future__ import annotations"]
+split-on-trailing-comma = false

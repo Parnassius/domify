@@ -1,3 +1,7 @@
+# ruff: noqa: E501
+
+from __future__ import annotations
+
 import sys
 
 from bs4.element import NavigableString, Tag  # type: ignore[import]
@@ -6,8 +10,6 @@ from spec_parser import util
 
 
 def parse(content: Tag) -> str:
-    # pylint: disable=line-too-long
-
     content_text = content.text.strip()
     value: str
 

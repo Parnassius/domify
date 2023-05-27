@@ -15,16 +15,14 @@ jobs:
           python-version: "3.8"
           cache: "pip"
           cache-dependency-path: "pyproject.toml"
-      - name: Check import order
-        run: hatch run isort --check
-      - name: Check formatting using black
+      - name: Check formatting with black
         run: hatch run black --check
       - name: Check docstrings with darglint
         run: hatch run darglint
-      - name: Test with mypy
+      - name: Type check with mypy
         run: hatch run mypy
-      - name: Test with pylint
-        run: hatch run pylint
+      - name: Lint with ruff
+        run: hatch run ruff
 
   test:
     runs-on: ${{ matrix.os }}-latest
@@ -73,14 +71,12 @@ jobs:
           cache-dependency-path: "spec_parser/poetry.lock"
       - name: Install dependencies
         run: poetry install --sync
-      - name: Check import order
-        run: poetry run poe isort-check
-      - name: Check formatting using black
-        run: poetry run poe black-check
-      - name: Test with mypy
+      - name: Check formatting with black
+        run: poetry run poe black --check
+      - name: Type check with mypy
         run: poetry run poe mypy
-      - name: Test with pylint
-        run: poetry run poe pylint
+      - name: Lint with ruff
+        run: poetry run poe ruff
 
   dummy-required-job:
     runs-on: ubuntu-latest

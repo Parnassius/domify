@@ -7,6 +7,7 @@ from html import escape
 from types import TracebackType
 from typing import (
     Callable,
+    ClassVar,
     Dict,
     Iterable,
     Iterator,
@@ -36,8 +37,8 @@ class BaseElement:
     """Base class representing an element"""
 
     is_empty = False
-    global_attributes: _T_attributes_dict = {}
-    element_attributes: _T_attributes_dict = {}
+    global_attributes: ClassVar[_T_attributes_dict] = {}
+    element_attributes: ClassVar[_T_attributes_dict] = {}
     any_attribute = False
 
     _default_prepend_doctype = False

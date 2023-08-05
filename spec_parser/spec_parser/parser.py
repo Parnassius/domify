@@ -14,14 +14,14 @@ class ElementData:
     description: str = ""
     is_empty: bool = False
     global_attributes: bool = False
-    element_attributes: dict[str, str] = field(default_factory=dict)
+    element_attributes: dict[str, str | None] = field(default_factory=dict)
     any_attribute: bool = False
 
 
 class Parser:
     def __init__(self) -> None:
         self._elements: dict[str, ElementData] = {}
-        self._global_attributes: dict[str, str] = {}
+        self._global_attributes: dict[str, str | None] = {}
 
         self._get_elements()
         self._get_attributes()
@@ -48,6 +48,12 @@ class Parser:
                     for x in row.contents[5].contents
                     if isinstance(x, str)
                 ]
+                element_data.element_attributes = {
+                    x.string: None
+                    for x in sorted(
+                        row.contents[5].find_all("code"), key=lambda x: x.string
+                    )
+                }
 
                 self._elements[element.string] = element_data
 
@@ -66,11 +72,26 @@ class Parser:
                     self._global_attributes[attribute] = value
                 else:
                     for element in row.contents[1].find_all("code"):
-                        if self._global_attributes.get(attribute) == value:
-                            continue
-                        self._elements[element.string].element_attributes[
-                            attribute
-                        ] = value
+                        attributes = self._elements[element.string].element_attributes
+                        if attribute not in attributes:
+                            if self._global_attributes.get(attribute) == value:
+                                continue
+                            if element.string == "picture" and attribute in (
+                                "height",
+                                "width",
+                            ):
+                                continue
+
+                            if element.string == "bdo" and attribute == "dir":
+                                # Global attribute with different semantics
+                                pass
+                            else:
+                                print(
+                                    f"Missing attribute {attribute} in {element.string}"
+                                )
+                                sys.exit(1)
+
+                        attributes[attribute] = value
 
     def _write_data(self) -> None:
         f = FileWriter(

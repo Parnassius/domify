@@ -894,12 +894,6 @@ class Picture(HtmlElement):
     Image
     """
 
-    element_attributes = {
-        "height": v.attribute_int_ge_zero,
-        "media": v.attribute_str,
-        "width": v.attribute_int_ge_zero,
-    }
-
 
 class Pre(HtmlElement):
     """

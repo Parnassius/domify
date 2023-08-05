@@ -1,6 +1,9 @@
 # Changelog
 
 ## [Unreleased]
+### HTML spec
+- Remove the incorrect attributes `height`, `media` and `width` attributes from
+`picture` elements.
 
 ## [0.4.2] - 2023-05-27
 ### HTML spec

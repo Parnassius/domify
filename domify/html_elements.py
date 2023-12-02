@@ -376,7 +376,7 @@ class Details(HtmlElement):
     Disclosure control for hiding details
     """
 
-    element_attributes = {"open": v.attribute_bool}
+    element_attributes = {"name": v.attribute_str, "open": v.attribute_bool}
 
 
 class Dfn(HtmlElement):
@@ -1093,6 +1093,10 @@ class Template(HtmlElement):
     """
 
     is_empty = True
+    element_attributes = {
+        "shadowrootmode": {"open", "closed"},
+        "shadowrootdelegatesfocus": v.attribute_bool,
+    }
 
 
 class Textarea(HtmlElement):

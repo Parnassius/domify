@@ -79,17 +79,17 @@ release = [
 [tool.hatch.envs.lint]
 template = "lint"
 dependencies = [
-    "black==23.7.0",
+    "black==23.11.0",
     "darglint==1.8.1",
-    "mypy==1.4.1",
-    "pytest==7.4.0",
-    "ruff==0.0.282",
+    "mypy==1.7.1",
+    "pytest==7.4.3",
+    "ruff==0.1.6",
 ]
 
 [tool.hatch.envs.test]
 template = "test"
 dependencies = [
-    "pytest==7.4.0",
+    "pytest==7.4.3",
     "pytest-cov==4.1.0",
     "typing-extensions==3.7.2; python_version<'3.8'",
 ]

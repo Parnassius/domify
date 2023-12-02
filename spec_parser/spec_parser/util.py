@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import requests
-from bs4 import BeautifulSoup  # type: ignore[import]
+from bs4 import BeautifulSoup  # type: ignore[import-untyped]
 
 
 class _RequestCache:

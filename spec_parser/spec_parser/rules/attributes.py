@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import sys
 
-from bs4.element import NavigableString, Tag  # type: ignore[import]
+from bs4.element import NavigableString, Tag  # type: ignore[import-untyped]
 
 from spec_parser import util
 

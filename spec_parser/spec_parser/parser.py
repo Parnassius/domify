@@ -82,7 +82,12 @@ class Parser:
                             ):
                                 continue
 
-                            if element.string == "bdo" and attribute == "dir":
+                            if element.string == "template" and attribute in (
+                                "shadowrootmode",
+                                "shadowrootdelegatesfocus",
+                            ):
+                                pass
+                            elif element.string == "bdo" and attribute == "dir":
                                 # Global attribute with different semantics
                                 pass
                             else:

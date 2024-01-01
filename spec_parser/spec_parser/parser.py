@@ -87,6 +87,10 @@ class Parser:
                                 "shadowrootdelegatesfocus",
                             ):
                                 pass
+                            elif (
+                                element.string == "body" and attribute == "onpagereveal"
+                            ):
+                                pass
                             elif element.string == "bdo" and attribute == "dir":
                                 # Global attribute with different semantics
                                 pass

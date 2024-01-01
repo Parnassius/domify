@@ -261,6 +261,7 @@ class Body(HtmlElement):
         "onstorage": v.attribute_str,
         "onunhandledrejection": v.attribute_str,
         "onunload": v.attribute_str,
+        "onpagereveal": v.attribute_str,
     }
 
 

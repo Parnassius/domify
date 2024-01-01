@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [0.4.4] - 2024-01-01
+### HTML spec
+- Add the `name` attribute to the `details` element.
+- Add the `shadowrootmode` and `shadowrootdelegatesfocus` to the `template` element.
+- Add the `onpagereveal` attribute to the `body` element.
+
 ## [0.4.3] - 2023-08-05
 ### HTML spec
 - Remove the incorrect attributes `height`, `media` and `width` attributes from

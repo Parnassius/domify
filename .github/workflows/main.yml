@@ -66,7 +66,7 @@ jobs:
       - name: Build project
         run: hatch build
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: artifacts
           path: dist/*

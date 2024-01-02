@@ -6,7 +6,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Install Hatch
         run: pipx install hatch
       - name: Set up python 3.8
@@ -42,7 +42,7 @@ jobs:
           - "pypy3.10"
       fail-fast: false
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Install Hatch
         run: pipx install hatch
       - name: Set up python ${{ matrix.python-version }}
@@ -60,7 +60,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Install Hatch
         run: pipx install hatch
       - name: Build project
@@ -97,7 +97,7 @@ jobs:
       run:
         working-directory: spec_parser
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Install Poetry
         run: pipx install poetry
       - name: Set up python 3.8

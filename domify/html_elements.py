@@ -255,13 +255,13 @@ class Body(HtmlElement):
         "onoffline": v.attribute_str,
         "ononline": v.attribute_str,
         "onpagehide": v.attribute_str,
+        "onpagereveal": v.attribute_str,
         "onpageshow": v.attribute_str,
         "onpopstate": v.attribute_str,
         "onrejectionhandled": v.attribute_str,
         "onstorage": v.attribute_str,
         "onunhandledrejection": v.attribute_str,
         "onunload": v.attribute_str,
-        "onpagereveal": v.attribute_str,
     }
 
 

@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+### Changed
+- Bump the minimum Python version to 3.8.
 
 ## [0.4.4] - 2024-01-01
 ### HTML spec

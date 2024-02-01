@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import sys
 import warnings
 from contextvars import ContextVar
 from html import escape
@@ -11,6 +10,7 @@ from typing import (
     Dict,
     Iterable,
     Iterator,
+    Literal,
     Set,
     TypeVar,
     Union,
@@ -20,12 +20,6 @@ from typing import (
 
 from domify import exc
 from domify import validators as v
-
-if sys.version_info >= (3, 8):
-    from typing import Literal
-else:
-    from typing_extensions import Literal
-
 
 _T_BaseElement = TypeVar("_T_BaseElement", bound="BaseElement")
 _T_attribute = Union[str, float, bool]

@@ -35,15 +35,15 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-beautifulsoup4 = {version = "4.12.2", extras = ["html5lib"]}
+beautifulsoup4 = {version = "4.12.3", extras = ["html5lib"]}
 requests = "2.31.0"
 
 [tool.poetry.dev-dependencies]
-black = "23.12.1"
+black = "24.1.1"
 mypy = "1.8.0"
 poethepoet = "0.24.4"
-ruff = "0.1.9"
-types-requests = "2.31.0.20231231"
+ruff = "0.1.15"
+types-requests = "2.31.0.20240125"
 
 [tool.poetry.scripts]
 parse = "spec_parser.parser:parse"

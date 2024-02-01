@@ -7,7 +7,7 @@ build-backend = "hatchling.build"
 name = "domify"
 description = "HTML generator using pure Python"
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.8"
 license = "MIT"
 authors = [
     {name="Parnassius", email="Parnassius@users.noreply.github.com"},
@@ -18,7 +18,6 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
@@ -29,9 +28,6 @@ classifiers = [
     "Topic :: Software Development :: Code Generators",
     "Topic :: Text Processing :: Markup :: HTML",
     "Typing :: Typed",
-]
-dependencies = [
-    "typing-extensions>=3.7; python_version<'3.8'",
 ]
 dynamic = ["version"]
 
@@ -46,7 +42,6 @@ lint = [
 test = [
     "pytest==7.4.4",
     "pytest-cov==4.1.0",
-    "typing-extensions==3.7.2; python_version<'3.8'",
 ]
 
 
@@ -101,13 +96,11 @@ features = ["test"]
 
 [[tool.hatch.envs.test.matrix]]
 python = [
-    "3.7",
     "3.8",
     "3.9",
     "3.10",
     "3.11",
     "3.12",
-    "pypy3.7",
     "pypy3.8",
     "pypy3.9",
     "pypy3.10",
@@ -130,7 +123,7 @@ omit = ["domify/__about__.py"]
 
 
 [tool.mypy]
-python_version = "3.7"
+python_version = "3.8"
 strict = true
 
 # Disallow dynamic typing
@@ -152,7 +145,7 @@ disallow_incomplete_defs = false
 
 
 [tool.ruff]
-target-version = "py37"
+target-version = "py38"
 select = [
     "A",     # flake8-builtins
     "ARG",   # flake8-unused-arguments

@@ -15,3 +15,13 @@ updates:
       all-dependencies:
         patterns:
           - "*"
+  - package-ecosystem: pip
+    directory: "/spec_parser/"
+    schedule:
+      interval: monthly
+    allow:
+      - dependency-type: all
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"

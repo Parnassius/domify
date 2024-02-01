@@ -192,12 +192,10 @@ class BaseElement:
 
     # Children
     @overload
-    def add(self, child: _T_BaseElement) -> _T_BaseElement:
-        ...
+    def add(self, child: _T_BaseElement) -> _T_BaseElement: ...
 
     @overload
-    def add(self, child: _T_child) -> BaseElement:
-        ...
+    def add(self, child: _T_child) -> BaseElement: ...
 
     def add(self, child: _T_child) -> BaseElement:
         """Add a child to the current element
@@ -212,12 +210,10 @@ class BaseElement:
         return self._add_child(child)
 
     @overload
-    def insert(self, idx: int, child: _T_BaseElement) -> _T_BaseElement:
-        ...
+    def insert(self, idx: int, child: _T_BaseElement) -> _T_BaseElement: ...
 
     @overload
-    def insert(self, idx: int, child: _T_child) -> BaseElement:
-        ...
+    def insert(self, idx: int, child: _T_child) -> BaseElement: ...
 
     def insert(self, idx: int, child: _T_child) -> BaseElement:
         """Insert a child before the index specified
@@ -277,16 +273,13 @@ class BaseElement:
 
     # Dunder methods
     @overload
-    def __getitem__(self, key: str) -> str | bool:
-        ...
+    def __getitem__(self, key: str) -> str | bool: ...
 
     @overload
-    def __getitem__(self, key: int) -> BaseElement:
-        ...
+    def __getitem__(self, key: int) -> BaseElement: ...
 
     @overload
-    def __getitem__(self, key: slice) -> list[BaseElement]:
-        ...
+    def __getitem__(self, key: slice) -> list[BaseElement]: ...
 
     def __getitem__(
         self, key: str | int | slice
@@ -296,16 +289,13 @@ class BaseElement:
         return self._children[key]
 
     @overload
-    def __setitem__(self, key: str, val: _T_attribute) -> None:
-        ...
+    def __setitem__(self, key: str, val: _T_attribute) -> None: ...
 
     @overload
-    def __setitem__(self, key: int, val: _T_child) -> None:
-        ...
+    def __setitem__(self, key: int, val: _T_child) -> None: ...
 
     @overload
-    def __setitem__(self, key: slice, val: Iterable[_T_child]) -> None:
-        ...
+    def __setitem__(self, key: slice, val: Iterable[_T_child]) -> None: ...
 
     def __setitem__(
         self,

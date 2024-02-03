@@ -64,7 +64,7 @@ darglint = "hatch run lint:darglint domify tests -v 2 {args}"
 mypy = "hatch run lint:mypy domify tests {args}"
 ruff = "hatch run lint:ruff domify tests {args}"
 pytest = "hatch run test:pytest {args}"
-pytest-ci = "hatch run +py={args} test:pytest --cov --cov-report=xml"
+pytest-ci = "hatch run +py={args} test:pytest --cov"
 all = ["format", "darglint", "mypy", "ruff", "pytest"]
 
 _check_uncommited_changes = [
@@ -118,6 +118,7 @@ exclude_lines = [
 ]
 
 [tool.coverage.run]
+relative_files = true
 source = ["domify"]
 omit = ["domify/__about__.py"]
 

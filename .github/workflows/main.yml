@@ -51,11 +51,81 @@ jobs:
           cache: "pip"
           cache-dependency-path: "pyproject.toml"
       - name: Test with pytest
-        run: hatch run pytest-ci ${{ matrix.python-version }}
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
         env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+          COVERAGE_FILE: .coverage.${{ matrix.os }}.${{ matrix.python-version }}
+        run: hatch run pytest-ci ${{ matrix.python-version }}
+      - name: Upload coverage data
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-data-${{ matrix.os }}-${{ matrix.python-version }}
+          path: .coverage.${{ matrix.os }}.${{ matrix.python-version }}
+
+  coverage:
+    runs-on: ubuntu-latest
+    needs: test
+    outputs:
+      percentage: ${{ steps.percentage.outputs.percentage }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Coverage.py
+        run: pipx install coverage[toml]
+      - name: Download coverage data
+        uses: actions/download-artifact@v4
+        with:
+          pattern: coverage-data-*
+          merge-multiple: true
+      - name: Combine data
+        run: coverage combine
+      - name: Output coverage percentage
+        id: percentage
+        run: |
+          coverage json
+          echo "percentage=$(jq '.totals.percent_covered_display' coverage.json)" >> $GITHUB_OUTPUT
+      - name: Save coverage report
+        run: coverage report --format=markdown >> $GITHUB_STEP_SUMMARY
+      - name: Ensure 100% coverage
+        run: coverage report --fail-under=100
+
+  coverage-badge:
+    runs-on: ubuntu-latest
+    needs: coverage
+    if: github.event_name == 'push' && github.ref_name == 'main'
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: "coverage-badge"
+      - name: Calculate badge color
+        id: color
+        run: |
+          echo "color=$(python3 -Ic 'print(
+            min(
+              color
+              for percentage, color in [
+                (100, "brightgreen"),
+                (90, "green"),
+                (70, "yellowgreen"),
+                (50, "yellow"),
+                (30, "orange"),
+                (0, "red"),
+              ]
+              if percentage >= int(${{ needs.coverage.outputs.percentage }})
+            )
+          )')" >> $GITHUB_OUTPUT
+      - name: Update JSON file
+        run: |
+          jq -n \
+            --argjson schemaVersion 1 \
+            --arg label coverage \
+            --arg message ${{ needs.coverage.outputs.percentage }}% \
+            --arg color ${{ steps.color.outputs.color }} \
+            '$ARGS.named' > coverage-badge.json
+      - name: Create commit
+        run: |
+          git config user.name 'prns'
+          git config user.email '77806190+prnss@users.noreply.github.com'
+          git commit -am "Update coverage" && git push || true
 
   build:
     runs-on: ubuntu-latest
@@ -77,6 +147,7 @@ jobs:
     needs:
       - lint
       - test
+      - coverage
       - build
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
     environment: pypi-publish
@@ -120,6 +191,7 @@ jobs:
     needs:
       - lint
       - test
+      - coverage
       - build
       - lint-spec-parser
     if: always()

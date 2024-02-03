@@ -101,7 +101,7 @@ jobs:
         run: |
           echo "color=$(python3 -Ic 'print(
             min(
-              color
+              (percentage, color)
               for percentage, color in [
                 (100, "brightgreen"),
                 (90, "green"),
@@ -111,7 +111,7 @@ jobs:
                 (0, "red"),
               ]
               if percentage >= int(${{ needs.coverage.outputs.percentage }})
-            )
+            )[1]
           )')" >> $GITHUB_OUTPUT
       - name: Update JSON file
         run: |

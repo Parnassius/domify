@@ -17,12 +17,12 @@ warn_unreachable = true
 
 
 [tool.poe.tasks]
-ruff-fix = "ruff spec_parser --fix-only --exit-zero"
+ruff-fix = "ruff check spec_parser --fix-only --exit-zero"
 black = "black spec_parser"
 format = ["ruff-fix", "black"]
 
 mypy = "mypy spec_parser"
-ruff = "ruff spec_parser"
+ruff = "ruff check spec_parser"
 all = ["format", "mypy", "ruff"]
 
 
@@ -51,6 +51,8 @@ parse = "spec_parser.parser:parse"
 
 [tool.ruff]
 target-version = "py38"
+
+[tool.ruff.lint]
 select = [
     "A",     # flake8-builtins
     "ARG",   # flake8-unused-arguments
@@ -87,9 +89,9 @@ fixable = [
 dummy-variable-rgx = "^_$"
 ignore-init-module-imports = true
 
-[tool.ruff.flake8-tidy-imports]
+[tool.ruff.lint.flake8-tidy-imports]
 ban-relative-imports = "all"
 
-[tool.ruff.isort]
+[tool.ruff.lint.isort]
 required-imports = ["from __future__ import annotations"]
 split-on-trailing-comma = false

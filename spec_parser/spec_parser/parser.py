@@ -85,6 +85,7 @@ class Parser:
                             if element.string == "template" and attribute in (
                                 "shadowrootmode",
                                 "shadowrootdelegatesfocus",
+                                "shadowrootclonable",
                             ):
                                 pass
                             elif (

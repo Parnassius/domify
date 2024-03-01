@@ -56,13 +56,13 @@ packages = ["domify"]
 skip-install = true
 
 [tool.hatch.envs.default.scripts]
-ruff-fix = "hatch run lint:ruff domify tests --fix-only --exit-zero {args}"
+ruff-fix = "hatch run lint:ruff check domify tests --fix-only --exit-zero {args}"
 black = "hatch run lint:black domify tests {args}"
 format = ["ruff-fix", "black"]
 
 darglint = "hatch run lint:darglint domify tests -v 2 {args}"
 mypy = "hatch run lint:mypy domify tests {args}"
-ruff = "hatch run lint:ruff domify tests {args}"
+ruff = "hatch run lint:ruff check domify tests {args}"
 pytest = "hatch run test:pytest {args}"
 pytest-ci = "hatch run +py={args} test:pytest --cov"
 all = ["format", "darglint", "mypy", "ruff", "pytest"]
@@ -147,6 +147,8 @@ disallow_incomplete_defs = false
 
 [tool.ruff]
 target-version = "py38"
+
+[tool.ruff.lint]
 select = [
     "A",     # flake8-builtins
     "ARG",   # flake8-unused-arguments
@@ -183,9 +185,9 @@ fixable = [
 dummy-variable-rgx = "^_$"
 ignore-init-module-imports = true
 
-[tool.ruff.flake8-tidy-imports]
+[tool.ruff.lint.flake8-tidy-imports]
 ban-relative-imports = "all"
 
-[tool.ruff.isort]
+[tool.ruff.lint.isort]
 required-imports = ["from __future__ import annotations"]
 split-on-trailing-comma = false

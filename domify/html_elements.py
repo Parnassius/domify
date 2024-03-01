@@ -257,6 +257,7 @@ class Body(HtmlElement):
         "onpagehide": v.attribute_str,
         "onpagereveal": v.attribute_str,
         "onpageshow": v.attribute_str,
+        "onpageswap": v.attribute_str,
         "onpopstate": v.attribute_str,
         "onrejectionhandled": v.attribute_str,
         "onstorage": v.attribute_str,
@@ -1097,6 +1098,7 @@ class Template(HtmlElement):
     element_attributes = {
         "shadowrootmode": {"open", "closed"},
         "shadowrootdelegatesfocus": v.attribute_bool,
+        "shadowrootclonable": v.attribute_bool,
     }
 
 

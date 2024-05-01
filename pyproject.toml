@@ -34,13 +34,13 @@ dynamic = ["version"]
 [project.optional-dependencies]
 lint = [
     "domify[test]",
-    "black==24.3.0",
+    "black==24.4.2",
     "darglint==1.8.1",
-    "mypy==1.9.0",
-    "ruff==0.3.4",
+    "mypy==1.10.0",
+    "ruff==0.4.2",
 ]
 test = [
-    "pytest==8.1.1",
+    "pytest==8.2.0",
     "pytest-cov==5.0.0",
 ]
 

@@ -36,7 +36,7 @@ license = "MIT"
 [tool.poetry.dependencies]
 python = "^3.8"
 beautifulsoup4 = {version = "4.12.3", extras = ["html5lib"]}
-requests = "2.31.0"
+requests = "2.32.0"
 
 [tool.poetry.dev-dependencies]
 black = "24.4.2"

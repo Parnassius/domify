@@ -56,6 +56,7 @@ class HtmlElement(BaseElement):
         "translate": {"yes", "no"},
         "writingsuggestions": {"true", "false", ""},
         "onauxclick": v.attribute_str,
+        "onbeforeinput": v.attribute_str,
         "onbeforematch": v.attribute_str,
         "onbeforetoggle": v.attribute_str,
         "onblur": v.attribute_str,

@@ -183,7 +183,6 @@ fixable = [
     "UP",    # pyupgrade
 ]
 dummy-variable-rgx = "^_$"
-ignore-init-module-imports = true
 
 [tool.ruff.lint.flake8-tidy-imports]
 ban-relative-imports = "all"

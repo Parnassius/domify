@@ -39,10 +39,10 @@ beautifulsoup4 = {version = "4.12.3", extras = ["html5lib"]}
 requests = "2.32.3"
 
 [tool.poetry.dev-dependencies]
-black = "24.4.2"
-mypy = "1.11.1"
-poethepoet = "0.27.0"
-ruff = "0.5.5"
+black = "24.8.0"
+mypy = "1.11.2"
+poethepoet = "0.28.0"
+ruff = "0.6.3"
 types-requests = "2.32.0.20240712"
 
 [tool.poetry.scripts]

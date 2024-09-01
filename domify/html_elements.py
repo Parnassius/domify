@@ -20,6 +20,7 @@ class HtmlElement(BaseElement):
             v.attribute_unique_set, lambda x: max(len(t) for t in str(x).split()) <= 1
         ),
         "autocapitalize": {"on", "off", "none", "sentences", "words", "characters"},
+        "autocorrect": {"on", "off"},
         "autofocus": v.attribute_bool,
         "class": v.attribute_str,
         "contenteditable": {"true", "plaintext-only", "false"},

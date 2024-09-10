@@ -124,8 +124,8 @@ jobs:
             '$ARGS.named' > coverage-badge.json
       - name: Create commit
         run: |
-          git config user.name 'prns'
-          git config user.email '77806190+prnss@users.noreply.github.com'
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git commit -am "Update coverage" && git push || true
 
   build:

@@ -1,8 +1,17 @@
 # Changelog
 
 ## [Unreleased]
+
+## [0.4.5] - 2024-09-30
 ### Changed
 - Bump the minimum Python version to 3.8.
+
+### HTML spec
+- Add the `autocorrect`, `writingsuggestions`, `onbeforeinput`, `onpagereveal` and
+`onpageswap` global attributes.
+- Add the empty string value to the `spellcheck` global attribute.
+- Add the `shadowrootclonable` and `shadowrootserializable` attributes to the `template`
+element.
 
 ## [0.4.4] - 2024-01-01
 ### HTML spec

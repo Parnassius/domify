@@ -27,6 +27,8 @@ jobs:
         with:
           token: ${{ secrets.MACHINE_USER_PAT }}
           push-to-fork: prnss/domify
+          committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+          author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           commit-message: "Update elements"
           title: "Update elements"
           branch: update-elements

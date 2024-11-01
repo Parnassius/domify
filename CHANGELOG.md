@@ -1,6 +1,9 @@
 # Changelog
 
 ## [Unreleased]
+### Changed
+- Bump the minimum Python version to 3.9.
+
 ### HTML spec
 - Add the `alpha` and `colorspace` attributes to the `input` element.
 

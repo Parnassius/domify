@@ -1,22 +1,11 @@
 from __future__ import annotations
 
 import warnings
+from collections.abc import Iterable, Iterator
 from contextvars import ContextVar
 from html import escape
 from types import TracebackType
-from typing import (
-    Callable,
-    ClassVar,
-    Dict,
-    Iterable,
-    Iterator,
-    Literal,
-    Set,
-    TypeVar,
-    Union,
-    cast,
-    overload,
-)
+from typing import Callable, ClassVar, Literal, TypeVar, Union, cast, overload
 
 from domify import exc
 from domify import validators as v
@@ -24,7 +13,7 @@ from domify import validators as v
 _T_BaseElement = TypeVar("_T_BaseElement", bound="BaseElement")
 _T_attribute = Union[str, float, bool]
 _T_child = Union["BaseElement", str, float]
-_T_attributes_dict = Dict[str, Union[Set[str], Callable[[_T_attribute], bool]]]
+_T_attributes_dict = dict[str, Union[set[str], Callable[[_T_attribute], bool]]]
 
 
 class BaseElement:

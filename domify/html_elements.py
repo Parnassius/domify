@@ -629,9 +629,11 @@ class Input(HtmlElement):
     is_empty = True
     element_attributes = {
         "accept": v.attribute_str,
+        "alpha": v.attribute_bool,
         "alt": v.attribute_str,
         "autocomplete": v.attribute_str,
         "checked": v.attribute_bool,
+        "colorspace": {"limited-srgb", "display-p3"},
         "dirname": v.attribute_str,
         "disabled": v.attribute_bool,
         "form": v.attribute_str,

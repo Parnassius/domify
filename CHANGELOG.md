@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+### HTML spec
+- Add the `alpha` and `colorspace` attributes to the `input` element.
 
 ## [0.4.5] - 2024-09-30
 ### Changed

@@ -16,13 +16,13 @@ def _attribute_to_string(x: _T_attribute, case_insensitive: bool) -> str:
 
 
 def attribute_all(
-    *funcs: Callable[[_T_attribute], bool]
+    *funcs: Callable[[_T_attribute], bool],
 ) -> Callable[[_T_attribute], bool]:
     return lambda x: all(f(x) for f in funcs)
 
 
 def attribute_any(
-    *funcs: Callable[[_T_attribute], bool]
+    *funcs: Callable[[_T_attribute], bool],
 ) -> Callable[[_T_attribute], bool]:
     return lambda x: any(f(x) for f in funcs)
 

@@ -26,11 +26,14 @@ def parse(content: Tag) -> str:
         "Valid floating-point number*",
     ):
         value = "v.attribute_float"
-    elif content_text in (
-        "Unordered set of unique space-separated tokens*",
-        "Unordered set of unique space-separated tokens consisting of IDs*",  # TODO
-        "Unordered set of unique space-separated tokens consisting of valid absolute URLs*",  # TODO
-        "Unordered set of unique space-separated tokens consisting of valid absolute URLs, defined property names, or text*",  # TODO
+    elif (
+        content_text
+        in (
+            "Unordered set of unique space-separated tokens*",
+            "Unordered set of unique space-separated tokens consisting of IDs*",  # TODO
+            "Unordered set of unique space-separated tokens consisting of valid absolute URLs*",  # TODO
+            "Unordered set of unique space-separated tokens consisting of valid absolute URLs, defined property names, or text*",  # TODO
+        )
     ):
         value = "v.attribute_unique_set"
     elif (

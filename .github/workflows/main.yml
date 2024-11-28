@@ -15,8 +15,8 @@ jobs:
           python-version: "3.9"
           cache: "pip"
           cache-dependency-path: "pyproject.toml"
-      - name: Check formatting with black
-        run: hatch run black --check
+      - name: Check formatting
+        run: hatch run ruff-format --check
       - name: Check docstrings with darglint
         run: hatch run darglint
       - name: Type check with mypy
@@ -179,8 +179,8 @@ jobs:
           cache-dependency-path: "spec_parser/poetry.lock"
       - name: Install dependencies
         run: poetry install --sync
-      - name: Check formatting with black
-        run: poetry run poe black --check
+      - name: Check formatting
+        run: poetry run poe ruff-format --check
       - name: Type check with mypy
         run: poetry run poe mypy
       - name: Lint with ruff

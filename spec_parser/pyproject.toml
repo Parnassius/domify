@@ -17,9 +17,9 @@ warn_unreachable = true
 
 
 [tool.poe.tasks]
-ruff-fix = "ruff check spec_parser --fix-only --exit-zero"
-black = "black spec_parser"
-format = ["ruff-fix", "black"]
+ruff-fix = "ruff check spec_parser --fix-only"
+ruff-format = "ruff format spec_parser"
+format = ["ruff-fix", "ruff-format"]
 
 mypy = "mypy spec_parser"
 ruff = "ruff check spec_parser"
@@ -39,7 +39,6 @@ beautifulsoup4 = {version = "4.12.3", extras = ["html5lib"]}
 requests = "2.32.3"
 
 [tool.poetry.dev-dependencies]
-black = "24.10.0"
 mypy = "1.13.0"
 poethepoet = "0.29.0"
 ruff = "0.7.1"

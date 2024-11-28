@@ -34,7 +34,6 @@ dynamic = ["version"]
 [project.optional-dependencies]
 lint = [
     "domify[test]",
-    "black==24.10.0",
     "darglint==1.8.1",
     "mypy==1.13.0",
     "ruff==0.7.1",
@@ -56,9 +55,9 @@ packages = ["domify"]
 skip-install = true
 
 [tool.hatch.envs.default.scripts]
-ruff-fix = "hatch run lint:ruff check domify tests --fix-only --exit-zero {args}"
-black = "hatch run lint:black domify tests {args}"
-format = ["ruff-fix", "black"]
+ruff-fix = "hatch run lint:ruff check domify tests --fix-only {args}"
+ruff-format = "hatch run lint:ruff format domify tests {args}"
+format = ["ruff-fix", "ruff-format"]
 
 darglint = "hatch run lint:darglint domify tests -v 2 {args}"
 mypy = "hatch run lint:mypy domify tests {args}"

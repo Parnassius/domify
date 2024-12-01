@@ -40,8 +40,8 @@ requests = "2.32.3"
 
 [tool.poetry.dev-dependencies]
 mypy = "1.13.0"
-poethepoet = "0.29.0"
-ruff = "0.7.1"
+poethepoet = "0.31.1"
+ruff = "0.8.1"
 types-requests = "2.32.0.20241016"
 
 [tool.poetry.scripts]

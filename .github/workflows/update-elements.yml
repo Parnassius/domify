@@ -20,8 +20,8 @@ jobs:
       - name: Run script
         working-directory: ./spec_parser
         run: poetry run parse
-      - name: Format code using black
-        run: hatch run black
+      - name: Format code
+        run: hatch run ruff-format
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:

@@ -36,7 +36,7 @@ lint = [
     "domify[test]",
     "darglint==1.8.1",
     "mypy==1.13.0",
-    "ruff==0.7.1",
+    "ruff==0.8.1",
 ]
 test = [
     "pytest==8.3.3",

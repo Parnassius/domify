@@ -35,11 +35,11 @@ dynamic = ["version"]
 lint = [
     "domify[test]",
     "darglint==1.8.1",
-    "mypy==1.13.0",
-    "ruff==0.8.1",
+    "mypy==1.14.1",
+    "ruff==0.8.4",
 ]
 test = [
-    "pytest==8.3.3",
+    "pytest==8.3.4",
     "pytest-cov==6.0.0",
 ]
 

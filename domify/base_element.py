@@ -268,10 +268,12 @@ class BaseElement:
     def __getitem__(self, key: int) -> BaseElement: ...
 
     @overload
-    def __getitem__(self, key: slice) -> list[BaseElement]: ...
+    def __getitem__(
+        self, key: slice[int | None, int | None, int | None]
+    ) -> list[BaseElement]: ...
 
     def __getitem__(
-        self, key: str | int | slice
+        self, key: str | int | slice[int | None, int | None, int | None]
     ) -> str | bool | BaseElement | list[BaseElement]:
         if isinstance(key, str):
             return self._attributes.get(key, False)
@@ -284,11 +286,13 @@ class BaseElement:
     def __setitem__(self, key: int, val: _T_child) -> None: ...
 
     @overload
-    def __setitem__(self, key: slice, val: Iterable[_T_child]) -> None: ...
+    def __setitem__(
+        self, key: slice[int | None, int | None, int | None], val: Iterable[_T_child]
+    ) -> None: ...
 
     def __setitem__(
         self,
-        key: str | int | slice,
+        key: str | int | slice[int | None, int | None, int | None],
         val: _T_attribute | _T_child | Iterable[_T_child],
     ) -> None:
         if isinstance(key, str):
@@ -307,7 +311,9 @@ class BaseElement:
             for child in children:
                 self._remove_from_stack(child)
 
-    def __delitem__(self, key: str | int | slice) -> None:
+    def __delitem__(
+        self, key: str | int | slice[int | None, int | None, int | None]
+    ) -> None:
         if isinstance(key, str):
             del self._attributes[key]
         else:

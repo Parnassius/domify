@@ -1,9 +1,29 @@
+[project]
+name = "spec_parser"
+version = "0.1.0"
+requires-python = ">=3.9"
+dependencies = [
+    "beautifulsoup4[html5lib]==4.12.3",
+    "requests==2.32.3",
+]
+
+[project.scripts]
+parse = "spec_parser.parser:parse"
+
+[dependency-groups]
+dev = [
+    "mypy==1.14.1",
+    "ruff==0.8.4",
+    "types-requests==2.32.0.20241016",
+]
+
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 
 [tool.mypy]
+python_version = "3.9"
 strict = true
 
 # Disallow dynamic typing
@@ -15,41 +35,6 @@ disallow_any_explicit = true
 show_error_codes = true
 warn_unreachable = true
 
-
-[tool.poe.tasks]
-ruff-fix = "ruff check src --fix-only"
-ruff-format = "ruff format src"
-format = ["ruff-fix", "ruff-format"]
-
-mypy = "mypy src"
-ruff = "ruff check src"
-all = ["format", "mypy", "ruff"]
-
-
-[tool.poetry]
-name = "spec_parser"
-version = "0.1.0"
-description = ""
-authors = ["Parnassius <Parnassius@users.noreply.github.com>"]
-license = "MIT"
-
-[tool.poetry.dependencies]
-python = "^3.9"
-beautifulsoup4 = {version = "4.12.3", extras = ["html5lib"]}
-requests = "2.32.3"
-
-[tool.poetry.dev-dependencies]
-mypy = "1.14.1"
-poethepoet = "0.32.0"
-ruff = "0.8.4"
-types-requests = "2.32.0.20241016"
-
-[tool.poetry.scripts]
-parse = "spec_parser.parser:parse"
-
-
-[tool.ruff]
-target-version = "py39"
 
 [tool.ruff.lint]
 select = [

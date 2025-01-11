@@ -1,8 +1,3 @@
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
-
 [project]
 name = "domify"
 description = "HTML generator using pure Python"
@@ -31,78 +26,21 @@ classifiers = [
 ]
 dynamic = ["version"]
 
-[project.optional-dependencies]
-lint = [
-    "domify[test]",
-    "darglint==1.8.1",
-    "mypy==1.14.1",
-    "ruff==0.8.4",
-]
-test = [
-    "pytest==8.3.4",
-    "pytest-cov==6.0.0",
-]
-
-
 [project.urls]
 Homepage = "https://github.com/Parnassius/domify"
 
-
-[tool.hatch.build]
-packages = ["src/domify"]
-
-[tool.hatch.envs.default.scripts]
-ruff-fix = "hatch run lint:ruff check src tests --fix-only {args}"
-ruff-format = "hatch run lint:ruff format src tests {args}"
-format = ["ruff-fix", "ruff-format"]
-
-darglint = "hatch run lint:darglint src tests -v 2 {args}"
-mypy = "hatch run lint:mypy src tests {args}"
-ruff = "hatch run lint:ruff check src tests {args}"
-pytest = "hatch run test:pytest {args}"
-pytest-ci = "hatch run +py={args} test:pytest --cov"
-all = ["format", "darglint", "mypy", "ruff", "pytest"]
-
-_check_uncommited_changes = [
-    "git diff --quiet",
-    "git diff --cached --quiet",
-]
-_check_not_dev_version = 'case "$(hatch version)" in *dev*) false; esac'
-_create_tag = 'git tag "$(hatch version)"'
-_create_dev_commit = [
-    "hatch version patch,dev",
-    'git commit src/domify/__about__.py --message "Bump version to $(hatch version)"',
-]
-release = [
-    "_check_uncommited_changes",
-    "_check_not_dev_version",
-    "all",
-    "_check_uncommited_changes",
-    "_create_tag",
-    "_create_dev_commit",
+[dependency-groups]
+dev = [
+    "darglint==1.8.1",
+    "mypy==1.14.1",
+    "pytest==8.3.4",
+    "pytest-cov==6.0.0",
+    "ruff==0.8.4",
 ]
 
-[tool.hatch.envs.lint]
-template = "lint"
-features = ["lint"]
-
-[tool.hatch.envs.test]
-template = "test"
-features = ["test"]
-
-[[tool.hatch.envs.test.matrix]]
-python = [
-    "3.9",
-    "3.10",
-    "3.11",
-    "3.12",
-    "3.13",
-    "pypy3.9",
-    "pypy3.10",
-]
-
-[tool.hatch.version]
-path = "src/domify/__about__.py"
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 
 [tool.coverage.report]
@@ -116,6 +54,13 @@ exclude_lines = [
 relative_files = true
 source = ["src/domify"]
 omit = ["src/domify/__about__.py"]
+
+
+[tool.hatch.build]
+packages = ["src/domify"]
+
+[tool.hatch.version]
+path = "src/domify/__about__.py"
 
 
 [tool.mypy]

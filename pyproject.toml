@@ -49,19 +49,16 @@ Homepage = "https://github.com/Parnassius/domify"
 
 
 [tool.hatch.build]
-packages = ["domify"]
-
-[tool.hatch.envs.default]
-skip-install = true
+packages = ["src/domify"]
 
 [tool.hatch.envs.default.scripts]
-ruff-fix = "hatch run lint:ruff check domify tests --fix-only {args}"
-ruff-format = "hatch run lint:ruff format domify tests {args}"
+ruff-fix = "hatch run lint:ruff check src tests --fix-only {args}"
+ruff-format = "hatch run lint:ruff format src tests {args}"
 format = ["ruff-fix", "ruff-format"]
 
-darglint = "hatch run lint:darglint domify tests -v 2 {args}"
-mypy = "hatch run lint:mypy domify tests {args}"
-ruff = "hatch run lint:ruff check domify tests {args}"
+darglint = "hatch run lint:darglint src tests -v 2 {args}"
+mypy = "hatch run lint:mypy src tests {args}"
+ruff = "hatch run lint:ruff check src tests {args}"
 pytest = "hatch run test:pytest {args}"
 pytest-ci = "hatch run +py={args} test:pytest --cov"
 all = ["format", "darglint", "mypy", "ruff", "pytest"]
@@ -74,7 +71,7 @@ _check_not_dev_version = 'case "$(hatch version)" in *dev*) false; esac'
 _create_tag = 'git tag "$(hatch version)"'
 _create_dev_commit = [
     "hatch version patch,dev",
-    'git commit domify/__about__.py --message "Bump version to $(hatch version)"',
+    'git commit src/domify/__about__.py --message "Bump version to $(hatch version)"',
 ]
 release = [
     "_check_uncommited_changes",
@@ -105,7 +102,7 @@ python = [
 ]
 
 [tool.hatch.version]
-path = "domify/__about__.py"
+path = "src/domify/__about__.py"
 
 
 [tool.coverage.report]
@@ -117,8 +114,8 @@ exclude_lines = [
 
 [tool.coverage.run]
 relative_files = true
-source = ["domify"]
-omit = ["domify/__about__.py"]
+source = ["src/domify"]
+omit = ["src/domify/__about__.py"]
 
 
 [tool.mypy]

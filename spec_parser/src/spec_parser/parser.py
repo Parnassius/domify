@@ -105,7 +105,10 @@ class Parser:
 
     def _write_data(self) -> None:
         f = FileWriter(
-            Path(__file__).parent.parent.parent / "domify" / "html_elements.py"
+            Path(__file__).parent.parent.parent.parent
+            / "src"
+            / "domify"
+            / "html_elements.py"
         )
         f.add_class(
             "HtmlElement",

@@ -17,12 +17,12 @@ warn_unreachable = true
 
 
 [tool.poe.tasks]
-ruff-fix = "ruff check spec_parser --fix-only"
-ruff-format = "ruff format spec_parser"
+ruff-fix = "ruff check src --fix-only"
+ruff-format = "ruff format src"
 format = ["ruff-fix", "ruff-format"]
 
-mypy = "mypy spec_parser"
-ruff = "ruff check spec_parser"
+mypy = "mypy src"
+ruff = "ruff check src"
 all = ["format", "mypy", "ruff"]
 
 

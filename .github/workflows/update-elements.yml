@@ -10,18 +10,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install Hatch
-        run: pipx install hatch
-      - name: Install Poetry
-        run: pipx install poetry
-      - name: Install script dependencies
-        working-directory: ./spec_parser
-        run: poetry install
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
       - name: Run script
         working-directory: ./spec_parser
-        run: poetry run parse
+        run: uv run parse
       - name: Format code
-        run: hatch run ruff-format
+        run: make format
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:

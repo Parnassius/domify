@@ -4,6 +4,7 @@
         "config:semverAllMonthly",
     ],
     additionalBranchPrefix: "{{datasource}}-",
+    commitMessagePrefix: "[{{datasource}}]",
     customManagers: [
         {
             customType: "regex",

@@ -1,3 +1,5 @@
+# noqa: A005
+
 from __future__ import annotations
 
 import re
@@ -32,8 +34,8 @@ class Parser:
         soup = util.request_cache("indices")
 
         title = soup.find("h3", id=re.compile(r"^elements"))
-        table = title.find_next_sibling("table")
-        for row in table.find("tbody").children:
+        table = title.find_next_sibling("table")  # type: ignore[union-attr]
+        for row in table.find("tbody").children:  # type: ignore[union-attr]
             for element in row.contents[0].find_all("code"):
                 if element.string in ("math", "svg"):
                     continue
@@ -61,10 +63,10 @@ class Parser:
         soup = util.request_cache("indices")
 
         title = soup.find("h3", id=re.compile(r"^attributes"))
-        tables = [title.find_next_sibling("table")]
-        tables.append(tables[0].find_next_sibling("table"))  # event handlers
+        tables = [title.find_next_sibling("table")]  # type: ignore[union-attr]
+        tables.append(tables[0].find_next_sibling("table"))  # type: ignore[union-attr]  # event handlers
         for table in tables:
-            for row in table.find("tbody").children:
+            for row in table.find("tbody").children:  # type: ignore[union-attr]
                 attribute = row.contents[0].find("code").string
                 value = rules.attributes.parse(row.contents[3])
 
@@ -82,18 +84,10 @@ class Parser:
                             ):
                                 continue
 
-                            if element.string == "template" and attribute in (
-                                "shadowrootmode",
-                                "shadowrootdelegatesfocus",
-                                "shadowrootclonable",
-                            ):
-                                pass
-                            elif (
-                                element.string == "body" and attribute == "onpagereveal"
-                            ):
-                                pass
-                            elif element.string == "bdo" and attribute == "dir":
+                            if element.string == "bdo" and attribute == "dir":
                                 # Global attribute with different semantics
+                                pass
+                            elif element.string == "dialog" and attribute == "closedby":
                                 pass
                             else:
                                 print(

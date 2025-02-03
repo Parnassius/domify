@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import sys
 
-from bs4.element import NavigableString, Tag  # type: ignore[import-untyped]
+from bs4.element import NavigableString, Tag
 
 from spec_parser import util
 
@@ -12,6 +12,7 @@ from spec_parser import util
 def parse(content: Tag) -> str:
     content_text = content.text.strip()
     value: str
+    possible_values: list[str]
 
     if content_text == "Boolean attribute":
         value = "v.attribute_bool"
@@ -50,10 +51,10 @@ def parse(content: Tag) -> str:
     elif content_text.startswith(
         "Unordered set of unique space-separated tokens, ASCII case-insensitive, consisting of\n"
     ):
-        possible_values = content.find_all("code")
+        possible_values = [x.text for x in content.find_all("code")]
         value = (
             "v.attribute_unique_set_literal_ci("
-            + ",".join(f"'{x.text.lower()}'" for x in possible_values)
+            + ",".join(f"'{x.lower()}'" for x in possible_values)
             + ")"
         )
     elif content_text in (
@@ -95,7 +96,7 @@ def parse(content: Tag) -> str:
         value = "v.attribute_str"
     elif content_text == "input type keyword":
         value = "{" + ",".join(f"'{x}'" for x in util.get_input_type_keywords()) + "}"
-    elif not any(x for x in content.children if x.name == "a") and (
+    elif not any(x for x in content.children if x.name == "a") and (  # type: ignore[attr-defined]
         possible_code_values := content.find_all("code")
     ):
         possible_values = [x.text for x in possible_code_values]

@@ -395,7 +395,10 @@ class Dialog(HtmlElement):
     Dialog box or window
     """
 
-    element_attributes = {"open": v.attribute_bool}
+    element_attributes = {
+        "open": v.attribute_bool,
+        "closedby": {"any", "closerequest", "none"},
+    }
 
 
 class Div(HtmlElement):

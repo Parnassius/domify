@@ -1,7 +1,8 @@
 {
     extends: [
-        "config:best-practices",
+        "config:recommended",
         "config:semverAllMonthly",
+        ":configMigration",
     ],
     additionalBranchPrefix: "{{datasource}}-",
     commitMessagePrefix: "[{{datasource}}]",

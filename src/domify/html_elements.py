@@ -67,6 +67,7 @@ class HtmlElement(BaseElement):
         "onchange": v.attribute_str,
         "onclick": v.attribute_str,
         "onclose": v.attribute_str,
+        "oncommand": v.attribute_str,
         "oncontextlost": v.attribute_str,
         "oncontextmenu": v.attribute_str,
         "oncontextrestored": v.attribute_str,
@@ -283,6 +284,8 @@ class Button(HtmlElement):
     """
 
     element_attributes = {
+        "command": v.attribute_str,
+        "commandfor": v.attribute_str,
         "disabled": v.attribute_bool,
         "form": v.attribute_str,
         "formaction": v.attribute_str,

@@ -32,10 +32,10 @@ Homepage = "https://github.com/Parnassius/domify"
 [dependency-groups]
 dev = [
     "darglint==1.8.1",
-    "mypy==1.14.1",
+    "mypy==1.15.0",
     "pytest==8.3.4",
     "pytest-cov==6.0.0",
-    "ruff==0.9.4",
+    "ruff==0.9.9",
 ]
 
 [build-system]

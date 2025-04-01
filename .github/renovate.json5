@@ -7,6 +7,13 @@
     ],
     additionalBranchPrefix: "{{datasource}}-",
     commitMessagePrefix: "[{{datasource}}]",
+    packageRules: [
+        {
+            matchDatasources: "github-releases",
+            matchDepTypes: "uses-with",
+            enabled: false,
+        },
+    ],
     customManagers: [
         {
             customType: "regex",

@@ -25,7 +25,7 @@ jobs:
         os:
           - ubuntu-24.04  # renovate: github-runner
           - macos-14  # renovate: github-runner
-          - windows-2022  # renovate: github-runner
+          - windows-2025  # renovate: github-runner
         python-version:
           - "3.9"
           - "3.10"

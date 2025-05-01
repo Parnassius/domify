@@ -1,11 +1,17 @@
 # Changelog
 
 ## [Unreleased]
+
+## [0.4.6] - 2025-05-01
 ### Changed
 - Bump the minimum Python version to 3.9.
 
 ### HTML spec
+- Add the `oncommand` global attribute.
+- Add the `command` and `commandfor` attributes to the `button` element.
+- Add the `closedby` attribute to the `dialog` element.
 - Add the `alpha` and `colorspace` attributes to the `input` element.
+- Add the `shadowrootcustomelementregistry` attribute to the `template` element.
 
 ## [0.4.5] - 2024-09-30
 ### Changed

@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## [0.4.7] - 2025-05-01
+### Changed
+- Fix wheel generation, no other code changes compared to 0.4.6.
+
 ## [0.4.6] - 2025-05-01
 ### Changed
 - Bump the minimum Python version to 3.9.

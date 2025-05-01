@@ -56,8 +56,8 @@ source = ["src/domify"]
 omit = ["src/domify/__about__.py"]
 
 
-[tool.hatch.build]
-packages = ["src/domify"]
+[tool.hatch.build.targets.sdist]
+only-include = ["src", "tests"]
 
 [tool.hatch.version]
 path = "src/domify/__about__.py"

@@ -3,6 +3,15 @@ name: ci/cd
 on: [push, pull_request]
 
 jobs:
+  editorconfig:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup editorconfig-checker
+        uses: editorconfig-checker/action-editorconfig-checker@v2
+      - name: Run editorconfig-checker
+        run: editorconfig-checker
+
   lint:
     runs-on: ubuntu-24.04
     steps:
@@ -145,6 +154,7 @@ jobs:
   pypi-publish:
     runs-on: ubuntu-24.04
     needs:
+      - editorconfig
       - lint
       - test
       - coverage
@@ -183,6 +193,7 @@ jobs:
   dummy-required-job:
     runs-on: ubuntu-24.04
     needs:
+      - editorconfig
       - lint
       - test
       - coverage

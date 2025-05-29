@@ -13,3 +13,6 @@ indent_size = 2
 
 [Makefile]
 indent_style = tab
+
+[README.md]
+indent_size = 2

@@ -76,7 +76,7 @@ def parse(content: Tag) -> str:
         "Text",
         "Text*",
         "The source of an iframe srcdoc document*",
-        '"toggle-popover";\n          "show-popover";\n          "hide-popover";\n          "close";\n          "show-modal";\n          a custom command keyword',
+        '"toggle-popover";\n          "show-popover";\n          "hide-popover";\n          "close";\n          "request-close";\n          "show-modal";\n          a custom command keyword',
         "Unordered set of unique space-separated tokens, ASCII case-insensitive, consisting of sizes*",
         "Valid BCP 47 language tag",
         "Valid BCP 47 language tag or the empty string",

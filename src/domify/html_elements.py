@@ -48,7 +48,7 @@ class HtmlElement(BaseElement):
         "itemtype": v.attribute_unique_set,
         "lang": v.attribute_str,
         "nonce": v.attribute_str,
-        "popover": {"auto", "manual"},
+        "popover": {"auto", "manual", "hint"},
         "slot": v.attribute_str,
         "spellcheck": {"true", "false", ""},
         "style": v.attribute_str,
@@ -1005,6 +1005,14 @@ class Select(HtmlElement):
         "required": v.attribute_bool,
         "size": v.attribute_int_gt_zero,
     }
+
+
+class Selectedcontent(HtmlElement):
+    """
+    Mirrors content from an option
+    """
+
+    is_empty = True
 
 
 class Slot(HtmlElement):

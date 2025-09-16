@@ -100,9 +100,9 @@ def test_add_remove_class():
     assert d.get_classes() == ["foo", "baz", "qux", "quux"]
     d.remove_class("foo", "qux")
     assert d.get_classes() == ["baz", "quux"]
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match=r"not in list$"):
         d.remove_class("bar")
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match=r"not in list$"):
         d.remove_class("quux", "quux")
 
 
@@ -230,10 +230,8 @@ def test_context_manager():
         e.Div(e.P("foobar", e.Strong("baz")))
     assert str(d) == "<div><div><p>foobar<strong>baz</strong></p></div></div>"
 
-    with e.Div(e.H1("title")) as d:
-        with e.P():
-            with e.Span():
-                e.B("foo", e.Br(), "bar")
+    with e.Div(e.H1("title")) as d, e.P(), e.Span():
+        e.B("foo", e.Br(), "bar")
     assert str(d) == "<div><h1>title</h1><p><span><b>foo<br>bar</b></span></p></div>"
 
     s: BaseElement
@@ -297,7 +295,6 @@ def test_asyncio():
     asyncio.run(main())
 
     # Random elements with context manager
-    with e.Div():
-        with e.Span():
-            e.I()
+    with e.Div(), e.Span():
+        e.I()
     asyncio.run(main())

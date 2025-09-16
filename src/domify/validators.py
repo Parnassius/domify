@@ -1,10 +1,11 @@
 from __future__ import annotations
 
-from collections.abc import Iterable
 from functools import partial
 from typing import TYPE_CHECKING, Callable
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+
     from domify.base_element import _T_attribute
 
 
@@ -91,7 +92,7 @@ def attribute_unique_set(
     parts = x.split(sep)
     if len(parts) != len(set(parts)):
         return False
-    if values is not None and not set(parts) <= set(values):
+    if values is not None and not set(parts) <= set(values):  # noqa: SIM103
         return False
     return True
 

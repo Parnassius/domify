@@ -1,14 +1,25 @@
 from __future__ import annotations
 
 import warnings
-from collections.abc import Iterable, Iterator
 from contextvars import ContextVar
 from html import escape
-from types import TracebackType
-from typing import Callable, ClassVar, Literal, TypeVar, Union, cast, overload
+from typing import (
+    TYPE_CHECKING,
+    Callable,
+    ClassVar,
+    Literal,
+    TypeVar,
+    Union,
+    cast,
+    overload,
+)
 
 from domify import exc
 from domify import validators as v
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable, Iterator
+    from types import TracebackType
 
 _T_BaseElement = TypeVar("_T_BaseElement", bound="BaseElement")
 _T_attribute = Union[str, float, bool]
@@ -54,7 +65,7 @@ class BaseElement:
                 child argument is passed.
         """
         if self.is_empty and args:
-            raise exc.EmptyElementChildrenError()
+            raise exc.EmptyElementChildrenError
 
         if _prepend_doctype is None:
             _prepend_doctype = self._default_prepend_doctype
@@ -254,8 +265,7 @@ class BaseElement:
 
         data.append(f"<{self.name}{''.join(attrs)}>")
         if not self.is_empty:
-            for child in self._children:
-                data.append(str(child))
+            data.extend(str(child) for child in self._children)
             data.append(f"</{self.name}>")
 
         return data
@@ -296,13 +306,13 @@ class BaseElement:
         val: _T_attribute | _T_child | Iterable[_T_child],
     ) -> None:
         if isinstance(key, str):
-            val = cast(_T_attribute, val)
+            val = cast("_T_attribute", val)
             self._set_attribute(key, val)
         elif isinstance(key, int):
-            val = cast(_T_child, val)
+            val = cast("_T_child", val)
             self._add_child(val, idx=key, idx_replace=True)
         else:
-            val = cast(Iterable[_T_child], val)
+            val = cast("Iterable[_T_child]", val)
             children = [
                 TextNode(child) if not isinstance(child, BaseElement) else child
                 for child in val

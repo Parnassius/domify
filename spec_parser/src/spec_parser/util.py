@@ -9,8 +9,7 @@ class _RequestCache:
         self._cache: dict[str, BeautifulSoup] = {}
 
     def __call__(self, page: str) -> BeautifulSoup:
-        if page.endswith(".html"):
-            page = page[:-5]
+        page = page.removesuffix(".html")
         if page not in self._cache:
             html = requests.get(
                 f"https://html.spec.whatwg.org/multipage/{page}.html"

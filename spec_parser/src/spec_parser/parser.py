@@ -32,68 +32,75 @@ class Parser:
         soup = util.request_cache("indices")
 
         title = soup.find("h3", id=re.compile(r"^elements"))
-        table = title.find_next_sibling("table")  # type: ignore[union-attr]
-        for row in table.find("tbody").children:  # type: ignore[union-attr]
-            for element in row.contents[0].find_all("code"):
-                if element.string in ("math", "svg"):
+        assert title is not None
+        table = title.find_next_sibling("table")
+        assert table is not None
+        for row in table.select(":scope > tbody > tr"):
+            for element in row.select(":scope > th code"):
+                if element.text in ("math", "svg"):
                     continue
+                tds = row.find_all("td", recursive=False)
                 element_data = ElementData()
-                element_data.description = row.contents[1].text
-                element_data.is_empty = row.contents[4].string == "empty"
+                element_data.description = tds[0].text
+                element_data.is_empty = tds[3].text == "empty"
                 element_data.global_attributes = bool(
-                    row.contents[5].find("a", string="globals")
+                    tds[4].find("a", string="globals")  # type: ignore[call-overload]
                 )
                 element_data.any_attribute = "any" in [
-                    x.strip(";* \n")
-                    for x in row.contents[5].contents
-                    if isinstance(x, str)
+                    x.strip(";* \n") for x in tds[4].find_all(string=True)
                 ]
                 element_data.element_attributes = {
-                    x.string: None
-                    for x in sorted(
-                        row.contents[5].find_all("code"), key=lambda x: x.string
-                    )
+                    x.text: None
+                    for x in sorted(tds[4].find_all("code"), key=lambda x: x.text)
                 }
 
-                self._elements[element.string] = element_data
+                self._elements[element.text] = element_data
 
     def _get_attributes(self) -> None:
         soup = util.request_cache("indices")
 
         title = soup.find("h3", id=re.compile(r"^attributes"))
-        tables = [title.find_next_sibling("table")]  # type: ignore[union-attr]
-        tables.append(tables[0].find_next_sibling("table"))  # type: ignore[union-attr]  # event handlers
-        for table in tables:
-            for row in table.find("tbody").children:  # type: ignore[union-attr]
-                attribute = row.contents[0].find("code").string
-                value = rules.attributes.parse(row.contents[3])
+        assert title is not None
+        attributes_table = title.find_next_sibling("table")
+        assert attributes_table is not None
+        event_handler_table = attributes_table.find_next_sibling("table")
+        assert event_handler_table is not None
+        for table in (attributes_table, event_handler_table):
+            for row in table.select(":scope > tbody > tr"):
+                for attribute in row.select(":scope > th code"):
+                    tds = row.find_all("td", recursive=False)
+                    value = rules.attributes.parse(tds[2])
 
-                if row.contents[1].find("a", string="HTML elements"):
-                    self._global_attributes[attribute] = value
-                else:
-                    for element in row.contents[1].find_all("code"):
-                        attributes = self._elements[element.string].element_attributes
-                        if attribute not in attributes:
-                            if self._global_attributes.get(attribute) == value:
-                                continue
-                            if element.string == "picture" and attribute in (
-                                "height",
-                                "width",
-                            ):
-                                continue
+                    if tds[0].find("a", string="HTML elements"):  # type: ignore[call-overload]
+                        self._global_attributes[attribute.text] = value
+                    else:
+                        for element in tds[0].find_all("code"):
+                            attributes = self._elements[element.text].element_attributes
+                            if attribute.text not in attributes:
+                                if self._global_attributes.get(attribute.text) == value:
+                                    continue
+                                if element.text == "picture" and attribute.text in (
+                                    "height",
+                                    "width",
+                                ):
+                                    continue
 
-                            if element.string == "bdo" and attribute == "dir":
-                                # Global attribute with different semantics
-                                pass
-                            elif element.string == "dialog" and attribute == "closedby":
-                                pass
-                            else:
-                                print(
-                                    f"Missing attribute {attribute} in {element.string}"
-                                )
-                                sys.exit(1)
+                                if element.text == "bdo" and attribute.text == "dir":
+                                    # Global attribute with different semantics
+                                    pass
+                                elif (
+                                    element.text == "dialog"
+                                    and attribute.text == "closedby"
+                                ):
+                                    pass
+                                else:
+                                    print(
+                                        f"Missing attribute {attribute.text} "
+                                        f"in {element.text}"
+                                    )
+                                    sys.exit(1)
 
-                        attributes[attribute] = value
+                            attributes[attribute.text] = value
 
     def _write_data(self) -> None:
         f = FileWriter(

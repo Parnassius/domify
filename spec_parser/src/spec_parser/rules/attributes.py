@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 import sys
-
-from bs4.element import NavigableString, Tag
+from typing import TYPE_CHECKING
 
 from spec_parser import util
+
+if TYPE_CHECKING:
+    from bs4.element import Tag
 
 
 def parse(content: Tag) -> str:
@@ -58,7 +60,7 @@ def parse(content: Tag) -> str:
             + ")"
         )
     elif content_text in (
-        '"module"; a valid MIME type string that is not a JavaScript MIME type essence match',
+        '"module"; "importmap"; "speculationrules"; a valid MIME type string that is not a JavaScript MIME type essence match',
         "Autofill field name and related tokens*",
         "Comma-separated list of image candidate strings",
         "CSS <color>",
@@ -97,12 +99,12 @@ def parse(content: Tag) -> str:
         value = "v.attribute_str"
     elif content_text == "input type keyword":
         value = "{" + ",".join(f"'{x}'" for x in util.get_input_type_keywords()) + "}"
-    elif not any(x for x in content.children if x.name == "a") and (  # type: ignore[attr-defined]
+    elif not any(content.find_all("a", recursive=False)) and (
         possible_code_values := content.find_all("code")
     ):
         possible_values = [x.text for x in possible_code_values]
         possible_string_values = (
-            x.strip('";\n ') for x in content.children if isinstance(x, NavigableString)
+            x.strip('";\n ') for x in content.find_all(string=True, recursive=False)
         )
         if "the empty string" in possible_string_values:
             possible_values.append("")

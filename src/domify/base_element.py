@@ -1,25 +1,14 @@
 from __future__ import annotations
 
 import warnings
+from collections.abc import Iterable, Iterator
 from contextvars import ContextVar
 from html import escape
-from typing import (
-    TYPE_CHECKING,
-    Callable,
-    ClassVar,
-    Literal,
-    TypeVar,
-    Union,
-    cast,
-    overload,
-)
+from types import TracebackType
+from typing import Callable, ClassVar, Literal, TypeVar, Union, cast, overload
 
 from domify import exc
 from domify import validators as v
-
-if TYPE_CHECKING:
-    from collections.abc import Iterable, Iterator
-    from types import TracebackType
 
 _T_BaseElement = TypeVar("_T_BaseElement", bound="BaseElement")
 _T_attribute = Union[str, float, bool]

@@ -3,12 +3,10 @@
 from __future__ import annotations
 
 import sys
-from typing import TYPE_CHECKING
+
+from bs4.element import Tag
 
 from spec_parser import util
-
-if TYPE_CHECKING:
-    from bs4.element import Tag
 
 
 def parse(content: Tag) -> str:

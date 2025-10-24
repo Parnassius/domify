@@ -123,11 +123,14 @@ select = [
 ]
 ignore = [
     "A003",  # builtin-attribute-shadowing
+    "TC001", # typing-only-first-party-import
+    "TC002", # typing-only-third-party-import
+    "TC003", # typing-only-standard-library-import
 ]
 fixable = [
     "I",     # isort
     "F401",  # unused-import
-    "TC",    # type-checking
+    "TC",    # flake8-type-checking
     "TID",   # flake8-tidy-imports
     "UP",    # pyupgrade
 ]

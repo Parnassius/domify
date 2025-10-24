@@ -1,12 +1,10 @@
 from __future__ import annotations
 
+from collections.abc import Iterable
 from functools import partial
-from typing import TYPE_CHECKING, Callable
+from typing import Callable
 
-if TYPE_CHECKING:
-    from collections.abc import Iterable
-
-    from domify.base_element import _T_attribute
+from domify.base_element import _T_attribute
 
 
 def _attribute_to_string(x: _T_attribute, case_insensitive: bool) -> str:

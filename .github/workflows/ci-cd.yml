@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: Install uv
-        uses: astral-sh/setup-uv@v6
+        uses: astral-sh/setup-uv@v7
         with:
           enable-cache: true
       - name: Set up python
@@ -49,7 +49,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: Install uv
-        uses: astral-sh/setup-uv@v6
+        uses: astral-sh/setup-uv@v7
         with:
           enable-cache: true
       - name: Set up python
@@ -62,7 +62,7 @@ jobs:
           COVERAGE_FILE: .coverage.${{ matrix.os }}.${{ matrix.python-version }}
         run: make pytest
       - name: Upload coverage data
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: coverage-data-${{ matrix.os }}-${{ matrix.python-version }}
           path: .coverage.${{ matrix.os }}.${{ matrix.python-version }}
@@ -78,7 +78,7 @@ jobs:
       - name: Install Coverage.py
         run: pipx install coverage[toml]
       - name: Download coverage data
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           pattern: coverage-data-*
           merge-multiple: true
@@ -140,13 +140,13 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: Install uv
-        uses: astral-sh/setup-uv@v6
+        uses: astral-sh/setup-uv@v7
         with:
           enable-cache: true
       - name: Build project
         run: uv build
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: artifacts
           path: dist/*
@@ -166,7 +166,7 @@ jobs:
       id-token: write
     steps:
       - name: Download artifacts
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: artifacts
           path: dist
@@ -181,7 +181,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: Install uv
-        uses: astral-sh/setup-uv@v6
+        uses: astral-sh/setup-uv@v7
         with:
           enable-cache: true
       - name: Set up python

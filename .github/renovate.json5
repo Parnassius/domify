@@ -1,4 +1,9 @@
 {
+    lockFileMaintenance: {  // Workaround for https://github.com/renovatebot/renovate/discussions/37753
+        lockFileMaintenance: {
+            enabled: true,
+        },
+    },
     extends: [
         'config:recommended',
         'config:semverAllMonthly',

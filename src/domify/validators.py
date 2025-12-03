@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-from collections.abc import Iterable
+from collections.abc import Callable, Iterable
 from functools import partial
-from typing import Callable
 
 from domify.base_element import _T_attribute
 

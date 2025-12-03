@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+### Changed
+- Bump the minimum Python version to 3.10.
 
 ## [0.4.7] - 2025-05-01
 ### Changed

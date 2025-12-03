@@ -1,7 +1,7 @@
 [project]
 name = "spec_parser"
 version = "0.1.0"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 dependencies = [
     "beautifulsoup4[html5lib]==4.14.2",
     "requests==2.32.5",
@@ -23,7 +23,7 @@ build-backend = "hatchling.build"
 
 
 [tool.mypy]
-python_version = "3.9"
+python_version = "3.10"
 strict = true
 
 # Disallow dynamic typing

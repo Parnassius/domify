@@ -2,7 +2,7 @@
 name = "domify"
 description = "HTML generator using pure Python"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 license = "MIT"
 authors = [
     {name="Parnassius", email="Parnassius@users.noreply.github.com"},
@@ -13,7 +13,6 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -65,7 +64,7 @@ path = "src/domify/__about__.py"
 
 
 [tool.mypy]
-python_version = "3.9"
+python_version = "3.10"
 strict = true
 
 # Disallow dynamic typing

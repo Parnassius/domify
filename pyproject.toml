@@ -84,6 +84,10 @@ disallow_untyped_defs = false
 disallow_incomplete_defs = false
 
 
+[tool.pytest]
+strict = true
+
+
 [tool.ruff.lint]
 select = [
     "A",     # flake8-builtins

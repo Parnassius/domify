@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 import sys
 
 from bs4.element import Tag
@@ -22,6 +23,10 @@ def parse(content: Tag) -> str:
         value = "v.attribute_int_ge_zero"
     elif content_text == "Valid non-negative integer greater than zero":
         value = "v.attribute_int_gt_zero"
+    elif match := re.fullmatch(
+        r"Valid non-negative integer between (\d+) and (\d+)", content_text, re.ASCII
+    ):
+        value = f"partial(v.attribute_int, ge={match[1]}, le={match[2]})"
     elif content_text in (
         "Valid floating-point number",
         "Valid floating-point number*",

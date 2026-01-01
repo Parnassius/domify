@@ -2,8 +2,11 @@ from __future__ import annotations
 
 from collections.abc import Callable, Iterable
 from functools import partial
+from typing import TypeVar, cast
 
 from domify.base_element import _T_attribute
+
+_T = TypeVar("_T")
 
 
 def _attribute_to_string(x: _T_attribute, case_insensitive: bool) -> str:
@@ -29,24 +32,32 @@ def attribute_bool(x: _T_attribute) -> bool:
     return isinstance(x, bool)
 
 
-def attribute_int(x: _T_attribute) -> bool:
-    return isinstance(x, int)
+def _attribute_number(
+    x: _T_attribute,
+    *,
+    is_float: bool,
+    le: int | None = None,
+    ge: int | None = None,
+    lt: int | None = None,
+    gt: int | None = None,
+) -> bool:
+    if not isinstance(x, (float, int) if is_float else int):
+        return False
+    x = cast("float | int", x)
+    return (
+        (le is None or x <= le)
+        and (ge is None or x >= ge)
+        and (lt is None or x < lt)
+        and (gt is None or x > gt)
+    )
 
 
-def attribute_int_ge_zero(x: _T_attribute) -> bool:
-    return isinstance(x, int) and x >= 0
+attribute_int = partial(_attribute_number, is_float=False)
+attribute_int_ge_zero = partial(attribute_int, ge=0)
+attribute_int_gt_zero = partial(attribute_int, gt=0)
 
-
-def attribute_int_gt_zero(x: _T_attribute) -> bool:
-    return isinstance(x, int) and x > 0
-
-
-def attribute_float(x: _T_attribute) -> bool:
-    return isinstance(x, (float, int))
-
-
-def attribute_float_gt_zero(x: _T_attribute) -> bool:
-    return isinstance(x, (float, int)) and x > 0
+attribute_float = partial(_attribute_number, is_float=True)
+attribute_float_gt_zero = partial(attribute_float, gt=0)
 
 
 def attribute_str(

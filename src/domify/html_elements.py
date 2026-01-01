@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from functools import partial
+
 from domify import validators as v
 from domify.base_element import BaseElement
 from domify.base_element import RawTextNode as RawTextNode

@@ -71,7 +71,7 @@ def parse(content: Tag) -> str:
         "Event handler content attribute",
         "ID of the element to toggle, show or, hide",
         "ID*",
-        'Potential destination, for rel="preload"; script-like destination, for rel="modulepreload"',
+        'Preload destination, for rel="preload"; module preload destination, for rel="modulepreload"',
         "Regular expression matching the JavaScript Pattern production",
         "Referrer policy",
         "Serialized permissions policy",

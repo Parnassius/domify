@@ -19,7 +19,6 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v7
         with:
-          python-version: "3.10"
           enable-cache: true
       - name: Lint
         run: make lint
@@ -173,7 +172,6 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v7
         with:
-          python-version: "3.10"
           enable-cache: true
       - name: Lint
         run: make lint

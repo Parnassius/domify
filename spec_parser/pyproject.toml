@@ -4,7 +4,7 @@ version = "0.1.0"
 requires-python = ">=3.10"
 dependencies = [
     "beautifulsoup4[html5lib]==4.14.3",
-    "requests==2.32.5",
+    "requests==2.33.0",
 ]
 
 [project.scripts]

@@ -161,7 +161,7 @@ class BaseElement:
             return
         if val is not True and not isinstance(val, str):
             val = str(val)
-        self._attributes[key] = val
+        self._attributes[key] = cast("str | Literal[True]", val)
 
     @staticmethod
     def _clean_attribute_key(key: str) -> str:

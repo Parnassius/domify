@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Callable, Iterable
 from functools import partial
-from typing import TypeVar, cast
+from typing import TypeVar
 
 from domify.base_element import _T_attribute
 
@@ -43,7 +43,6 @@ def _attribute_number(
 ) -> bool:
     if not isinstance(x, (float, int) if is_float else int):
         return False
-    x = cast("float | int", x)
     return (
         (le is None or x <= le)
         and (ge is None or x >= ge)

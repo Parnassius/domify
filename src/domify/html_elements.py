@@ -617,6 +617,7 @@ class Img(HtmlElement):
     is_empty = True
     element_attributes = {
         "alt": v.attribute_str,
+        "controls": v.attribute_bool,
         "crossorigin": {"anonymous", "use-credentials", ""},
         "decoding": {"sync", "async", "auto"},
         "fetchpriority": {"auto", "high", "low"},
@@ -1125,6 +1126,7 @@ class Template(HtmlElement):
         "shadowrootdelegatesfocus": v.attribute_bool,
         "shadowrootmode": {"open", "closed"},
         "shadowrootserializable": v.attribute_bool,
+        "shadowrootslotassignment": {"named", "manual"},
     }
 
 

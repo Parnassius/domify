@@ -1,8 +1,25 @@
 # Changelog
 
 ## [Unreleased]
+
+## [0.4.8] - 2026-05-09
 ### Changed
 - Bump the minimum Python version to 3.10.
+
+### HTML spec
+- Add the `selectedcontent` element.
+- Add the `headingoffset` and `headingreset` global attributes.
+- Add the empty string value to the `autocorrect`, `contentediable` and `translate`
+global attributes.
+- Add the `hint` and empty string values to the `popover` global attribute.
+- Add the empty string value to the `crossorign` attribute of the `audio`, `img`,
+`link`, `script` and `video` elements.
+- Add the empty string value to the `preload` attribute of the `audio` and `video`
+elements.
+- Add the `loading` attribute to the `audio` element.
+- Add the `controls` attribute to the `img` element.
+- Add the `shadowrootslotassignment` attribute to the `template` element.
+- Add the `loading` attribute to the `video` element.
 
 ## [0.4.7] - 2025-05-01
 ### Changed

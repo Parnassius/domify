@@ -2,9 +2,10 @@ from __future__ import annotations
 
 from collections.abc import Callable, Iterable
 from functools import partial
-from typing import TypeVar
+from typing import TYPE_CHECKING, TypeVar
 
-from domify.base_element import _T_attribute
+if TYPE_CHECKING:
+    from domify.base_element import _T_attribute
 
 _T = TypeVar("_T")
 

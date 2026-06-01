@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## [0.4.9] - 2026-06-01
+### Changed
+- Fix import cycle when using some specific imports.
+
 ## [0.4.8] - 2026-05-09
 ### Changed
 - Bump the minimum Python version to 3.10.

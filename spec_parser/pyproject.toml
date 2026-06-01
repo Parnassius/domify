@@ -4,7 +4,7 @@ version = "0.1.0"
 requires-python = ">=3.10"
 dependencies = [
     "beautifulsoup4[html5lib]==4.14.3",
-    "requests==2.33.1",
+    "requests==2.34.2",
 ]
 
 [project.scripts]
@@ -12,9 +12,9 @@ parse = "spec_parser.parser:parse"
 
 [dependency-groups]
 dev = [
-    "mypy==1.20.2",
-    "ruff==0.15.12",
-    "types-requests==2.33.0.20260408",
+    "mypy==2.1.0",
+    "ruff==0.15.15",
+    "types-requests==2.33.0.20260518",
 ]
 
 [build-system]

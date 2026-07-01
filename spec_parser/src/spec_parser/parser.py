@@ -44,7 +44,7 @@ class Parser:
                 element_data.description = tds[0].text
                 element_data.is_empty = tds[3].text == "empty"
                 element_data.global_attributes = bool(
-                    tds[4].find("a", string="globals")  # type: ignore[call-overload]
+                    tds[4].find("a", string="globals")
                 )
                 element_data.any_attribute = "any" in [
                     x.strip(";* \n") for x in tds[4].find_all(string=True)
@@ -71,7 +71,7 @@ class Parser:
                     tds = row.find_all("td", recursive=False)
                     value = rules.attributes.parse(tds[2])
 
-                    if tds[0].find("a", string="HTML elements"):  # type: ignore[call-overload]
+                    if tds[0].find("a", string="HTML elements"):
                         self._global_attributes[attribute.text] = value
                     else:
                         for element in tds[0].find_all("code"):

@@ -3,7 +3,7 @@ name = "spec_parser"
 version = "0.1.0"
 requires-python = ">=3.10"
 dependencies = [
-    "beautifulsoup4[html5lib]==4.14.3",
+    "beautifulsoup4[html5lib]==4.15.0",
     "requests==2.34.2",
 ]
 
@@ -13,7 +13,7 @@ parse = "spec_parser.parser:parse"
 [dependency-groups]
 dev = [
     "mypy==2.1.0",
-    "ruff==0.15.15",
+    "ruff==0.15.20",
     "types-requests==2.33.0.20260518",
 ]
 

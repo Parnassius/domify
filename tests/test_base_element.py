@@ -9,7 +9,7 @@ from domify import html_elements as e
 from domify.base_element import BaseElement
 
 
-def test_base():
+def test_base() -> None:
     assert str(e.Div()) == "<div></div>"
     assert str(e.Br()) == "<br>"
 
@@ -19,7 +19,7 @@ def test_base():
     assert str(e.Div(e.RawTextNode("<foobar>"))) == "<div><foobar></div>"
 
 
-def test_attributes():
+def test_attributes() -> None:
     assert str(e.Div(id="main")) == '<div id="main"></div>'
     assert (
         str(e.Div(class_="class1", data_foo="bar"))
@@ -81,7 +81,7 @@ def test_attributes():
         e.Iframe(sandbox="allow-forms allow-foobar")
 
 
-def test_add_remove_class():
+def test_add_remove_class() -> None:
     d = e.Div()
     d.add_class("foo")
     assert d.get_classes() == ["foo"]
@@ -106,7 +106,7 @@ def test_add_remove_class():
         d.remove_class("quux", "quux")
 
 
-def test_children():
+def test_children() -> None:
     assert str(e.Div(e.Div())) == "<div><div></div></div>"
     assert str(e.Div("foo")) == "<div>foo</div>"
     assert str(e.Div("foo", e.Br(), "bar")) == "<div>foo<br>bar</div>"
@@ -119,7 +119,7 @@ def test_children():
         e.Br(e.Span())
 
 
-def test_add_children():
+def test_add_children() -> None:
     d = e.Div()
     d.add(e.Span())
     assert str(d) == "<div><span></span></div>"
@@ -129,13 +129,13 @@ def test_add_children():
     assert str(d) == "<div>foobar</div>"
 
 
-def test_insert_children():
+def test_insert_children() -> None:
     d = e.Div("foo", e.Br(), "bar")
     d.insert(2, "baz" + e.Br())
     assert str(d) == "<div>foo<br>baz<br>bar</div>"
 
 
-def test_setitem():
+def test_setitem() -> None:
     d: BaseElement = e.Div()
     d["class"] = "foo"
     assert str(d) == '<div class="foo"></div>'
@@ -163,7 +163,7 @@ def test_setitem():
     )
 
 
-def test_getitem():
+def test_getitem() -> None:
     d: BaseElement = e.Div(class_="foo")
     assert d["class"] == "foo"
     d = e.Br(data_foo="bar")
@@ -180,7 +180,7 @@ def test_getitem():
     assert [str(x) for x in d[::2]] == ["<h1></h1>", "<h3></h3>"]
 
 
-def test_delitem():
+def test_delitem() -> None:
     d: BaseElement = e.Div(class_="foo")
     del d["class"]
     assert str(d) == "<div></div>"
@@ -203,7 +203,7 @@ def test_delitem():
     assert [str(x) for x in d] == ["<h2></h2>"]
 
 
-def test_add():
+def test_add() -> None:
     assert str(e.Div() + e.Div()) == "<div></div><div></div>"
     assert str(e.Div("foo") + "bar") == "<div>foo</div>bar"
     assert str("foo" + e.Div(class_="bar")) == 'foo<div class="bar"></div>'
@@ -213,7 +213,7 @@ def test_add():
     )
 
 
-def test_context_manager():
+def test_context_manager() -> None:
     with e.Div() as d:
         e.Span()
     assert str(d) == "<div><span></span></div>"
@@ -249,7 +249,7 @@ def test_context_manager():
     )
 
 
-def test_prepend_doctype():
+def test_prepend_doctype() -> None:
     assert str(e.Html()) == "<!DOCTYPE html><html></html>"
     assert str(e.Html(_prepend_doctype=True)) == "<!DOCTYPE html><html></html>"
     assert str(e.Html(_prepend_doctype=False)) == "<html></html>"
@@ -259,7 +259,7 @@ def test_prepend_doctype():
     assert str(e.P(_prepend_doctype=False)) == "<p></p>"
 
 
-def test_asyncio():
+def test_asyncio() -> None:
     async def main() -> None:
         async def task1() -> None:
             with e.Div() as divs:

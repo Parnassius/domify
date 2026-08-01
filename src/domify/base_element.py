@@ -324,7 +324,7 @@ class BaseElement:
     def __radd__(self, other: _T_child) -> BaseElement:
         return BaseElement(other, self)
 
-    def __enter__(self: _T_BaseElement) -> _T_BaseElement:
+    def __enter__(self: _T_BaseElement) -> _T_BaseElement:  # noqa: PYI019
         self._stack.append([])
         return self
 

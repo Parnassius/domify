@@ -12,9 +12,9 @@ parse = "spec_parser.parser:parse"
 
 [dependency-groups]
 dev = [
-    "mypy==2.1.0",
-    "ruff==0.15.20",
-    "types-requests==2.33.0.20260518",
+    "mypy==2.3.0",
+    "ruff==0.16.1",
+    "types-requests==2.33.0.20260712",
 ]
 
 [build-system]

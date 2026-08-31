@@ -1,3 +1,7 @@
+.PHONY: run
+run:
+	@uv run parse
+
 .PHONY: format
 format:
 	@uv run ruff check src --fix-only

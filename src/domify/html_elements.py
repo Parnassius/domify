@@ -1121,6 +1121,7 @@ class Template(HtmlElement):
 
     is_empty = True
     element_attributes = {
+        "for": v.attribute_str,
         "shadowrootclonable": v.attribute_bool,
         "shadowrootcustomelementregistry": v.attribute_bool,
         "shadowrootdelegatesfocus": v.attribute_bool,

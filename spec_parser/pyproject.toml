@@ -12,8 +12,8 @@ parse = "spec_parser.parser:parse"
 
 [dependency-groups]
 dev = [
-    "mypy==2.3.0",
-    "ruff==0.16.1",
+    "mypy==2.3.1",
+    "ruff==0.16.5",
     "types-requests==2.33.0.20260712",
 ]
 

@@ -573,15 +573,15 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "beautifulsoup4", extras = ["html5lib"], specifier = "==4.15.0" },
-    { name = "requests", specifier = "==2.34.2" },
+    { name = "beautifulsoup4", extras = ["html5lib"] },
+    { name = "requests" },
 ]
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "mypy", specifier = "==2.3.1" },
-    { name = "ruff", specifier = "==0.16.5" },
-    { name = "types-requests", specifier = "==2.33.0.20260712" },
+    { name = "mypy" },
+    { name = "ruff" },
+    { name = "types-requests" },
 ]
 
 [[package]]

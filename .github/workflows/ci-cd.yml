@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   editorconfig:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Setup editorconfig-checker
@@ -13,11 +13,11 @@ jobs:
         run: editorconfig-checker
 
   lint:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Install uv
-        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+        uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
         with:
           enable-cache: true
       - name: Lint
@@ -28,7 +28,7 @@ jobs:
     strategy:
       matrix:
         os:
-          - ubuntu-24.04  # renovate: github-runner
+          - ubuntu-26.04  # renovate: github-runner
           - macos-26  # renovate: github-runner
           - windows-2025  # renovate: github-runner
         python-version:
@@ -42,7 +42,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Install uv
-        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+        uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
         with:
           python-version: ${{ matrix.python-version }}
           enable-cache: true
@@ -58,7 +58,7 @@ jobs:
           include-hidden-files: true
 
   coverage:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs: test
     outputs:
       percentage: ${{ steps.percentage.outputs.percentage }}
@@ -84,7 +84,7 @@ jobs:
         run: coverage report --fail-under=100
 
   coverage-badge:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs: coverage
     if: github.event_name == 'push' && github.ref_name == 'main'
     permissions:
@@ -125,11 +125,11 @@ jobs:
           git commit -am "Update coverage" && git push || true
 
   build:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Install uv
-        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+        uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
         with:
           enable-cache: true
       - name: Build project
@@ -142,7 +142,7 @@ jobs:
           if-no-files-found: error
 
   pypi-publish:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs:
       - editorconfig
       - lint
@@ -163,21 +163,21 @@ jobs:
         uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # release/v1
 
   lint-spec-parser:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     defaults:
       run:
         working-directory: spec_parser
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Install uv
-        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+        uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
         with:
           enable-cache: true
       - name: Lint
         run: make lint
 
   dummy-required-job:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs:
       - editorconfig
       - lint

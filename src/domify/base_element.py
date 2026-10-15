@@ -5,7 +5,7 @@ from collections.abc import Callable, Iterable, Iterator
 from contextvars import ContextVar
 from html import escape
 from types import TracebackType
-from typing import ClassVar, Literal, TypeAlias, TypeVar, cast, overload
+from typing import ClassVar, Literal, Self, TypeAlias, TypeVar, cast, overload
 
 from domify import exc
 from domify import validators as v
@@ -324,7 +324,7 @@ class BaseElement:
     def __radd__(self, other: _T_child) -> BaseElement:
         return BaseElement(other, self)
 
-    def __enter__(self: _T_BaseElement) -> _T_BaseElement:  # noqa: PYI019
+    def __enter__(self) -> Self:
         self._stack.append([])
         return self
 

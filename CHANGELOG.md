@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+## [0.4.10] - 2026-10-15
+### Changed
+- Bump the minimum Python version to 3.10.
+
+### HTML spec
+- Add the `for` attribute to the `template` element.
+
 ## [0.4.9] - 2026-06-01
 ### Changed
 - Fix import cycle when using some specific imports.
